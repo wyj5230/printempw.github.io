@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PRIN BLOG - 半吊子全栈开发者的日常</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/page/5/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="printempw, prin, blog, 博客, 独立博客" />
+
+<meta name="description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PRIN BLOG">
+<meta property="og:url" content="https://printempw.github.io/page/5/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="article:author" content="printempw">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/lumen-dd-dump-with-prettier-result/">让 Lumen 的 dd() 与 dump() 函数输出更漂亮</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-06-11T09:57:21+08:00">2017-06-11</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/Lumen/" rel="tag">Lumen</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>做开发的，免不了要和调试打交道。单说 PHP，有的人直接 <code>echo</code>，有的人用 <code>print_r()</code>，有的人用 <code>var_dump()</code>，还有的人直接上 Xdebug，用啥的都有。</p>
+<p>如果你用过 Laravel，那你应该知道 Laravel 内置了几个很方便的帮助函数（Helper）—— <code>dd()</code> 和 <code>dump()</code>。这两个函数都能够输出变量的值，不同的是 <code>dd()</code> 在输出变量值后会停止脚本的执行，而 <code>dump()</code> 不会。它们的使用方法可参照官方文档：<a href="https://laravel.com/docs/5.4/helpers#method-dd" target="_blank" rel="noopener">Helpers - Laravel Documentation</a>。</p>
+          <p><a class="more-link" href="/lumen-dd-dump-with-prettier-result/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/replace-cable-of-ath-es55/">给 ATH-ES55 耳机更换线材</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-06-10T23:53:14+08:00">2017-06-10</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E8%80%B3%E6%9C%BA/" rel="tag">耳机</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>大概是几年前（总之是我的 AM800 掉在火车上之后），我从某位 <a href="https://twitter.com/Panpawliet" target="_blank" rel="noopener">dalao</a> 手里低价收来了 ATH-IM50 和 ATH-ES55 两副耳机。当时写的记录文章在 <a href="https://blessing.studio/get-im50/" target="_blank" rel="noopener">这里</a>，两年前的文章，现在看起来挺尬的，行文风格差了真不是一点半点。</p>
+<p>而且好几年过去了，这俩耳机也或多或少都出了些问题。其中 IM50 原配的线已经发硬且接触不良，官方升级线又买不起（说实话也不值），于是就去某宝买了个 DIY 升级线，用着也还算不错。</p>
+<p><img src="https://img.blessing.studio/images/2017/06/10/snipaste_20170610_230116.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/10/snipaste_20170610_230116.png" alt="某宝订单"></p>
+<p>至于 ES55，收来的时候耳机插头就是坏的，虽然当初随便买了个插头随便焊上去了事，不过后来又重新焊了一次（当时写的博文在 <a href="https://blessing.studio/tips-for-fixing-audio-jack/" target="_blank" rel="noopener">这里</a>）。然而因为 ES55 不好在学校里用（太显眼，漏音也严重），放着吃灰了几个月，前几天高考结束拿出来的时候发现它的线材都已经变得黏糊糊的了。</p>
+          <p><a class="more-link" href="/replace-cable-of-ath-es55/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/google-play-payments-at-china-mainland/">在中国大陆购买 Google Play 内容的几种方法</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-06-07T21:41:16+08:00">2017-06-07</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Android/" rel="tag">Android</a> <a class="tag-link" href="/tag/Google/" rel="tag">Google</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <img src="https://img.blessing.studio/images/2017/06/07/google_play_purchase.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/07/google_play_purchase.png" alt="剁tm的！" style="border: 0;">
+
+<p>虽然 Google Play 在中国大陆无法正常使用，但作为 Android 官方的应用市场，我们<del>正版软件受害者</del>经常需要在 Play 商店上购买正版应用或者通过 Google Play 内购支持开发者等等。</p>
+<p>但是作为一个不存在的公司，我们在国内用惯了的支付宝、微信支付等国内支付平台自然是无法用于购买 Google Play 内容的，所以想要在 Google Play 上花钱并不是一件容易的事。</p>
+<p>那么身在中国大陆，我们到底要怎样才能在 Google Play 上愉快地买买买呢？本文列举了一些行之有效的方法（截至本文发布时），权当记录，希望对后来人有帮助。</p>
+          <p><a class="more-link" href="/google-play-payments-at-china-mainland/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/rip-ath-c770/">纪念 ATH-C770 君</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-05-26T23:02:13+08:00">2017-05-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E8%80%B3%E6%9C%BA/" rel="tag">耳机</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>ATH-C770 者，铁三角家之低端入门耳塞也。</p>
+<p>自 2016.11.11 起，C770 君半岁为吾枕边塞，夙兴夜寐，靡有朝矣。三频无短板，听感亦舒适，中能女毒，下能动次，虽难阻耳外嘈杂喧嚣，却也能保吾行<del>（自行）</del>车之安全，实为 ￥200 以下超值之选。</p>
+<p><img src="https://img.blessing.studio/images/2017/05/26/IMG_20170526_2131012.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/05/26/IMG_20170526_2131012.jpg" alt="C770 遗照"></p>
+<p>……不知道上面抽了什么风用蹩脚的文言做了博文开头，看起来逼格还蛮高。然而我并没有学过文言写作，顶多也就是应试教育中知晓了些许文言知识，拿点词句瞎耍耍，诸君见笑了 XD</p>
+          <p><a class="more-link" href="/rip-ath-c770/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/use-ffmpeg-to-concat-flv-videos-downloaded-by-bilibili-client/">使用 ffmpeg 拼接 bilibili 客户端所下载的分段 flv 视频</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-05-13T20:48:50+08:00">2017-05-13</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Shell/" rel="tag">Shell</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>唉，我现在用的这破手机播 1080P 视频要掉帧，只好在电脑上看，说不出话。</p>
+<h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>前些天我关注的某 <a href="http://space.bilibili.com/15810/#!/" target="_blank" rel="noopener">气人主播</a> 在 bilibili 上传了《盗贼之海》（<em>Sea of Thieves</em>）Alpha 测试的直播录像，却因吃了文化亏不慎违反了保密协定，不久视频就被不存在了。不过好在有热心猛男把缓存好了的睾清视频发了出来，像我这样没赶上趟的人才能爽到 :P</p>
+<p><img src="https://img.blessing.studio/images/2017/05/13/20170513185210.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/05/13/20170513185210.png" alt="感谢这位pong友"></p>
+<p>然而这位pong友上传的是 bilibili 客户端的下载（缓存）格式，虽然放在手机的 <code>/Android/data/tv.danmaku.bili/download</code> 目录下就可以被客户端直接识别，但是想要在电脑上直接播放就没那么容易了。</p>
+          <p><a class="more-link" href="/use-ffmpeg-to-concat-flv-videos-downloaded-by-bilibili-client/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/hackers-and-painters-reading-note/">《黑客与画家》读书笔记</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-04-29T18:37:26+08:00">2017-04-29</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>利用零散时间读完了《黑客与画家：硅谷创业之父 Paul Graham 文集》这本书，收获颇多。不过说是读书笔记，其实只是把一些觉得好的段落记录一下而已。这里不得不吐槽一下 Kindle 自带的标注功能：</p>
+<ul>
+<li>所有标注内容都以纯文本形式存储在一个 <code>My Clippings.txt</code> 文件里；</li>
+<li>记录格式很神秘，得用特殊工具处理（<a href="http://www.clippings.io/" target="_blank" rel="noopener">Clippings</a>），比较蛋痛；</li>
+<li>只是个本地功能，不会自动同步到云端；</li>
+<li>无法在 Kindle 上舒爽地查看所有剪贴内容；</li>
+<li>就算你在书中把原标注删除了也还会留一份在 <code>My Clippings.txt</code> 文件里；</li>
+<li>最近 Kindle 固件升级，段落标注体验更屎了……</li>
+</ul>
+<p>不过阅读体验还是很不错的，所以原谅你。</p>
+<p><img src="https://img.blessing.studio/images/2017/04/29/20170429183338.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/04/29/20170429183338.png" alt="Amazon"></p>
+<p><em>▲中亚上 Kindle 书籍大多数都很便宜</em></p>
+          <p><a class="more-link" href="/hackers-and-painters-reading-note/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/long-live-rss/">Long Live RSS：有感于微广场之死</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-04-29T15:49:50+08:00">2017-04-29</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/RSS/" rel="tag">RSS</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>今天打开 InoReader，一眼便看到「微广场」关闭服务的通知。虽然我知道这类提供微信公众号 RSS 输出的服务总有一天是会消亡的，但没想到竟是如此之快。极尽惋惜之余，不由得一声叹息。</p>
+<p><img src="https://img.blessing.studio/images/2017/04/29/iwgc_closed.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/04/29/iwgc_closed.png" alt="微广场关站通知"></p>
+<p>我个人是不愿意去耗费精力折腾微信公众号的抓取的，毕竟能用钱解决的事，为什么要浪费时间呢？因此我也非常愿意为这类服务付费。既然微广场已经倒下，那我也不得不寻找其他对应方案了，目前看起来<a href="http://www.jintiankansha.me/" target="_blank" rel="noopener">「今天看啥」</a>这个服务还不错。</p>
+<hr>
+<p>这是一个信息爆炸的时代。</p>
+<p>而我们却被大量的垃圾信息绑架着。</p>
+          <p><a class="more-link" href="/long-live-rss/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/kemono-friends/">快乐的旅途与汇聚的奇迹：《动物朋友》推荐</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-04-23T14:02:50+08:00">2017-04-23</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/ACGN/" rel="tag">ACGN</a> <a class="tag-link" href="/tag/%E5%AE%89%E5%88%A9/" rel="tag">安利</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <blockquote>
+<p>本文大概有 14k 字，我也不知道阅读完需要多少分钟。</p>
+</blockquote>
+<p>不过为了方便各位看官的时间管理，我还是贴心地提供了 TL;DR（太长不看）简介：</p>
+<blockquote>
+<p>《动物朋友》超好看的！！！</p>
+</blockquote>
+<p>标题上的「推荐」二字只是为了念起来好听，实际上本文并无多少安利意图。</p>
+<p>谨以此文纪念《动物朋友》这部奇迹的作品。</p>
+<h2 id="一、什么是《动物朋友》？"><a href="#一、什么是《动物朋友》？" class="headerlink" title="一、什么是《动物朋友》？"></a>一、什么是《动物朋友》？</h2><p>『动物朋友』（けものフレンズ，又译作『兽娘动物园』、『萌兽之友』）是由けものフレンズプロジェクト发起的日本跨媒体制作企划，有手游、漫画、动画等衍生作品。本文主要讲述企划中于 2017 年 1 月开播的 TV 动画。</p>
+<blockquote>
+<p>个人比较喜欢「动物朋友」这个译名，看不惯的朋友们请自行脑内替换。以我奇妙的感性来看，「动物朋友」更能体现出「人」与「动物」之间的亲密关系，而不是像「兽娘动物园」那样有种淡淡的疏离感。毕竟这部作品讲述的是人类与各种动物们和睦相处、互相扶持渡过难关的温馨故事，而不是人类通过牢笼般的「动物园」观察动物们。</p>
+</blockquote>
+<p>这部动画讲述的是在疑似人类灭绝、看不到其他人类存在的巨大综合<del>美少女</del>动物园「Japari Park（ジャパリパーク）」里，动画里目前唯一的人类「小包（かばんちゃん）」在旅途中与各式各样因「砂之星（サンドスター）」的力量而拥有人类姿态的动物女孩 —— 通称「Friends（フレンズ）」们邂逅的故事。</p>
+<p><img src="https://img.blessing.studio/images/2017/04/04/anime-main.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/04/04/anime-main.jpg" alt="动画主视觉图"></p>
+<p>……当然，如果仅仅是这样，我是不可能为它专门写一篇博客的，毕竟我这博客又不是什么 ACG 资讯站点 (・_ゝ・)</p>
+          <p><a class="more-link" href="/kemono-friends/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/kindle-pw3/">至臻完美，只为阅读 —— Kindle Paperwhite 简评</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-03-05T00:08:48+08:00">2017-03-05</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Kindle/" rel="tag">Kindle</a> <a class="tag-link" href="/tag/%E8%AF%84%E6%B5%8B/" rel="tag">评测</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p><img src="https://ooo.0o0.ooo/2017/03/04/58bab82fcd86e.jpg" srcset="/images/loading.jpg" data-srcset="https://ooo.0o0.ooo/2017/03/04/58bab82fcd86e.jpg" alt="Kindle Paperwhite 3"></p>
+<p>最近入手了 Kindle Paperwhite 电子书阅读器，用了一段时间后给大家简单地评价一下。</p>
+          <p><a class="more-link" href="/kindle-pw3/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/report-update-of-blog-styles-and-fonts/">博客样式与字体的更新报告</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-02-26T17:29:56+08:00">2017-02-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a> <a class="tag-link" href="/tag/%E5%AD%97%E4%BD%93/" rel="tag">字体</a> <a class="tag-link" href="/tag/%E8%AE%BE%E8%AE%A1/" rel="tag">设计</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>一直想改进一下博客的字体和在手机上的样式，奈何最近一直没有时间，只好作罢。昨天晚上抽出一些时间做了一些改进，顺便写篇博文算是记录<del>灌水</del>（笑）。</p>
+          <p><a class="more-link" href="/report-update-of-blog-styles-and-fonts/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+
+  <nav class="pagination">
+  <a class="extend prev" rel="prev" href="/page/4/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/">Next</a>
+</nav>
+
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+        
+<section class="widget" id="widget-recent-posts">
+  <h3 class="widget-title">最新文章</h3>
+  <ul class="menu">
+    
+    
+    
+    
+      <li class="menu-item">
+        <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/short-domain-name-for-blog/">博客短域名 printem.pw</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/deal-with-manjaro-19-package-changes/">处理 Manjaro 19.0 升级中的软件包变更</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/nautilus-open-in-guake-terminal/">Nautilus 添加 Open in Guake 右键菜单</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+<section class="widget" id="widget-tagcloud">
+  <h3 class="widget-title">标签云</h3>
+  <a href="/tag/ACGN/" style="font-size: 17.86px;">ACGN</a> <a href="/tag/ACM/" style="font-size: 10px;">ACM</a> <a href="/tag/Android/" style="font-size: 14.29px;">Android</a> <a href="/tag/Apache/" style="font-size: 10px;">Apache</a> <a href="/tag/Arch/" style="font-size: 10px;">Arch</a> <a href="/tag/C-C/" style="font-size: 10.71px;">C/C++</a> <a href="/tag/CLI/" style="font-size: 11.43px;">CLI</a> <a href="/tag/CSS/" style="font-size: 11.43px;">CSS</a> <a href="/tag/Chrome/" style="font-size: 11.43px;">Chrome</a> <a href="/tag/Disqus/" style="font-size: 10px;">Disqus</a> <a href="/tag/Ghost/" style="font-size: 12.86px;">Ghost</a> <a href="/tag/Git/" style="font-size: 10.71px;">Git</a> <a href="/tag/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tag/Google/" style="font-size: 10.71px;">Google</a> <a href="/tag/Hexo/" style="font-size: 13.57px;">Hexo</a> <a href="/tag/Https/" style="font-size: 15px;">Https</a> <a href="/tag/JavaScript/" style="font-size: 16.43px;">JavaScript</a> <a href="/tag/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tag/Laravel/" style="font-size: 17.86px;">Laravel</a> <a href="/tag/Let-s-Encrypt/" style="font-size: 12.14px;">Let's Encrypt</a> <a href="/tag/Linux/" style="font-size: 16.43px;">Linux</a> <a href="/tag/Lumen/" style="font-size: 10px;">Lumen</a> <a href="/tag/Manjaro/" style="font-size: 10.71px;">Manjaro</a> <a href="/tag/Minecraft/" style="font-size: 13.57px;">Minecraft</a> <a href="/tag/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tag/Nginx/" style="font-size: 12.14px;">Nginx</a> <a href="/tag/OpenWRT/" style="font-size: 10.71px;">OpenWRT</a> <a href="/tag/PHP/" style="font-size: 19.29px;">PHP</a> <a href="/tag/PayPal/" style="font-size: 10px;">PayPal</a> <a href="/tag/Python/" style="font-size: 12.14px;">Python</a> <a href="/tag/RSS/" style="font-size: 10.71px;">RSS</a> <a href="/tag/SSH/" style="font-size: 10.71px;">SSH</a> <a href="/tag/Sandboxie/" style="font-size: 10px;">Sandboxie</a> <a href="/tag/Shell/" style="font-size: 13.57px;">Shell</a> <a href="/tag/Sublime/" style="font-size: 11.43px;">Sublime</a> <a href="/tag/Twitter/" style="font-size: 10px;">Twitter</a> <a href="/tag/V2Ray/" style="font-size: 10px;">V2Ray</a> <a href="/tag/VPS/" style="font-size: 17.14px;">VPS</a> <a href="/tag/VS-Code/" style="font-size: 10.71px;">VS Code</a> <a href="/tag/VTuber/" style="font-size: 10px;">VTuber</a> <a href="/tag/WSL/" style="font-size: 10px;">WSL</a> <a href="/tag/Windows/" style="font-size: 14.29px;">Windows</a> <a href="/tag/WordPress/" style="font-size: 17.14px;">WordPress</a> <a href="/tag/shadowsocks/" style="font-size: 15.71px;">shadowsocks</a> <a href="/tag/%E4%B8%80%E8%A8%80/" style="font-size: 10px;">一言</a> <a href="/tag/%E5%88%86%E4%BA%AB/" style="font-size: 17.14px;">分享</a> <a href="/tag/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tag/%E5%8D%9A%E5%AE%A2/" style="font-size: 20px;">博客</a> <a href="/tag/%E5%90%90%E6%A7%BD/" style="font-size: 10.71px;">吐槽</a> <a href="/tag/%E5%AD%97%E4%BD%93/" style="font-size: 10.71px;">字体</a> <a href="/tag/%E5%AE%89%E5%88%A9/" style="font-size: 10px;">安利</a> <a href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 10px;">密码学</a> <a href="/tag/%E5%B0%8F%E7%8E%A9%E6%84%8F%E5%84%BF/" style="font-size: 10px;">小玩意儿</a> <a href="/tag/%E5%B0%8F%E7%B1%B3/" style="font-size: 10px;">小米</a> <a href="/tag/%E5%B7%A5%E5%85%B7/" style="font-size: 12.86px;">工具</a> <a href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 10.71px;">年度总结</a> <a href="/tag/%E6%8A%98%E8%85%BE/" style="font-size: 10px;">折腾</a> <a href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" style="font-size: 10px;">持续集成</a> <a href="/tag/%E6%95%99%E7%A8%8B/" style="font-size: 11.43px;">教程</a> <a href="/tag/%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81/" style="font-size: 10px;">数字货币</a> <a href="/tag/%E6%B0%B4/" style="font-size: 11.43px;">水</a> <a href="/tag/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" style="font-size: 10px;">皮肤站</a> <a href="/tag/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a> <a href="/tag/%E7%BB%88%E7%AB%AF/" style="font-size: 10.71px;">终端</a> <a href="/tag/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" style="font-size: 10.71px;">网络技术</a> <a href="/tag/%E8%80%B3%E6%9C%BA/" style="font-size: 12.14px;">耳机</a> <a href="/tag/%E8%AE%B0%E5%BD%95/" style="font-size: 18.57px;">记录</a> <a href="/tag/%E8%AE%BE%E8%AE%A1/" style="font-size: 10.71px;">设计</a> <a href="/tag/%E8%AF%84%E6%B5%8B/" style="font-size: 10.71px;">评测</a> <a href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a> <a href="/tag/%E8%BD%AC%E8%BD%BD/" style="font-size: 10px;">转载</a> <a href="/tag/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tag/%E8%BF%90%E7%BB%B4/" style="font-size: 13.57px;">运维</a> <a href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" style="font-size: 10px;">近况报告</a> <a href="/tag/%E9%94%90%E9%80%9F/" style="font-size: 10.71px;">锐速</a> <a href="/tag/%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">音乐</a> <a href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">音视频处理</a>
+</section>
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

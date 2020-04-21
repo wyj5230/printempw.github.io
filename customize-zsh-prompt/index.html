@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>自定义 Zsh 提示符 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/customize-zsh-prompt/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="工具,Shell," />
+
+<meta name="description" content="babun 内建的 zsh 默认使用的是 babun 主题，就长这样：  换主题时看中了 oh-my-zsh 默认主题 robbyrussell，然而这个主题并没有窝喜欢的 $ 提示符，只好自己动手修改啦 这是修改后的效果：  关于 zsh 自定义前缀，网上似乎没有中文教程呢，有时间的话翻译一下吧（有生之年 How to Customize Your Command Prompt 这是修改后的主题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义 Zsh 提示符">
+<meta property="og:url" content="https://printempw.github.io/customize-zsh-prompt/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="babun 内建的 zsh 默认使用的是 babun 主题，就长这样：  换主题时看中了 oh-my-zsh 默认主题 robbyrussell，然而这个主题并没有窝喜欢的 $ 提示符，只好自己动手修改啦 这是修改后的效果：  关于 zsh 自定义前缀，网上似乎没有中文教程呢，有时间的话翻译一下吧（有生之年 How to Customize Your Command Prompt 这是修改后的主题">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/11/2015-11-22_01-18-44.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/11/2015-11-22_01-25-48.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/11/2015-11-22_03-44-07.png">
+<meta property="article:published_time" content="2015-11-22T11:48:23.000Z">
+<meta property="article:modified_time" content="2015-12-05T18:08:03.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2015/11/2015-11-22_01-18-44.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/customize-zsh-prompt/">自定义 Zsh 提示符</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2015-11-22T11:48:23+00:00">2015-11-22</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Shell/" rel="tag">Shell</a> <a class="tag-link" href="/tag/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2015-12-05T18:08:03.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>babun 内建的 zsh 默认使用的是 <code>babun</code> 主题，就长这样：</p>
+<p><a href="https://img.blessing.studio/images/2015/11/2015-11-22_01-18-44.png" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/11/2015-11-22_01-18-44.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/11/2015-11-22_01-18-44.png" alt="babun1"></a></p>
+<p>换主题时看中了 oh-my-zsh 默认主题 <code>robbyrussell</code>，然而这个主题并没有窝喜欢的 <code>$</code> 提示符，只好自己动手修改啦</p>
+<p>这是修改后的效果：</p>
+<p><a href="https://img.blessing.studio/images/2015/11/2015-11-22_01-25-48.png" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/11/2015-11-22_01-25-48.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/11/2015-11-22_01-25-48.png" alt="babun2"></a></p>
+<p>关于 zsh 自定义前缀，网上似乎没有中文教程呢，有时间的话翻译一下吧（有生之年</p>
+<p><a href="http://code.tutsplus.com/tutorials/how-to-customize-your-command-prompt--net-24083" target="_blank" rel="noopener">How to Customize Your Command Prompt</a></p>
+<p>这是修改后的主题内容：</p>
+<p>local ret_status=”%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ %s)” PROMPT=’${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}%{$reset_color%}%{$fg_bold[blue]%}$ %{$reset_color%}’ ZSH_THEME_GIT_PROMPT_PREFIX=”git:(%{$fg[red]%}” ZSH_THEME_GIT_PROMPT_SUFFIX=”%{$reset_color%}” ZSH_THEME_GIT_PROMPT_DIRTY=”%{$fg[blue]%}) %{$fg[yellow]%}✗ %{$reset_color%}” ZSH_THEME_GIT_PROMPT_CLEAN=”%{$fg[blue]%})”</p>
+<p>在 <code>~/.oh-my-zsh/themes</code> 下新建个以 <code>.zsh-theme</code> 为扩展名的文件，把上面的内容复制进去。</p>
+<p>或者你可以直接 <span class="lang:sh decode:true crayon-inline ">$ wget <a href="https://files.prinzeugen.net/Archive/robbyrussell-makaizou.zsh-theme" target="_blank" rel="noopener">https://files.prinzeugen.net/Archive/robbyrussell-makaizou.zsh-theme</a></span></p>
+<p>然后编辑 <code>~/.zshrc</code>，将 <code>ZSH_THEME</code> 改为所修改主题的文件名</p>
+<p><a href="https://img.blessing.studio/images/2015/11/2015-11-22_03-44-07.png" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/11/2015-11-22_03-44-07.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/11/2015-11-22_03-44-07.png" alt="zshrc"></a></p>
+<p>重启终端就可以看到效果辣 XDD</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/one-key-fill-kodexplorer-login-form/">[User Script] 自动填写 KodExplorer 登录表单</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/wow-typography/">最近有点迷上字体排印学了</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "customize-zsh-prompt/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/customize-zsh-prompt/".replace('index.html', ''),
+      title: '自定义 Zsh 提示符',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

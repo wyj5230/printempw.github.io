@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>已证实 G3258 无法安装 Windows 10130+ （附暂时解决方法 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/windows-10130-plus-cant-be-installed-on-g3258/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="Windows," />
+
+<meta name="description" content="UPDATE：已找到完美解决方法，请移步 https:&#x2F;&#x2F;prinzeugen.net&#x2F;win10-rtm-enable-g3258-dual-core&#x2F; 昨天晚上窝就下载了OEM 泄露的 win10 RTM iso，因为 Windows Update 一直升级失败，挂着安装。。然后就出现了错误  无法安装 Windows 10 0xC1900101 – 0X20017 在 BOOT 操作过程中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="已证实 G3258 无法安装 Windows 10130+ （附暂时解决方法">
+<meta property="og:url" content="https://printempw.github.io/windows-10130-plus-cant-be-installed-on-g3258/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="UPDATE：已找到完美解决方法，请移步 https:&#x2F;&#x2F;prinzeugen.net&#x2F;win10-rtm-enable-g3258-dual-core&#x2F; 昨天晚上窝就下载了OEM 泄露的 win10 RTM iso，因为 Windows Update 一直升级失败，挂着安装。。然后就出现了错误  无法安装 Windows 10 0xC1900101 – 0X20017 在 BOOT 操作过程中的">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-17.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-15.png">
+<meta property="article:published_time" content="2015-07-24T18:06:08.000Z">
+<meta property="article:modified_time" content="2015-08-03T22:17:02.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-17.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/windows-10130-plus-cant-be-installed-on-g3258/">已证实 G3258 无法安装 Windows 10130+ （附暂时解决方法</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2015-07-24T18:06:08+00:00">2015-07-25</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Windows/" rel="tag">Windows</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2015-08-03T22:17:02.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#UPDATE：已找到完美解决方法，请移步-https-prinzeugen-net-win10-rtm-enable-g3258-dual-core"><span class="toc-text">UPDATE：已找到完美解决方法，请移步 https:&#x2F;&#x2F;prinzeugen.net&#x2F;win10-rtm-enable-g3258-dual-core&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#所以目前唯一的解决办法就是在-BIOS-中将-CPU-核心数调为-1"><span class="toc-text">所以目前唯一的解决办法就是在 BIOS 中将 CPU 核心数调为 1</span></a></li></ol></div>
+    
+
+    <div class="post-content"><h3 id="UPDATE：已找到完美解决方法，请移步-https-prinzeugen-net-win10-rtm-enable-g3258-dual-core"><a href="#UPDATE：已找到完美解决方法，请移步-https-prinzeugen-net-win10-rtm-enable-g3258-dual-core" class="headerlink" title="UPDATE：已找到完美解决方法，请移步 https://prinzeugen.net/win10-rtm-enable-g3258-dual-core/"></a><strong>UPDATE：</strong>已找到完美解决方法，请移步 <a href="https://prinzeugen.net/win10-rtm-enable-g3258-dual-core/" target="_blank" rel="noopener">https://prinzeugen.net/win10-rtm-enable-g3258-dual-core/</a></h3><hr>
+<p>昨天晚上窝就下载了OEM 泄露的 win10 RTM iso，因为 Windows Update 一直升级失败，挂着安装。。然后就出现了错误</p>
+<blockquote>
+<p>无法安装 Windows 10</p>
+<p>0xC1900101 – 0X20017</p>
+<p>在 BOOT 操作过程中的 SAFE_OS 阶段，安装失败，出现错误</p>
+</blockquote>
+<p>但是太晚了就懒得折腾也没觉得多大点事儿就睡觉了。今早起来再次安装依然 same error。</p>
+<p>窝当时心里挺慌，觉得大概是 iso 的问题，遂下载了 10240 的 iso（NOW ON 10130），然而还是同样的错误。尝试全新安装，USB Boot，HDD Boot 全都是 same error。看来自己是无法解决了，遂使用搜索引擎（已百度搜过但是没有有效解决方法。</p>
+<p>搜索了大概 30 min+（Google 关键词 <strong>BOOT SAFE_OS</strong>，百度 pass），看了所有相关的 Microsoft Community 的文章（鹰文），唯一有用的是发现不止窝一个，有很多人有同样的错误。里面的 MS 帮助人员也列出了一些解决措施，包括 set EDB (<a href="http://www.webopedia.com/TERM/E/Execute_Disable_Bit.html" target="_blank" rel="noopener">Execute Disable Bit</a>) to Enable 之类的，但是没什么卵用。</p>
+<p>继续 Google 和在 pcbeta 之类的论坛搜索，发现也有人发帖说 Install Windows 10166 on G3258 failed，窝一看就觉得大概是这个了，帖子描述的错误码和症状和窝一模一样而且窝也是 Intel G3258 on E85m motherboard。</p>
+<p>遂再次 Google 之，又看了一大堆 MS community 的文，最后锁定搜索关键词为 <strong>Windows 10 G3258</strong></p>
+<p>可以看到有很多出现此问题的人，描述的内容也都是 0xC1900101 – 0X20017 而且10130 及之前都是 no problem</p>
+<p>其中最有用的帖子大概是这个：<a href="https://social.technet.microsoft.com/Forums/en-US/15d85ab2-9fc5-4683-96d6-7770a40284d4/windows-10-new-builds-wont-boot?forum=WinPreview2014Setup" target="_blank" rel="noopener">Windows 10 – new builds won’t boot</a></p>
+<h3 id="所以目前唯一的解决办法就是在-BIOS-中将-CPU-核心数调为-1"><a href="#所以目前唯一的解决办法就是在-BIOS-中将-CPU-核心数调为-1" class="headerlink" title="所以目前唯一的解决办法就是在 BIOS 中将 CPU 核心数调为 1"></a>所以目前唯一的解决办法就是在 BIOS 中将 CPU 核心数调为 1</h3><p>但是将双核 U 调成单核这吃了屎一般的感觉。。只好等 MS 在 29th 的发布了，如果还没有解决的话窝估计要投奔 linux 的怀抱了</p>
+<p>目前没有在主用 PC 上装 elementray OS freya 就是怕双亲用不习惯。。想艹黑苹果但是 G3258 好像也会有奇怪的问题。。</p>
+<p>真是多灾多难呐， G3258。</p>
+<a id="more"></a>
+
+<hr>
+<p>相关阅读（EN）：</p>
+<p><a href="http://answers.microsoft.com/en-us/insider/forum/insider_wintp-insider_install/cant-install-windows-10-build-10162-on-gigabyte/5be9d4ec-fdc4-47bd-9eb6-5b26806cba59?page=1" target="_blank" rel="noopener">Can’t install Windows 10 build 10162 on Gigabyte H81 motherboard (0xC1900101 – 0x20017)</a></p>
+<p><a href="http://answers.microsoft.com/en-us/windows/forum/windows_10-win_upgrade/win-10-g3258-issue-microcode/2b8ba9bd-24e4-4b4a-8d39-abc738a3dec5?page=1" target="_blank" rel="noopener">Win 10 G3258 issue, microcode?</a></p>
+<p><a href="http://answers.microsoft.com/en-us/insider/forum/insider_wintp-insider_update/cannot-install-any-builds-after-10130/7dd7de32-ce2e-4939-b179-6a187a63502a?tm=1436479147357" target="_blank" rel="noopener">Cannot install any builds AFTER 10130 (110158,10159,10162, and now 10166) same error <em>0xC1900101 – 0x20017</em></a></p>
+<p><a href="http://answers.microsoft.com/en-us/insider/forum/insider_wintp-insider_update/10162-update-and-iso-install-total-fail-0xc1900101/ab3ba539-4780-42a3-beab-28b5b084acef?tab=question&status=allreplies&auth=1" target="_blank" rel="noopener">10162 update and iso install total fail 0xC1900101 – 0x20017</a></p>
+<p><a href="https://social.technet.microsoft.com/Forums/en-US/15d85ab2-9fc5-4683-96d6-7770a40284d4/windows-10-new-builds-wont-boot?forum=WinPreview2014Setup" target="_blank" rel="noopener">Windows 10 – new builds won’t boot</a></p>
+<p><strong>7.29 UPDATE：</strong></p>
+<p>窝已经禁用一核艹上了RTM。。嘛，把单核拉上去也不会有太大拖慢的感觉</p>
+<p>总之先这样吧，看看巨硬还会不会有动静</p>
+<p><a href="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-17.png" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-17.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-17.png" alt="20150730083049"></a> <a href="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-15.png" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-15.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/07/2015-07-30_00-32-15.png" alt="20150730083129"></a></p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/nginx-rewrite/">使用 nginx rewrite 实现域名自动跳转</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/chrome-hsts/">Chrome 下使支持 https 的站点默认使用 ssl 加密</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "windows-10130-plus-cant-be-installed-on-g3258/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/windows-10130-plus-cant-be-installed-on-g3258/".replace('index.html', ''),
+      title: '已证实 G3258 无法安装 Windows 10130+ （附暂时解决方法',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#UPDATE：已找到完美解决方法，请移步-https-prinzeugen-net-win10-rtm-enable-g3258-dual-core"><span class="toc-text">UPDATE：已找到完美解决方法，请移步 https:&#x2F;&#x2F;prinzeugen.net&#x2F;win10-rtm-enable-g3258-dual-core&#x2F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#所以目前唯一的解决办法就是在-BIOS-中将-CPU-核心数调为-1"><span class="toc-text">所以目前唯一的解决办法就是在 BIOS 中将 CPU 核心数调为 1</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>我 TMD 到底要怎样才能在生产环境中用上 ES6 模块化？ - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/how-could-i-use-es6-modules-in-production/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="前端,JavaScript," />
+
+<meta name="description" content="Python3 已经发布了九年了，Python 社区却还在用 Python 2.7；而 JavaScript 社区正好相反，大家都已经开始把还没有实现的语言特性用到生产环境中了 (´_ゝ &#96;) 虽然这种奇妙情况的形成与 JavaScript 自身早期的设计缺陷以及浏览器平台的特殊性质都有关系，但也确实能够体现出 JavaScript 社区的技术栈迭代是有多么屌快。如果你昏迷个一年半载再去看前端圈，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我 TMD 到底要怎样才能在生产环境中用上 ES6 模块化？">
+<meta property="og:url" content="https://printempw.github.io/how-could-i-use-es6-modules-in-production/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="Python3 已经发布了九年了，Python 社区却还在用 Python 2.7；而 JavaScript 社区正好相反，大家都已经开始把还没有实现的语言特性用到生产环境中了 (´_ゝ &#96;) 虽然这种奇妙情况的形成与 JavaScript 自身早期的设计缺陷以及浏览器平台的特殊性质都有关系，但也确实能够体现出 JavaScript 社区的技术栈迭代是有多么屌快。如果你昏迷个一年半载再去看前端圈，">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/QQ20170706155858.jpg">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_104001.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/browserify.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_111125.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/rollupjs.jpg">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_140641.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/webpack.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_114129.png">
+<meta property="article:published_time" content="2017-07-06T08:57:23.000Z">
+<meta property="article:modified_time" content="2017-07-06T08:57:23.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2017/07/06/QQ20170706155858.jpg">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/how-could-i-use-es6-modules-in-production/">我 TMD 到底要怎样才能在生产环境中用上 ES6 模块化？</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2017-07-06T08:57:23+00:00">2017-07-06</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/JavaScript/" rel="tag">JavaScript</a> <a class="tag-link" href="/tag/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2017-07-06T08:57:23.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-模块化现状"><span class="toc-text">JavaScript 模块化现状</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CommonJS"><span class="toc-text">CommonJS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AMD"><span class="toc-text">AMD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6-Module🚀"><span class="toc-text">ES6 Module🚀</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题分析"><span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Browserify"><span class="toc-text">Browserify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rollup-js"><span class="toc-text">Rollup.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack"><span class="toc-text">Webpack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写在后面"><span class="toc-text">写在后面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol></div>
+    
+
+    <div class="post-content"><p>Python3 已经发布了九年了，Python 社区却还在用 Python 2.7；而 JavaScript 社区正好相反，大家都已经开始把还没有实现的语言特性用到生产环境中了 (´_ゝ `)</p>
+<p>虽然这种奇妙情况的形成与 JavaScript 自身早期的设计缺陷以及浏览器平台的特殊性质都有关系，但也确实能够体现出 JavaScript 社区的技术栈迭代是有多么屌快。如果你昏迷个一年半载再去看前端圈，可能社区的主流技术栈已经变得它妈都不认识了（如果你没什么实感，可以看看<a href="https://zhuanlan.zhihu.com/p/22782487" target="_blank" rel="noopener">《在 2016 年学习 JavaScript 是一种怎样的体验》</a>这篇文章，你会感受到的，你会的）。</p>
+<a id="more"></a>
+
+<h2 id="JavaScript-模块化现状"><a href="#JavaScript-模块化现状" class="headerlink" title="JavaScript 模块化现状"></a>JavaScript 模块化现状</h2><p>随着 JavaScript 越来越广泛的应用，朝着单页应用（SPA）方向发展的网页与代码量的愈发庞大，社区需要一种更好的代码组织形式，这就是模块化：将你的一大坨代码分装为多个不同的模块。</p>
+<p>但是在 ES6 标准出台之前，由于标准的缺失（连 CSS 都有 <code>@import</code>，JavaScript 却连个毛线都没），这几年里 JavaScript 社区里冒出了各种各样的模块化解决方案<del>（群魔乱舞）</del>，懵到一种极致。主要的几种模块化方案举例如下：</p>
+<h3 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h3><p>主要用于服务端，模块同步加载（也因此不适合在浏览器中运行，不过也有 <code>Browserify</code> 之类的转换工具），Node.js 的模块化实现就是基于 CommonJS 规范的，通常用法像这样：</p>
+<pre><code class="javascript">// index.js
+const {bullshit} = require(&#39;./bullshit&#39;);
+console.log(bullshit());
+
+// bullshit.js
+function someBullshit() {
+  return &quot;hafu hafu&quot;;
+}
+
+modules.export = {
+  bullshit: someBullshit
+};</code></pre>
+<p>而且 <code>require()</code> 是动态加载模块的，完全就是模块中 <code>modules.export</code> 变量的传送门，这也就意味着更好的灵活性（按条件加载模块，参数可为表达式 etc.）。</p>
+<h3 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h3><p>即异步模块定义（Asynchronous Module Definition），<del>不是那个日常翻身的农企啦</del>。</p>
+<p>主要用于浏览器端，模块异步加载（还是用的回调函数），可以给模块注入依赖、动态加载代码块等。具体实现有 RequireJS，代码大概长这样：</p>
+<pre><code class="javascript">// index.js
+require([&#39;bullshit&#39;], words =&gt; {
+  console.log(words.bullshit());
+});
+
+// bullshit.js
+define(&#39;bullshit&#39;, [&#39;dep1&#39;, &#39;dep2&#39;], (dep1, dep2) =&gt; {
+  function someBullshit() {
+    return &quot;hafu hafu&quot;;
+  }
+
+  return { bullshit: someBullshit };
+});</code></pre>
+<p>可惜不能在 Node.js 中直接使用，而且模块定义与加载也比较冗长。</p>
+<h3 id="ES6-Module🚀"><a href="#ES6-Module🚀" class="headerlink" title="ES6 Module🚀"></a>ES6 Module🚀</h3><p>在 ES6 模块标准出来之前，主要的模块化方案就是上述 CommonJS 和 AMD 两种了，一种用于服务器，一种用于浏览器。其他的规范还有：</p>
+<ul>
+<li>最古老的 IIFE（立即执行函数）；</li>
+<li>CMD（Common Module Definition，和 AMD 挺像的，可以参考：<a href="https://github.com/seajs/seajs/issues/277" target="_blank" rel="noopener">与 RequireJS 的异同</a>）；</li>
+<li>UMD（Universal Module Definition，兼容 AMD 和 CommonJS 的语法糖规范）；</li>
+</ul>
+<p>等等，这里就按下不表。</p>
+<p>ES6 的模块化代码大概长这样：</p>
+<pre><code class="javascript">// index.js
+import {bullshit} from &#39;./bullshit&#39;;
+console.log(bullshit());
+
+// bullshit.js
+function someBullshit() {
+  return &quot;hafu hafu&quot;;
+}
+
+export {
+  someBullshit as bullshit
+};</code></pre>
+<p>那我们为啥应该使用 ES6 的模块化规范呢？</p>
+<ul>
+<li>这是 ECMAScript 官方标准（嗯）；</li>
+<li>语义化的语法，清晰明了，同时支持服务器端和浏览器；</li>
+<li>静态 / 编译时加载（与上面俩规范的动态 / 运行时加载不同），可以做静态优化（比如下面提到的 tree-shaking），加载效率高（不过相应地灵活性也降低了，期待 <a href="https://github.com/tc39/proposal-dynamic-import" target="_blank" rel="noopener"><code>import()</code></a> 也成为规范）；</li>
+<li>输出的是值的引用，可动态修改；</li>
+</ul>
+<p>嗯，你说的都对，那我tm到底要怎样才能在生产环境中用上 ES6 的模块化特性呢？</p>
+<p>很遗憾，你永远无法控制用户的浏览器版本，可能要等上一万年，你才能直接在生产环境中写 ES6 而不用提心吊胆地担心兼容性问题。因此，你还是需要各种各样杂七杂八的工具来转换你的代码：Babel、Webpack、Browserify、Gulp、Rollup.js、System.js ……</p>
+<p>噢，我可去你妈的吧，这些东西都tm是干嘛的？我就是想用个模块化，我到底该用啥子？</p>
+<p><img src="https://img.blessing.studio/images/2017/07/06/QQ20170706155858.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/QQ20170706155858.jpg" alt="我可去你妈的吧"></p>
+<p>本文正旨在列出几种可用的在生产环境中放心使用 ES6 模块化的方法，希望能帮到诸位后来者（这方面的中文资源实在是忒少了）。</p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>想要开心地写 ES6 的模块化代码，首先你需要一个转译器（Transpiler）来把你的 ES6 代码转换成大部分浏览器都支持的 ES5 代码。这里我们就选用最多人用的 Babel（我不久之前才知道原来 Babel 就是巴别塔里的「巴别」……）。</p>
+<p>用了 Babel 后，我们的 ES6 模块化代码会被转换为 ES5 + CommonJS 模块规范的代码，这倒也没什么，毕竟我们写的还是 ES6 的模块，至于编译生成的结果，管它是个什么屌东西呢（笑）</p>
+<p>所以我们需要另外一个打包工具来将我们的模块依赖给打包成一个 bundle 文件。目前来说，依赖打包应该是最好的方法了。不然，你也可以等上一万年，等你的用户把浏览器升级到全部支持 HTTP/2（支持连接复用后模块不打包反而比较好）以及 <code>&lt;script type=&quot;module&quot; src=&quot;fuck.js&quot;&gt;</code> 定义 ( ﾟ∀。)</p>
+<p>所以我们整个工具链应该是这样的：</p>
+<p><img src="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_104001.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_104001.png" alt="处理流程"></p>
+<p>而目前来看，主要可用的模块打包工具有这么几个：</p>
+<ul>
+<li>Browserify</li>
+<li>Webpack</li>
+<li>Rollup.js</li>
+</ul>
+<p>本来我还想讲一下 FIS3 的，结果去看了一下，人家竟然还没原生的支持 ES6 Modules，而且 <code>fis3-hook-commonjs</code> 插件也几万年没更新了，所以还是算了吧。至于 SystemJS 这类动态模块加载器本文也不会涉及，就像我上面说的一样，在目前这个时间点上还是先用模块打包工具比较好。</p>
+<p>下面分别介绍这几个工具以及如何使用它们配合 Babel 实现 ES6 模块转译。</p>
+<h2 id="Browserify"><a href="#Browserify" class="headerlink" title="Browserify"></a>Browserify</h2><p>Browserify 这个工具也是有些年头了，它通过打包所有的依赖来让你能够在浏览器中使用 CommonJS 的语法来 <code>require(&#39;modules&#39;)</code>，这样你就可以像在 Node.js 中一样在浏览器中使用 npm 包了，可以爽到。</p>
+<img src="https://img.blessing.studio/images/2017/07/06/browserify.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/browserify.png" class="head-img" title="而且我也很喜欢 Browserify 这个 LOGO">
+
+<p>既然 Babel 会把我们的 ES6 Modules 语法转换成 ES5 + CommonJS 规范的模块语法，那我们就可以直接用 Browserify 来解析 Babel 的转译生成物，然后把所有的依赖给打包成一个文件，岂不是美滋滋。</p>
+<p>不过除了 Babel 和 Browserify 这俩工具外，我们还需要一个叫做 <code>babelify</code> 的东西……好吧好吧，这是最后一个了，真的。</p>
+<p>那么，babelify 是拿来干嘛的呢？因为 Browserify 只看得懂 CommonJS 的模块代码，所以我们得把 ES6 模块代码转换成 CommonJS 规范的，再拿给 Browserify 去看：这一步就是 Babel 要干的事情了。但是 Browserify 人家是个模块打包工具啊，它是要去分析 AST（抽象语法树），把那些 <code>reuqire()</code> 的依赖文件给找出来再帮你打包的，你总不能把所有的源文件都给 Babel 转译了再交给 Browserify 吧？那太蠢了，我的朋友。</p>
+<p><code>babelify</code> (Browserify transform for Babel) 要做的事情，就是在所有 ES6 文件拿给 Browserify 看之前，先把它用 Babel 给转译一下（<code>browserify().transform</code>），这样 Browserify 就可以直接看得懂并打包依赖，避免了要用 Babel 先转译一万个文件的尴尬局面。</p>
+<p>好吧，那我们要怎样把这些工具捣鼓成一个完整的工具链呢？下面就是喜闻乐见的依赖包安装环节：</p>
+<pre><code class="shell"># 我用的 yarn，你用 npm 也差不多
+# gulp 也可以全局安装，方便一点
+# babel-preset 记得选适合自己的
+# 最后那俩是用来配合 gulp stream 的
+$ yarn add --dev babel-cli babel-preset-env babelify browserify gulp vinyl-buffer vinyl-source-stream</code></pre>
+<p>这里我们用 Gulp 作为任务管理工具来实现自动化（什么，都 7012 年了你还不知道 Gulp？那为什么不去问问<a href="https://www.google.com/" target="_blank" rel="noopener">神奇海螺</a>呢？），<code>gulpfile.js</code> 内容如下：</p>
+<pre><code class="javascript">var gulp       = require(&#39;gulp&#39;),
+    browserify = require(&#39;browserify&#39;),
+    babelify   = require(&#39;babelify&#39;),
+    source     = require(&#39;vinyl-source-stream&#39;),
+    buffer     = require(&#39;vinyl-buffer&#39;);
+
+gulp.task(&#39;build&#39;, function () {
+    return browserify([&#39;./src/index.js&#39;])
+        .transform(babelify)
+        .bundle()
+        .pipe(source(&#39;bundle.js&#39;))
+        .pipe(gulp.dest(&#39;dist&#39;))
+        .pipe(buffer());
+});</code></pre>
+<p>相信诸位都能看得懂吧，<code>browserify()</code> 第一个参数是入口文件，可以是数组或者其他乱七八糟的，具体参数说明请自行参照 Browserify 文档。而且记得在根目录下创建 <code>.babelrc</code> 文件指定转译的 preset，或者在 <code>gulpfile.js</code> 中配置也可以，这里就不再赘述。</p>
+<p>最后运行 <code>gulp build</code>，就可以生成能直接在浏览器中运行的打包文件了。</p>
+<pre><code class="shell">➜  browserify $ gulp build
+[12:12:01] Using gulpfile E:\wwwroot\es6-module-test\browserify\gulpfile.js
+[12:12:01] Starting &#39;build&#39;...
+[12:12:01] Finished &#39;build&#39; after 720 ms</code></pre>
+<p><img src="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_111125.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_111125.png" alt="Browserify Result"></p>
+<h2 id="Rollup-js"><a href="#Rollup-js" class="headerlink" title="Rollup.js"></a>Rollup.js</h2><p>我记得这玩意最开始出来的时候号称为「下一代的模块打包工具」，并且自带了可大大减小打包体积的 <code>tree-shaking</code> 技术（DCE 无用代码移除的一种，运用了 ES6 静态分析语法树的特性，只打包那些用到了的代码），在当时很新鲜。</p>
+<p><img src="https://img.blessing.studio/images/2017/07/06/rollupjs.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/rollupjs.jpg" alt="Rollup.js"></p>
+<p>但是现在 Webpack2+ 已经支持了 Tree Shaking 的情况下，我们又有什么特别的理由去使用 Rollup.js 呢？不过毕竟也是一种可行的方法，这里也提一提：</p>
+<pre><code class="shell"># 我也不知道为啥 Rollup.js 要依赖这个 external-helpers
+$ yarn add --dev rollup rollup-plugin-babel babel-preset-env babel-plugin-external-helpers</code></pre>
+<p>然后修改根目录下的 <code>rollup.config.js</code>：</p>
+<pre><code class="javascript">import babel from &#39;rollup-plugin-babel&#39;;
+
+export default {
+  entry: &#39;src/index.js&#39;,
+  format: &#39;esm&#39;,
+  plugins: [
+    babel({
+      exclude: &#39;node_modules/**&#39;
+    })
+  ],
+  dest: &#39;dist/bundle.js&#39;
+};</code></pre>
+<p>还要修改 <code>.babelrc</code> 文件，把 Babel 转换 ES6 模块到 CommonJS 模块的转换给关掉，不然会导致 Rollup.js 处理不来：</p>
+<pre><code class="json">{
+  &quot;presets&quot;: [
+    [&quot;env&quot;, {
+      &quot;modules&quot;: false
+    }]
+  ],
+  &quot;plugins&quot;: [
+    &quot;external-helpers&quot;
+  ]
+}</code></pre>
+<p>然后在根目录下运行 <code>rollup -c</code> 即可打包依赖，也可以配合 Gulp 来使用，官方文档里就有，这里就不赘述了。可以看到，Tree Shaking 的效果还是很显著的，经测试，未使用的代码确实不会被打包进去，比起上面几个工具生成的结果要清爽多了：</p>
+<p><img src="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_140641.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_140641.png" alt="Rollup.js Result"></p>
+<h2 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h2><p>对，Webpack，就是那个丧心病狂想要把啥玩意都给模块化的模块打包工具。既然人家已经到了 <code>3.0.0</code> 版本了，所以下面的都是基于 Webpack3 的。什么？现在还有搞前端的不知道 Webpack？神奇海螺以下略。</p>
+<p><img src="https://img.blessing.studio/images/2017/07/06/webpack.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/webpack.png" alt="Webpack"></p>
+<p>喜闻乐见的依赖安装环节：</p>
+<pre><code class="shell"># webpack 也可以全局安装，方便一些
+$ yarn add --dev babel-loader babel-core babel-preset-env webpack</code></pre>
+<p>然后配置 <code>webpack.config.js</code>：</p>
+<pre><code class="javascript">var path = require(&#39;path&#39;);
+
+module.exports = {
+  entry: &#39;./src/index.js&#39;,
+  output: {
+    filename: &#39;bundle.js&#39;,
+    path: path.resolve(__dirname, &#39;dist&#39;)
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: &#39;babel-loader&#39;,
+          options: {
+            presets: [&#39;env&#39;]
+          }
+        }
+      }
+    ]
+  }
+};</code></pre>
+<p>差不多就是这么个配置，<code>babel-loader</code> 的其他 <code>options</code> 请参照文档，而且这个配置文件的括号嵌套也是说不出话，ZTMJLWC。</p>
+<p>然后运行 <code>webpack</code>：</p>
+<pre><code class="shell">➜  webpack $ webpack
+Hash: 5c326572cf1440dbdf64
+Version: webpack 3.0.0
+Time: 1194ms
+    Asset     Size  Chunks             Chunk Names
+bundle.js  2.86 kB       0  [emitted]  main
+   [0] ./src/index.js 106 bytes {0} [built]
+   [1] ./src/bullshit.js 178 bytes {0} [built]</code></pre>
+<p>情况呢就是这么个情况：</p>
+<p><img src="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_114129.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/06/snipaste_20170706_114129.png" alt="Webpack Result"></p>
+<blockquote>
+<p><strong>Tips: 关于 Webpack 的 Tree Shaking</strong></p>
+<p>Webpack 现在是自带 Tree-Shaking 的，不过需要你把 Babel 默认的转换 ES6 模块至 CommonJS 格式给关掉，就像上面 Rollup.js 那样在 <code>.babelrc</code> 中添加个 <code>&quot;modules&quot;: false</code>。原因的话上面也提到过，tree-shaking 是基于 ES6 模块的静态语法分析的，如果交给 Webpack 的是已经被 Babel 转换成 CommonJS 的代码的话那就没戏了。</p>
+<p>而且 Webpack 自带的 tree-shaking 只是把没用到的模块从 <code>export</code> 中去掉而已，之后还要再接一个 UglifyJS 之类的工具把冗余代码干掉才能达到 Rollup.js 那样的效果。</p>
+</blockquote>
+<p>Webpack 也可以配合 Gulp 工作流让开发更嗨皮，有兴趣的可自行研究。目前来看，这三种方案中，我本人更倾向于使用 Webpack，不知道诸君会选用什么呢？</p>
+<h2 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h2><p>前几天我在捣鼓 <a href="https://github.com/printempw/blessing-skin-server" target="_blank" rel="noopener">printempw/blessing-skin-server</a> 那坨 shi 一样 JavaScript 代码的模块化的时候，打算试着使用一下 ES6 标准中的模块化方案，并找了 Google 大老师问 ES6 模块转译打包相关的资源，找了半天，几乎没有什么像样的中文资源。全是讲 ES6 模块是啥、有多好、为什么要用之类的，没几个是讲到底该怎么在生产环境中使用的（也有可能是我搜索姿势不对），说不出话。遂撰此文，希望能帮到后来人。</p>
+<p>且本人水平有限，如果文中有什么错误，欢迎在下方评论区批评指出。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li>[Getting import/export working ES6 style using Browserify + Babelify + Gulp = -5hrs of life](Getting import/export working ES6 style using Browserify + Babelify + Gulp = -5hrs of life)</li>
+<li><a href="https://rollupjs.org/" target="_blank" rel="noopener">rollup.js • guide</a></li>
+<li><a href="http://brooch.me/2017/06/30/webpack-tree-shaking/" target="_blank" rel="noopener">使用 webpack 2 tree-shaking 机制时需要注意的细节</a></li>
+<li><a href="http://xwjgo.github.io/2016/09/23/webpack+babel%E5%AE%9E%E7%8E%B0%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E4%BD%BF%E7%94%A8es6%E6%A8%A1%E5%9D%97%E8%AF%AD%E6%B3%95/" target="_blank" rel="noopener">webpack+babel 加载 es6 模块</a></li>
+<li><a href="https://webpack.js.org/configuration/" target="_blank" rel="noopener">Documentation - webpack</a></li>
+<li><a href="https://www.zhihu.com/question/41922432" target="_blank" rel="noopener">如何评价 Webpack 2 新引入的 Tree-shaking 代码优化技术？</a></li>
+</ul>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/deploy-dont-starve-together-dedicated-server/">饥荒联机版独立服务器搭建踩坑记录</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/add-page-view-counter-for-hexo/">为 Hexo 博客添加页面访问计数器</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "how-could-i-use-es6-modules-in-production/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/how-could-i-use-es6-modules-in-production/".replace('index.html', ''),
+      title: '我 TMD 到底要怎样才能在生产环境中用上 ES6 模块化？',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-模块化现状"><span class="toc-text">JavaScript 模块化现状</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CommonJS"><span class="toc-text">CommonJS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AMD"><span class="toc-text">AMD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6-Module🚀"><span class="toc-text">ES6 Module🚀</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题分析"><span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Browserify"><span class="toc-text">Browserify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rollup-js"><span class="toc-text">Rollup.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack"><span class="toc-text">Webpack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写在后面"><span class="toc-text">写在后面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

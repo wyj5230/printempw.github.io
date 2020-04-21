@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>如何将现有 git 仓库中的子目录分离为独立仓库并保留其提交历史 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/splitting-a-subfolder-out-into-a-new-git-repository/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="记录,Git," />
+
+<meta name="description" content="这几天想要把一个 git 仓库中已经存在的一个子文件夹独立成一个新的 git 仓库，并且保留之前关于此文件夹的所有提交历史。不过我对 git 并没有这么精通，只好上网搜索之。可能是因为我关键词抓得不准，搜了好一会儿才找到可行的方案，所以写篇博文记录一下。 另外，在 git 里这种掌控历史的感觉真的很棒。XD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何将现有 git 仓库中的子目录分离为独立仓库并保留其提交历史">
+<meta property="og:url" content="https://printempw.github.io/splitting-a-subfolder-out-into-a-new-git-repository/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这几天想要把一个 git 仓库中已经存在的一个子文件夹独立成一个新的 git 仓库，并且保留之前关于此文件夹的所有提交历史。不过我对 git 并没有这么精通，只好上网搜索之。可能是因为我关键词抓得不准，搜了好一会儿才找到可行的方案，所以写篇博文记录一下。 另外，在 git 里这种掌控历史的感觉真的很棒。XD">
+<meta property="article:published_time" content="2018-02-20T11:23:47.000Z">
+<meta property="article:modified_time" content="2018-02-20T11:23:47.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="记录">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/splitting-a-subfolder-out-into-a-new-git-repository/">如何将现有 git 仓库中的子目录分离为独立仓库并保留其提交历史</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2018-02-20T11:23:47+00:00">2018-02-20</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Git/" rel="tag">Git</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2018-02-20T11:23:47.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-需求分析"><span class="toc-text">0x01 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-文章描述约定"><span class="toc-text">0x02 文章描述约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-最简单的方法，使用-git-subtree"><span class="toc-text">0x03 最简单的方法，使用 git subtree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-麻烦点的方法，使用-git-filter-branch"><span class="toc-text">0x04 麻烦点的方法，使用 git filter-branch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-清理原仓库"><span class="toc-text">0x05 清理原仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-关联原仓库与新仓库"><span class="toc-text">0x06 关联原仓库与新仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-参考链接"><span class="toc-text">0x07 参考链接</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>这几天想要把一个 git 仓库中<strong>已经存在</strong>的一个子文件夹独立成一个新的 git 仓库，并且保留之前关于此文件夹的所有提交历史。不过我对 git 并没有这么精通，只好上网搜索之。可能是因为我关键词抓得不准，搜了好一会儿才找到可行的方案，所以写篇博文记录一下。</p>
+<p>另外，在 git 里这种掌控历史的感觉真的很棒。XD</p>
+<a id="more"></a>
+
+<h2 id="0x01-需求分析"><a href="#0x01-需求分析" class="headerlink" title="0x01 需求分析"></a>0x01 需求分析</h2><p>我为什么会有如本文标题所述这样的需求呢？这是因为我之前把所有为 <a href="https://github.com/printempw/blessing-skin-server" target="_blank" rel="noopener">Blessing Skin</a> 这个程序编写的插件源码都放在一个 <a href="https://github.com/printempw/blessing-skin-plugins" target="_blank" rel="noopener">git repo</a> 中了，每个子文件夹中都是一个独立的插件（因为嫌麻烦所以一股脑给塞进一个仓库里了），并且对每个子文件夹中的代码的修改最后都是在这个统一仓库中提交的。该仓库差不多长这样：</p>
+<pre><code class="text">$ tree
+├── .git
+├── avatar-api
+├── config-generator
+├── register-email-validation
+│   ├── bootstrap.php
+│   ├── package.json
+│   └── src
+├── report-texture
+└── yggdrasil-api  &lt;---【我想把这个独立为一个新 repo】
+    ├── bootstrap.php
+    ├── package.json
+    ├── routes.php
+    └── src</code></pre>
+<p>而我现在后悔了，想把其中的某个子目录抽离出来，把它变成一个新的 git 仓库，并且保留我之前所有在「原仓库」中关于这个子目录的「所有提交历史」。</p>
+<p>其实这种需求还是挺常见的，举个栗子：</p>
+<blockquote>
+<p>你原本在一个项目的 git 仓库中维护了一个通用的组件库，本来以为这只是个小玩意，谁曾想随着项目的开发这个库变得越来越大，代码变得越来越复杂，不再合适与主项目代码放在同一个 repo 里了。</p>
+<p>这时你想把这个库抽离出来变成一个单独的 git repo 然后在原 repo 中使用 submodule 之类的方法引用之的时候，却发现之前的 repo 中已经有太多关于这个库的提交记录了，而你又不想让这个新 repo 直接一个 Initial Commit 唐突地就变成现在这个样子……</p>
+</blockquote>
+<p>这就是这篇文章所希望解决的需求：</p>
+<p><strong>将现有 git repo 中的子目录独立为新 repo，并保留其相关的提交历史。</strong></p>
+<h2 id="0x02-文章描述约定"><a href="#0x02-文章描述约定" class="headerlink" title="0x02 文章描述约定"></a>0x02 文章描述约定</h2><p>为了方便描述后续操作，这里稍微约定一下文章中各占位符的含义。</p>
+<ul>
+<li>原来的仓库 👉 <code>&lt;big-repo&gt;</code></li>
+<li>想要分离出来的子文件夹名称 👉 <code>&lt;name-of-folder&gt;</code></li>
+<li>该子文件夹形成的新仓库 👉 <code>&lt;new-repo&gt;</code></li>
+</ul>
+<p>也就是说：我们有一个叫做 <code>big-repo</code> 的仓库，里面有不少子文件夹，我们想要把其中一个文件夹抽离出来，将其变成一个新的仓库 <code>new-repo</code>，并且保留之前在 <code>big-repo</code> 中所有关于这个子文件夹的所有 commit 记录。</p>
+<p>差不多就是这样。(・_ゝ・)</p>
+<h2 id="0x03-最简单的方法，使用-git-subtree"><a href="#0x03-最简单的方法，使用-git-subtree" class="headerlink" title="0x03 最简单的方法，使用 git subtree"></a>0x03 最简单的方法，使用 git subtree</h2><p>看来上述需求还是比较普遍的，自从 1.8 版本之后 git 就添加了 subtree 子命令，使用这个新命令我们可以很简单高效地解决这个问题。</p>
+<p>首先，进入 <code>big-repo</code> 所在的目录，运行：</p>
+<pre><code class="bash">git subtree split -P &lt;name-of-folder&gt; -b &lt;name-of-new-branch&gt;</code></pre>
+<p>运行后，git 会遍历原仓库中所有的历史提交，挑选出与指定路径相关的 commit 并存入名为 <code>name-of-new-branch</code> 的临时分支中。另外需要注意的是，<strong>如果你在使用 Windows</strong>，且该文件夹深度 &gt; 1，你必须使用斜杠 <code>/</code> 作为目录分隔符而不是默认的反斜杠 <code>\</code>。</p>
+<p>然后，我们创建一个新的 git 仓库：</p>
+<pre><code class="bash">mkdir &lt;new-repo&gt;
+git init</code></pre>
+<p>接着把原仓库中的临时分支拉到新仓库中：</p>
+<pre><code class="bash">git pull &lt;/path/to/big-repo&gt; &lt;name-of-new-branch&gt;</code></pre>
+<p>好了，完成。现在看看你的新仓库，是不是已经包含了原子文件夹中的所有文件和你之前在原仓库中的所有提交历史呢？</p>
+<h2 id="0x04-麻烦点的方法，使用-git-filter-branch"><a href="#0x04-麻烦点的方法，使用-git-filter-branch" class="headerlink" title="0x04 麻烦点的方法，使用 git filter-branch"></a>0x04 麻烦点的方法，使用 git filter-branch</h2><p>除了使用新添加的 <code>subtree</code> 命令，你也可以使用 git 传统的所谓核弹级大杀器命令 —— <code>filter-branch</code> 解决上述问题。</p>
+<p>首先，clone 一份原仓库并删掉原来的 remote：</p>
+<pre><code class="bash">git clone &lt;big-repo&gt; &lt;new-repo&gt;
+cd &lt;new-repo&gt;
+git remote rm origin</code></pre>
+<p>然后运行如下命令（这是重点）：</p>
+<pre><code class="bash">git filter-branch --tag-name-filter cat --prune-empty --subdirectory-filter &lt;name-of-folder&gt; -- --all</code></pre>
+<p>这条命令同样会过滤所有历史提交，只保留所有对指定子目录有影响的提交，并将该子目录设为该仓库的根目录。这里说明各下个参数的作用：</p>
+<ul>
+<li><code>--tag-name-filter</code> 该参数控制我们要如何处理旧的 tag，cat 即表示原样输出；</li>
+<li><code>--prune-empty</code> 删除空的（对子目录没有影响的）提交；</li>
+<li><code>--subdirectory-filter</code> 指定子目录路径；</li>
+<li><code>-- --all</code> 该参数必须跟在 <code>--</code> 后面，表示对所有分支进行操作。如果你只想保存当前分支，也可以不添加此参数。</li>
+</ul>
+<p>该命令执行完毕后就可以看到新仓库中已经变成子目录的内容了，且保留了关于该子目录所有的提交历史。不过只是这样的话新仓库中的 <code>.git</code> 目录里还是保存有不少无用的 object，我们需要将其清除掉以减小新仓库的体积（如果你用上面 <code>subtree</code> 的方法的话是不需要执行这一步的）。</p>
+<pre><code class="bash">git reset --hard
+git for-each-ref --format=&quot;%(refname)&quot; refs/original/ | xargs -n 1 git update-ref -d
+git reflog expire --expire=now --all
+git gc --aggressive --prune=now</code></pre>
+<p>这样，虽然麻烦点，我们也得到了和使用 0x03 方法后一样的新仓库。</p>
+<h2 id="0x05-清理原仓库"><a href="#0x05-清理原仓库" class="headerlink" title="0x05 清理原仓库"></a>0x05 清理原仓库</h2><p>既然所指定的子文件夹已经被分离为一个单独的 git repo 了，我们就可以放心地在原仓库中删除它了：</p>
+<pre><code class="bash">git rm -rf &lt;name-of-folder&gt;
+# 提交一下说明对应操作
+git commit -m &#39;Remove some fxxking shit&#39;
+# 删除刚才创建的临时分支
+# 后一种方法不需要执行这一步
+git branch -D &lt;name-of-new-branch&gt;</code></pre>
+<p>不过这种方法还是会在提交历史中保留所有关于这个子目录的内容，如果你想要把这个子目录从原 repo 中<strong>不留一丝痕迹地完全移除</strong>，那你需要 BFG Repo Cleaner 这样的工具或者使用 <code>filter-branch</code> 等命令。</p>
+<p>关于这个的具体操作我这里就不提了，网上一搜一大把。不过需要注意的是，这种做法并不值得提倡，请在你完全清楚自己在做什么的前提下使用此方法改写提交历史。</p>
+<h2 id="0x06-关联原仓库与新仓库"><a href="#0x06-关联原仓库与新仓库" class="headerlink" title="0x06 关联原仓库与新仓库"></a>0x06 关联原仓库与新仓库</h2><p>这一步是可选的。</p>
+<p>一般来说，在我们把原目录中的子文件夹分离成独立的 git 仓库后，总会希望再通过某种方法在原仓库中引用新仓库的代码。</p>
+<p>这里我们可以通过 <code>subtree</code> 或者 <code>submodule</code> 两种命令来实现，不过他们两个各有优点和缺点，所以请根据你自己的实际情况选择（不过现在一般都推荐使用 subtree，submodule 用起来实在是太他妈的蛋疼了）。</p>
+<p>当然，你也可以分离之后直接使用 npm、composer 之类的包管理器将新仓库作为一个依赖库引入进来，这也是完全没有问题的。</p>
+<h2 id="0x07-参考链接"><a href="#0x07-参考链接" class="headerlink" title="0x07 参考链接"></a>0x07 参考链接</h2><ul>
+<li><a href="https://stackoverflow.com/questions/359424/detach-move-subdirectory-into-separate-git-repository" target="_blank" rel="noopener">Detach (move) subdirectory into separate Git repository</a></li>
+<li><a href="https://stackoverflow.com/questions/17413493/create-a-submodule-repository-from-a-folder-and-keep-its-git-commit-history" target="_blank" rel="noopener">Create a submodule repository from a folder and keep its git commit history</a></li>
+<li><a href="http://graycarl.me/blog/make-a-directory-into-git-submodule" target="_blank" rel="noopener">如何把 GIT 仓库的子目录独立为子模块</a></li>
+</ul>
+<p>啊，另外，上次说好的 WSL 博文可能要鸽了抱歉咕咕咕。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/check-in-2018-07/">近况报告：我的高复生活</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/fix-windows-update-error-0x800703ed/">Windows Update 出现错误 0x800703ed 可能的解决方法</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "splitting-a-subfolder-out-into-a-new-git-repository/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/splitting-a-subfolder-out-into-a-new-git-repository/".replace('index.html', ''),
+      title: '如何将现有 git 仓库中的子目录分离为独立仓库并保留其提交历史',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-需求分析"><span class="toc-text">0x01 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-文章描述约定"><span class="toc-text">0x02 文章描述约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-最简单的方法，使用-git-subtree"><span class="toc-text">0x03 最简单的方法，使用 git subtree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-麻烦点的方法，使用-git-filter-branch"><span class="toc-text">0x04 麻烦点的方法，使用 git filter-branch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-清理原仓库"><span class="toc-text">0x05 清理原仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-关联原仓库与新仓库"><span class="toc-text">0x06 关联原仓库与新仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-参考链接"><span class="toc-text">0x07 参考链接</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

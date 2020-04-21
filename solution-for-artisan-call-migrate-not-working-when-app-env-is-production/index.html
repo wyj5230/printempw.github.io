@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>Artisan::call('migrate') 在 APP_ENV 为 production 时不工作的解决方法 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/solution-for-artisan-call-migrate-not-working-when-app-env-is-production/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="PHP,Laravel," />
+
+<meta name="description" content="最近把版本库里 .env.example 的 APP_ENV 字段值从原来的 local 改为了 production，原意是为了更好的区分开发和生产环境。 然而今天在主机壳的虚拟主机上测试我的程序的时候（准备把演示站搬过去），却出现了奇怪的问题——数据库 Migration  不管用了。 我是在控制器里通过调用 Artisan::call(&#39;migrate&#39;) 来执行数据库迁移操">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Artisan::call(&#39;migrate&#39;) 在 APP_ENV 为 production 时不工作的解决方法">
+<meta property="og:url" content="https://printempw.github.io/solution-for-artisan-call-migrate-not-working-when-app-env-is-production/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="最近把版本库里 .env.example 的 APP_ENV 字段值从原来的 local 改为了 production，原意是为了更好的区分开发和生产环境。 然而今天在主机壳的虚拟主机上测试我的程序的时候（准备把演示站搬过去），却出现了奇怪的问题——数据库 Migration  不管用了。 我是在控制器里通过调用 Artisan::call(&#39;migrate&#39;) 来执行数据库迁移操">
+<meta property="og:image" content="https://img.prinzeugen.net/image.php?di=I5NU">
+<meta property="article:published_time" content="2016-12-13T14:44:11.000Z">
+<meta property="article:modified_time" content="2017-05-14T05:40:53.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Laravel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.prinzeugen.net/image.php?di=I5NU">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/solution-for-artisan-call-migrate-not-working-when-app-env-is-production/">Artisan::call('migrate') 在 APP_ENV 为 production 时不工作的解决方法</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-12-13T14:44:11+00:00">2016-12-13</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2017-05-14T05:40:53.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>最近把版本库里 <code>.env.example</code> 的 <code>APP_ENV</code> 字段值从原来的 <code>local</code> 改为了 <code>production</code>，原意是为了更好的区分开发和生产环境。</p>
+<p>然而今天在主机壳的虚拟主机上测试我的程序的时候（准备把演示站搬过去），却出现了奇怪的问题——数据库 Migration  不管用了。</p>
+<p>我是在控制器里通过调用 <code>Artisan::call(&#39;migrate&#39;)</code> 来执行数据库迁移操作的（毕竟虚拟主机哪来的 shell 访问），但是这次这条命令竟然没有执行任何事务。</p>
+<p>通过 <code>Artisan</code> 执行 <code>Command</code> 的简化流程大概是像这样的：</p>
+<pre><code>Illuminate\Foundation\Console\Kernel
+↓
+Illuminate\Console\Application
+↓
+Illuminate\Console\Command
+↓
+Illuminate\Container\Container
+↓
+// 这个就是执行 Artisan::call(&#39;migrate&#39;) 时调用的类
+Illuminate\Database\Console\Migrations\MigrateCommand
+↓
+……</code></pre><p>经过一段时间的排查，最后锁定了是在 <code>MigrateCommand</code> 这个类停止继续往下执行的，即接下来的脚本都没有被执行到，也就是说问题就出在 <code>MigrateCommand</code> 这里。</p>
+<a id="more"></a>
+
+<p>在这个类的 <code>fire</code> 方法里，我们可以看到：</p>
+<pre><code>if (! $this-&gt;confirmToProceed()) {
+    return;
+}</code></pre><p>就是因为这个 <code>$this-&gt;confirmToProceed()</code> 返回了一个 <code>bool(false)</code>，才导致脚本在这里停止执行了。</p>
+<p>这个 <code>confirmToProceed</code> 方法是定义在 <code>Illuminate\Console\ConfirmableTrait</code> 里的，通过阅读代码我们可以知道这个方法可以让我们传进去一个回调（或者让它在 shell 里要求用户输入 Y 确认）来确认是否要执行这个 action。</p>
+<p><img src="https://img.prinzeugen.net/image.php?di=I5NU" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=I5NU" alt="要求确认的栗子"></p>
+<p>不巧的是，在 <code>MigrateCommand</code> 里并没有传 <code>callback</code> 给这个方法，所以它就使用了默认的回调：</p>
+<pre><code>/**
+ * Get the default confirmation callback.
+ *
+ * @return \Closure
+ */
+protected function getDefaultConfirmCallback()
+{
+    return function () {
+        return $this-&gt;getLaravel()-&gt;environment() == &#39;production&#39;;
+    };
+}</code></pre><p>罪魁祸首出现了！没错，就是因为我把 <code>APP_ENV</code> 给改成了 <code>production</code> 造成了这个情况。</p>
+<p>而我是通过 <code>Artisan::call(&#39;migrate&#39;)</code> 来调用命令的，自然不可能执行什么确认操作，也就导致了 migration 不干事。</p>
+<hr>
+<p>解决方法就是在调用 <code>Artisan::call</code> 命令时加上一个 <code>--force</code> 参数来让它忽略确认操作强制执行：</p>
+<pre><code class="php">Artisan::call(&#39;migrate&#39;, [&#39;--force&#39; =&gt; true]);</code></pre>
+<p>谨以此记录，愿能帮到后来人。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/modify-root-url-and-schema-manually-in-generated-url-by-laravel-url-function/">手动修改 Laravel url() 函数生成的 URL 中的根地址</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/use-certbot-to-renew-lets-encrypt-certificates/">使用 Certbot 更新 Let's Encrypt 证书</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "solution-for-artisan-call-migrate-not-working-when-app-env-is-production/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/solution-for-artisan-call-migrate-not-working-when-app-env-is-production/".replace('index.html', ''),
+      title: 'Artisan::call(\'migrate\') 在 APP_ENV 为 production 时不工作的解决方法',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

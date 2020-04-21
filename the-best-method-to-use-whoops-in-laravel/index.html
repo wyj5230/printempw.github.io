@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>Laravel 使用 whoops 处理错误最优雅的姿势 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/the-best-method-to-use-whoops-in-laravel/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="PHP,Laravel," />
+
+<meta name="description" content="filp&#x2F;whoops 这个错误处理类库有什么好处我这里就不赘述了，谁用谁知道。 Laravel 在 4.x 时代是有集成了 whoops 的，但是在 5.x 去掉了。不过作为一个 out-of-the-box 的错误处理类库，我们依然可以很方便地将 whoops 带回 Laravel 中。 网上有很多文章都讲述了 Laravel 使用 whoops 的方法，但总有些小问题（像是代码太丑了啊，代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel 使用 whoops 处理错误最优雅的姿势">
+<meta property="og:url" content="https://printempw.github.io/the-best-method-to-use-whoops-in-laravel/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="filp&#x2F;whoops 这个错误处理类库有什么好处我这里就不赘述了，谁用谁知道。 Laravel 在 4.x 时代是有集成了 whoops 的，但是在 5.x 去掉了。不过作为一个 out-of-the-box 的错误处理类库，我们依然可以很方便地将 whoops 带回 Laravel 中。 网上有很多文章都讲述了 Laravel 使用 whoops 的方法，但总有些小问题（像是代码太丑了啊，代码">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/06/11/dcd061dea8af4e92a25f6f759997867d.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/06/11/e043fab0f154cf59e6d5381f2401c6c1.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/06/11/48e75f7e2cfcec5ec7bd26084fd8ea93.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/06/11/6892b433d0e0b08d24a8ec9569163462.png">
+<meta property="article:published_time" content="2016-12-22T15:00:45.000Z">
+<meta property="article:modified_time" content="2017-06-11T03:13:18.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Laravel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2017/06/11/dcd061dea8af4e92a25f6f759997867d.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/the-best-method-to-use-whoops-in-laravel/">Laravel 使用 whoops 处理错误最优雅的姿势</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-12-22T15:00:45+00:00">2016-12-22</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2017-06-11T03:13:18.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p><a href="https://github.com/filp/whoops" target="_blank" rel="noopener">filp/whoops</a> 这个错误处理类库有什么好处我这里就不赘述了，谁用谁知道。</p>
+<p>Laravel 在 4.x 时代是有集成了 whoops 的，但是在 5.x 去掉了。不过作为一个 out-of-the-box 的错误处理类库，我们依然可以很方便地将 whoops 带回 Laravel 中。</p>
+<p>网上有很多文章都讲述了 Laravel 使用 whoops 的方法，但总有些小问题（像是代码太丑了啊，代码太丑了啊之类的）。其中我认为最优雅的实现是这篇文章所描述的：<a href="https://mattstauffer.co/blog/bringing-whoops-back-to-laravel-5" target="_blank" rel="noopener">Bringing Whoops Back to Laravel 5</a>，我下面的也是基于他给出的代码修改的。</p>
+<a id="more"></a>
+
+<hr>
+<p>安装 whoops 之类的步骤我这里就不说了，这些在它的 README 上都有。安装完后打开 <code>app/Exceptions/Handler.php</code> 这个文件，进行如下修改：</p>
+<pre><code>/**
+ * Render an exception into an HTTP response.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  \Exception  $e
+ * @return \Illuminate\Http\Response
+ */
+public function render($request, Exception $e)
+{
+    if ($e instanceof \Illuminate\Foundation\Validation\ValidationException) {
+        // quick fix for returning 422
+        // @see https://prinzeugen.net/custom-responses-of-laravel-validations/
+        return $e-&gt;getResponse()-&gt;setStatusCode(200);
+    }
+
+    foreach ($this-&gt;dontReport as $type) {
+        if ($e instanceof $type) {
+            return parent::render($request, $e);
+        } else {
+            // 当不处于 DEBUG 模式时隐藏错误的详细信息，防止敏感信息泄露
+            if (config(&#39;app.debug&#39;)) {
+                return $this-&gt;renderExceptionWithWhoops($e);
+            } else {
+                // 这里我们调用下面定义的方法，给用户显示一个「哎呀，出错啦」的友好页面
+                // 如果你想继续使用 Laravel 默认的那个只有一句话的错误页
+                // 就把下面这行改成 return parent::render($request, $e);
+                return $this-&gt;renderExceptionInBrief($e);
+            }
+        }
+    }
+}
+
+/**
+ * Render an exception using Whoops.
+ *
+ * @param  \Exception $e
+ * @return \Illuminate\Http\Response
+ */
+protected function renderExceptionWithWhoops(Exception $e)
+{
+    $whoops = new \Whoops\Run;
+
+    // 只有在 GET 请求出错时渲染 PrettyPage，其余请求时直接渲染文本
+    // 你也不想在 AJAX 请求的错误处理函数中看到一个 web 页面吧
+    $handler = ($_SERVER[&#39;REQUEST_METHOD&#39;] == &quot;GET&quot;) ?
+                    new \Whoops\Handler\PrettyPageHandler : new \Whoops\Handler\PlainTextHandler;
+    $whoops-&gt;pushHandler($handler);
+
+    return new \Illuminate\Http\Response(
+        $whoops-&gt;handleException($e),
+        $e-&gt;getStatusCode(),
+        $e-&gt;getHeaders()
+    );
+}
+
+/**
+ * Render an exception in a short word.
+ *
+ * @param  \Exception $e
+ * @return \Illuminate\Http\Response
+ */
+protected function renderExceptionInBrief(Exception $e)
+{
+    // 这里请自定义要返回的视图，其中不包含错误的详细信息
+    return response()-&gt;view(&#39;errors.brief&#39;);
+}</code></pre><hr>
+<p>可以看到我们新添加了 <code>renderExceptionWithWhoops</code> 和 <code>renderExceptionInBrief</code> 两个方法，分别适用于 <code>APP_DEBUG</code> 开和关的情况。</p>
+<p>你问我为啥要覆盖 Laravel 在 <code>APP_DEBUG</code> 为关时的默认错误页？</p>
+<p><img src="https://img.blessing.studio/images/2017/06/11/dcd061dea8af4e92a25f6f759997867d.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/11/dcd061dea8af4e92a25f6f759997867d.png" alt="DEFAULT"></p>
+<p>你要是觉得这个默认的页面好看那我也管不着咯~ 反正我是修改成下面这样了：</p>
+<p><img src="https://img.blessing.studio/images/2017/06/11/e043fab0f154cf59e6d5381f2401c6c1.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/11/e043fab0f154cf59e6d5381f2401c6c1.png" alt="CUSTOM ERROR HANDLER"></p>
+<p>至于为什么要在当前为 POST 请求时使用 <code>PlainTextHandler</code> 渲染纯文本的堆栈信息：</p>
+<p><img src="https://img.blessing.studio/images/2017/06/11/48e75f7e2cfcec5ec7bd26084fd8ea93.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/11/48e75f7e2cfcec5ec7bd26084fd8ea93.png" alt="AJAX"></p>
+<p>如果你渲染的是页面的话你就会在这个 Modal 里看到你的窗口了（笑）。当然，如果你没有做这样的 Ajax 错误处理的话也可以忽略这个。</p>
+<p>那段修改 <code>ValidationException</code> 响应状态码为 <code>200</code> 的也是为了 Ajax，详情可以查看我之前写的博文：<a href="https://prinzeugen.net/custom-responses-of-laravel-validations/" target="_blank" rel="noopener">自定义 Laravel Validator 所返回的响应</a></p>
+<p>最后效果如下：</p>
+<p><img src="https://img.blessing.studio/images/2017/06/11/6892b433d0e0b08d24a8ec9569163462.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/11/6892b433d0e0b08d24a8ec9569163462.png" alt="whoops"></p>
+<p>以上。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/migrate-to-new-domain-blessing-studio/">博客启用新域名 Blessing.Studio</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/modify-root-url-and-schema-manually-in-generated-url-by-laravel-url-function/">手动修改 Laravel url() 函数生成的 URL 中的根地址</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "the-best-method-to-use-whoops-in-laravel/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/the-best-method-to-use-whoops-in-laravel/".replace('index.html', ''),
+      title: 'Laravel 使用 whoops 处理错误最优雅的姿势',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

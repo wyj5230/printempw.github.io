@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>启用了页面缓存并改为调用 php 输出 js 一言 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/enabled-page-cache/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="博客,PHP," />
+
+<meta name="description" content="以前只是启用了数据库缓存与对象缓存，没有启用页面缓存。不得不说 PHP 执行效率真是够慢，网页加载时间几乎都是被 TTFB 拖慢了，最起码 3s+。不过最开始也没有太在意，而且之前窝是使用自己写的一个输出一言的插件，在页面侧边栏用 hitokoto_get(); 输出的，但是这样的话就不能启用 page cache 了，因为 php 输出的页面内容会被缓存掉。这样的解决方法就是使用 javascr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="启用了页面缓存并改为调用 php 输出 js 一言">
+<meta property="og:url" content="https://printempw.github.io/enabled-page-cache/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="以前只是启用了数据库缓存与对象缓存，没有启用页面缓存。不得不说 PHP 执行效率真是够慢，网页加载时间几乎都是被 TTFB 拖慢了，最起码 3s+。不过最开始也没有太在意，而且之前窝是使用自己写的一个输出一言的插件，在页面侧边栏用 hitokoto_get(); 输出的，但是这样的话就不能启用 page cache 了，因为 php 输出的页面内容会被缓存掉。这样的解决方法就是使用 javascr">
+<meta property="article:published_time" content="2015-09-03T10:41:16.000Z">
+<meta property="article:modified_time" content="2015-09-03T11:40:08.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/enabled-page-cache/">启用了页面缓存并改为调用 php 输出 js 一言</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2015-09-03T10:41:16+00:00">2015-09-03</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2015-09-03T11:40:08.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>以前只是启用了数据库缓存与对象缓存，没有启用页面缓存。不得不说 PHP 执行效率真是够慢，网页加载时间几乎都是被 TTFB 拖慢了，最起码 3s+。不过最开始也没有太在意，而且之前窝是使用自己写的一个输出一言的插件，在页面侧边栏用 <code>hitokoto_get();</code> 输出的，但是这样的话就不能启用 page cache 了，因为 php 输出的页面内容会被缓存掉。这样的解决方法就是使用 javascript 输出一言。但是如果像以前那样把一言数组写在 js 里的话会很大，而且一点也不优雅（笑）。早就有了想调用 php 输出 js 的想法了，昨天终于克服了懒癌写了一下。虽然只是很简单的功能就是了。。</p>
+<p>下面贴一下具体 php 实现（一言数组只截取了一部分）：</p>
+<pre><code>&lt;?php 
+
+function hitokoto() {
+    $sentences = &quot;
+        我到底要用怎么样的速度生活才能与你再次相遇。——《秒速5厘米》 
+        正因为生来什么都没有，因此我们能拥有一切。——《NO GAME NO LIFE》
+        谁控制过去就控制未来，谁控制现在就控制过去。——《一九八四》
+        就算只有六十亿分之一的机会，我们还是会邂逅。——《Angel Beats!》
+        我告诉你们，我是身经百战了，见得多啦！——《长者语录》
+        西方的哪一个国家我没有去过？——《长者语录》
+        所以说媒体呀还是要提高自己的知识水平，识得唔识得啊？——《长者语录》
+        你们啊，不要想喜欢弄个大新闻！——《长者语录》 
+        温柔正确的人总是难以生存，因为这世界既不温柔，也不正确。——《やはり俺の青春ラブコメはまちがっている。》 
+        努力是不会背叛自己的，虽然梦想会背叛。 努力不一定能实现梦想，但是曾经努力过的事实却足以安慰自己。——《やはり俺の青春ラブコメはまちがっている。》 
+        被人责备并不是坏事哦。那是别人一直在关注你的证据。——《やはり俺の青春ラブコメはまちがっている。》 或许前路永夜，即便如此我也要前进，因为星光即使微弱也会为我照亮前途。 ——《四月は君の嘘》 
+        看吧，星星只有在夜里才璀璨夺目啊。 ——《四月は君の嘘》 
+        既然在和不在都一个样的话，那就永远在一起吧。 ——《四月は君の嘘》 
+        男人只要去行动就好，行还是不行，是要由女孩子来告诉你的。 ——《四月は君の嘘》 
+        前进吧，星星在你头上闪耀哦。 ——《四月は君の嘘》&quot;;      
+
+    // explode string to array with \r\n 
+    $sentences = explode( &quot;\r\n&quot;, $sentences ); 
+    // And then randomly choose a line 
+    return $sentences[ mt_rand( 0, count( $sentences ) - 1 ) ]; 
+} 
+
+$chosen = hitokoto(); 
+header(&#39;Content-Type:text/javascript;charset=utf-8&#39;); 
+
+echo &quot;function hitokoto(){document.write(&#39;$chosen&#39;);}&quot;; 
+</code></pre><p>大概就是这样。随便在 html 中插入如下代码即可输出一言：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;echo.php&quot;&gt;&lt;/script&gt; 
+&lt;p id=&quot;hitokoto&quot;&gt;
+  &lt;script&gt;hitokoto()&lt;/script&gt;
+&lt;/p&gt;</code></pre><p>下一步想要实现更方便的添加新条目的方法。。而且咱也不会 php，上面的都是现学现卖写粗来的 (つд⊂)</p>
+<p>下次试着使用数据库实现吧 | ω・´) <del>（也不知道要什么时候</del></p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/interesting-refers/">今天看了下流量来源</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/google-update/">夭寿辣！Google 换 logo 辣</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "enabled-page-cache/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/enabled-page-cache/".replace('index.html', ''),
+      title: '启用了页面缓存并改为调用 php 输出 js 一言',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

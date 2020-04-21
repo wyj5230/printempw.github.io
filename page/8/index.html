@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PRIN BLOG - 半吊子全栈开发者的日常</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/page/8/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="printempw, prin, blog, 博客, 独立博客" />
+
+<meta name="description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PRIN BLOG">
+<meta property="og:url" content="https://printempw.github.io/page/8/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="article:author" content="printempw">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/custom-responses-of-laravel-validations/">自定义 Laravel Validator 所返回的响应</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-09-10T21:08:08+08:00">2016-09-10</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>不得不说 Laravel 的 <a href="http://laravel-china.org/docs/5.1/validation" target="_blank" rel="noopener">Validation</a> 是极好的，非常易于使用，麻麻再也不用担心我要写一大堆验证啦 ~(　^ω^)</p>
+<p>但是这个 Validator 有一个神秘的地方 ( -д-)，正如官方文档所说，它会自动判断当前请求是否为 Ajax 发送的，如果是，则在验证失败的时候返回一个 <code>JsonResponse</code> 响应而不是 <code>RedirectResponse</code> 响应。</p>
+<blockquote>
+<p><strong>但是</strong>，这个 JSON 响应的状态码，是 422。</p>
+</blockquote>
+<p>WTF！坑爹呢这是！要知道 422 这个状态码是通不过 <code>jQuery.ajax.success</code> 的啊！</p>
+<p><img src="https://img.prinzeugen.net/image.php?di=WYT3" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=WYT3" alt=""></p>
+<p>在网上找了一圈，愣是没找着什么好一点的解决方法（全是叫你在 <code>$.ajax.failed</code> 里处理错误的）。</p>
+          <p><a class="more-link" href="/custom-responses-of-laravel-validations/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/use-observer-pattern-of-laravel-to-implement-loosely-coupled-cache/">使用 Laravel 的 监听者模式实现缓存机制的松散耦合</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-30T12:49:32+08:00">2016-08-30</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E5%88%86%E4%BA%AB/" rel="tag">分享</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>唔，我也不知道我接下来要讲的东西是不是配得上这个题目，总之就是分享一下我在搞 Blessing Skin Server 的缓存与插件机制时的一些经验（大佬们就请忽略吧）</p>
+<p>既然要实现松散耦合的缓存机制，那就是要做到有没有缓存都没事。有缓存的话就走缓存，然后那边的模块内部实现一个包括过期时间呀啥啥的缓存机制，没有收到缓存模块的响应的时候就继续走原来的应用逻辑，一样可以正常响应。</p>
+<p>因为我们是要实现应用逻辑与缓存逻辑的解耦，所以正常应用逻辑内是不能有对那些缓存的依赖的。那么我们要通过什么来和缓存模块通信呢？巧的是，Laravel 正好提供了基于 Event 和 Listener 的观察者模式，我们就可以用这种设计模式来解耦缓存模块。</p>
+          <p><a class="more-link" href="/use-observer-pattern-of-laravel-to-implement-loosely-coupled-cache/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/optimize-read-write-options-with-laravel-service-container/">使用 Laravel 的服务容器来优化读写数据库中的 options</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-28T22:58:16+08:00">2016-08-28</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/%E5%88%86%E4%BA%AB/" rel="tag">分享</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>这篇文章应该算是心得体会一类的吧，因为并没有什么卵用（笑</p>
+<p>就像前两篇文章说的一样，在我把项目框架改为 Laravel 后，自然要最大限度地利用 Laravel 的特性来提升我们应用的性能<del>（虽然使用 Laravel 本身就是在降低性能了）</del>，并且让我们的代码看起来更优雅 <del>装逼</del>。</p>
+<p>其中我们可以最方便地利用的一个特性就是 Laravel 的服务容器了。在这里我不多赘述 Service Container 是个啥，想了解的可以自行搜索。不想了解的就只要大致知道它是个可以 绑定/取出 实例的东西就好了（当然服务容器可不止这么点功能）。</p>
+<p>相信很多 Web 应用都会在数据库建立一个 <code>options</code> 表来储存一些用户的配置信息，而为了方便，我们通常会封装一个 <code>Option</code> 类来方便地进行数据的 <code>get</code>、<code>set</code> 操作。而通常的做法是把这些操作做成类内静态方法来调用。</p>
+<p>但是这样的弊端就是每一次的操作都要去查询数据库，这对于性能还是有挺大影响的，尤其是在一次响应中要使用很多 options 的情况下。</p>
+          <p><a class="more-link" href="/optimize-read-write-options-with-laravel-service-container/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/using-laravel-elixir-and-custom-gulp-task-with-same-name-simultaneously/">同时使用 Laravel Elixir 和同名自定义 Gulp Task 时的坑</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-28T17:46:41+08:00">2016-08-28</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>今天上午我把 Blessing Skin Server 的框架改为了 Laravel，到处修修改改一会后终于可以跑起来了。因为我之前也是使用的 Blade 模板引擎和与 Illuminate\Routing 语法类似的路由库，所以迁移过程还算是挺无痛的。</p>
+<p>迁移稍微告一段落后，我就准备使用一下以前一直很想用的 Laravel 对常用 Gulp Task 的封装：<a href="https://www.laravel.com/docs/5.2/elixir" target="_blank" rel="noopener">Laravel Elixir</a>。</p>
+<p>改写原来 gulpfile.js 中的原生 Gulp Tasks 到 Laravel Elixir 的模式并不算麻烦，常用的 task 都有集成，并且通过链式调用的方式依次执行各个 Task。</p>
+<p>改写好后，直接运行 <code>$ gulp</code> 即可执行所有的 elixir tasks，并且执行完毕后还会有详细的表格报告和 Toast 通知，非常的方便。</p>
+<p>但是，不知道是我的姿势不对还是怎么回事，我没有找到能够把一个目录下所有的 css/js 文件压缩后复制到另一个目录的 elixir task，无奈之下只好写成原生的 Gulp Task，并且使用 elixir 的 <code>mix.task()</code> 方法来调用：</p>
+          <p><a class="more-link" href="/using-laravel-elixir-and-custom-gulp-task-with-same-name-simultaneously/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/add-extensions-for-blade-in-laravel/">为 Blade 模板引擎添加新文件扩展名</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-27T21:15:06+08:00">2016-08-27</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>因为一些原因，我准备把 Blessing Skin 的框架换成 Laravel 了（之前是自己搭建的一个框架），但是在模板迁移的时候遇到了一点问题。</p>
+<p>之前我是使用的 <a href="https://github.com/XiaoLer/blade" target="_blank" rel="noopener">XiaoLer/blade</a> 这个从 Laravel 中抽离出来的 Blade 模板引擎，并且自定义为使用 <code>.tpl</code> 文件后缀。你问为啥不用默认的 <code>.blade.php</code> 而是用这个 Smarty 的模板扩展名？能有啥，好看呗 :-D</p>
+<p>不过之前我是直接调用 <code>FileViewFinder</code> 类的 <code>addExtension</code> 方法来添加扩展名的，但是在 Laravel 里就不能这样了。你总不能在 <code>Illuminate\View</code> 加几句话吧？</p>
+<p>去 Google 搜索了下，没发现有可以很方便使用的方法（当然是搜的鹰文，说不定是我姿势不对），就只好自己找了。</p>
+<p>首先先从 <code>View</code> Facade 入手，可以看到它是从服务容器中解析出了 <code>view</code> 这个绑定。继续往下找，打开 <code>Illuminate\View\ViewServiceProvider</code>，看看 View 的服务提供者到底是把啥给绑定到 <code>view</code> 上去了：</p>
+          <p><a class="more-link" href="/add-extensions-for-blade-in-laravel/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/have-been-ddos-and-cc-attacked/">喜闻乐见被 DDoS + CC 攻击</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-21T16:09:14+08:00">2016-08-21</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/VPS/" rel="tag">VPS</a> <a class="tag-link" href="/tag/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>今早起来准备修一个 Blessing Skin Server 的 BUG 的时候，打开演示站发现慢到没朋友，最起码要 60s+ 才会有响应。当时我也没多想，觉着大概是 DO 线路又抽风了，然后挂上代理访问演示站，但依然是无响应。这时候我开始觉得不对劲了，SSH 连上 VPS，top 一看，诶哟，90% 的 CPU 占用，清一色的 php-fpm 进程。</p>
+<p>当时我就有点方了，去 DO 的控制台看了下图表，CPU 从上午十点左右开始就一直是爆满状态。再去看了一下 <code>netstat</code>，有几个 <code>SYN_RECV</code> 和一大票 <code>ESTABLISHED</code>，我就觉得有可能是被 cc 了。</p>
+<p>随后去看了一下 Nginx 的访问日志，发现从早上开始就一直有人不断地 <code>HEAD /</code> 请求，排查了一下最后发现请求的是 <code>skin.prinzeugen.net</code> 这个域名，也就是 Blessing Skin Server 的演示站点。</p>
+          <p><a class="more-link" href="/have-been-ddos-and-cc-attacked/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/generate-incremental-update-package-with-git/">使用 Git 生成增量更新包</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-11T22:18:00+08:00">2016-08-11</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Git/" rel="tag">Git</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>上次有人叫我在 Blessing Skin 每次升级的时候带上一个增量更新包，只包含所有上一个版本后修改过的文件。</p>
+<p>我听到这个需求，最开始想到的是使用 <code>git diff --name-only</code>，加上这个参数后可以只显示 commit 之间修改过的文件名，然后就可以用管道通给 zip 之类的程序来压缩。</p>
+<p>去网上搜了搜，发现还有<a href="http://www.cnblogs.com/lhb25/p/10-useful-advanced-git-commands.html" target="_blank" rel="noopener">更简单的方法</a>：</p>
+<pre><code class="shell">$ git archive -o ../latest.zip NEW_COMMIT_ID $(git diff --name-only OLD_COMMIT_ID NEW_COMMIT_ID)</code></pre>
+<p>这是用了 <code>git archieve</code> 命令，本质上和我上面说的也差不离。</p>
+<p>如果你打了 tag，就可以写成这样：</p>
+<pre><code class="shell">$ git archive -o ../latest.zip HEAD $(git diff --name-only v3.0.1 HEAD)</code></pre>
+<p>是不是很方便呢 |∀` )</p>
+
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/start-to-use-sougou-pinyin/">开始使用搜狗拼音输入法</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-06T21:36:32+08:00">2016-08-06</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>说起输入法，自从几年前我升级 win8 之后我就对自带的巨硬输入法一见钟情，从此再也没有换过其他输入法。</p>
+<p>然而，前几天被升级 win10 14393 之后（之前是万年 TH2），虽然开始菜单呀，设置页面之类的地方变了许多，但总体来讲对日常使用并没有影响，因此我也就没有特别在意。</p>
+<p>今天我在 Sublime Text 3 中打算进行全局替换的时候，按了快捷键 <code>Ctrl + Shift + F</code>，然而什么反应都没有。在排除了其他可能性<del>（键盘坏了或者我瞎了）</del>之后，就几乎可以确定是热键冲突了。然而排查了运行中的所有软件后，没有一个软件占用了这个快捷键，这就非常的迷了 (*´д`)</p>
+          <p><a class="more-link" href="/start-to-use-sougou-pinyin/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/konosuba-9-delivered-eventually/">「このすば」第九卷终于他妈到啦</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-07-26T10:35:47+08:00">2016-07-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/ACGN/" rel="tag">ACGN</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>7 月 1 号发售，我 6.21 预订的，昨天刚到，整整 25 天，终于 tm 到了，就算是慢也不带这么慢的吧？ <img src="https://ooo.0o0.ooo/2016/07/25/5796c852bea6f.jpg" srcset="/images/loading.jpg" data-srcset="https://ooo.0o0.ooo/2016/07/25/5796c852bea6f.jpg" alt="emotion"></p>
+<p>果然不应该贪便宜挑了个便宜几块钱的店吗。。我他妈的中译版都快看两遍了，上次买伏见老贼新书的时候，即使店家在路上出了点事（书被海关扣了），最后也是两个星期多就到了，难道你也被扣了？ <img src="https://ooo.0o0.ooo/2016/07/25/5796c9a859b81.jpg" srcset="/images/loading.jpg" data-srcset="https://ooo.0o0.ooo/2016/07/25/5796c9a859b81.jpg" alt="emotion2"> 不是我不体谅做代购的，我也不说叫你多快多快到，你既然收了钱，好歹给个说得过去的速度吧？</p>
+<p>难道说三个半星期还算是正常速度？</p>
+<hr>
+<p><img src="https://ooo.0o0.ooo/2016/07/25/5796c924125bd.png" srcset="/images/loading.jpg" data-srcset="https://ooo.0o0.ooo/2016/07/25/5796c924125bd.png" alt="Screenshot"></p>
+          <p><a class="more-link" href="/konosuba-9-delivered-eventually/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/about-the-compatibility-of-formdata-get/">关于 FormData.get() 的兼容性问题</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-07-26T09:47:22+08:00">2016-07-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/JavaScript/" rel="tag">JavaScript</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>又踩到坑了，稍微记录一下 ( ・_ゝ・)</p>
+<p>我在 Ajax 上传文件时是用的构建 <code>FormData</code> 对象的方法，构建完之后我很自然的打算从对象里面取出值来做验证，StackOverflow 里搜了一下之后就知道了有 <code>FormData.get()</code> 这个方法，我也没想太多就直接用了，并且在我本地环境（Chrome 51）上没有任何问题。</p>
+<p>前天把 beta 版的 v3 皮肤站上线测试了，今天就有人发邮件给我，竟然是 <code>FormData.get()</code> 这个语句报错了，提示 <code>e.get is not a function</code>，当时我就知道八成又是兼容性问题了 ( `д´)</p>
+<p>查了一下 <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData/get" target="_blank" rel="noopener">MDN 文档</a> 果然是这样，<code>FormData.get()</code> 方法竟然是从 Chrome 50.0 开始支持的，而那个用户用的是三六蛋浏览器，于是就喜闻乐见的 GG 了 <img src="https://ooo.0o0.ooo/2016/07/25/5796c0b56c157.jpg" srcset="/images/loading.jpg" data-srcset="https://ooo.0o0.ooo/2016/07/25/5796c0b56c157.jpg" alt="emotion"></p>
+
+        
+      </div>
+    </article>
+  
+
+  <nav class="pagination">
+  <a class="extend prev" rel="prev" href="/page/7/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/9/">Next</a>
+</nav>
+
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+        
+<section class="widget" id="widget-recent-posts">
+  <h3 class="widget-title">最新文章</h3>
+  <ul class="menu">
+    
+    
+    
+    
+      <li class="menu-item">
+        <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/short-domain-name-for-blog/">博客短域名 printem.pw</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/deal-with-manjaro-19-package-changes/">处理 Manjaro 19.0 升级中的软件包变更</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/nautilus-open-in-guake-terminal/">Nautilus 添加 Open in Guake 右键菜单</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+<section class="widget" id="widget-tagcloud">
+  <h3 class="widget-title">标签云</h3>
+  <a href="/tag/ACGN/" style="font-size: 17.86px;">ACGN</a> <a href="/tag/ACM/" style="font-size: 10px;">ACM</a> <a href="/tag/Android/" style="font-size: 14.29px;">Android</a> <a href="/tag/Apache/" style="font-size: 10px;">Apache</a> <a href="/tag/Arch/" style="font-size: 10px;">Arch</a> <a href="/tag/C-C/" style="font-size: 10.71px;">C/C++</a> <a href="/tag/CLI/" style="font-size: 11.43px;">CLI</a> <a href="/tag/CSS/" style="font-size: 11.43px;">CSS</a> <a href="/tag/Chrome/" style="font-size: 11.43px;">Chrome</a> <a href="/tag/Disqus/" style="font-size: 10px;">Disqus</a> <a href="/tag/Ghost/" style="font-size: 12.86px;">Ghost</a> <a href="/tag/Git/" style="font-size: 10.71px;">Git</a> <a href="/tag/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tag/Google/" style="font-size: 10.71px;">Google</a> <a href="/tag/Hexo/" style="font-size: 13.57px;">Hexo</a> <a href="/tag/Https/" style="font-size: 15px;">Https</a> <a href="/tag/JavaScript/" style="font-size: 16.43px;">JavaScript</a> <a href="/tag/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tag/Laravel/" style="font-size: 17.86px;">Laravel</a> <a href="/tag/Let-s-Encrypt/" style="font-size: 12.14px;">Let's Encrypt</a> <a href="/tag/Linux/" style="font-size: 16.43px;">Linux</a> <a href="/tag/Lumen/" style="font-size: 10px;">Lumen</a> <a href="/tag/Manjaro/" style="font-size: 10.71px;">Manjaro</a> <a href="/tag/Minecraft/" style="font-size: 13.57px;">Minecraft</a> <a href="/tag/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tag/Nginx/" style="font-size: 12.14px;">Nginx</a> <a href="/tag/OpenWRT/" style="font-size: 10.71px;">OpenWRT</a> <a href="/tag/PHP/" style="font-size: 19.29px;">PHP</a> <a href="/tag/PayPal/" style="font-size: 10px;">PayPal</a> <a href="/tag/Python/" style="font-size: 12.14px;">Python</a> <a href="/tag/RSS/" style="font-size: 10.71px;">RSS</a> <a href="/tag/SSH/" style="font-size: 10.71px;">SSH</a> <a href="/tag/Sandboxie/" style="font-size: 10px;">Sandboxie</a> <a href="/tag/Shell/" style="font-size: 13.57px;">Shell</a> <a href="/tag/Sublime/" style="font-size: 11.43px;">Sublime</a> <a href="/tag/Twitter/" style="font-size: 10px;">Twitter</a> <a href="/tag/V2Ray/" style="font-size: 10px;">V2Ray</a> <a href="/tag/VPS/" style="font-size: 17.14px;">VPS</a> <a href="/tag/VS-Code/" style="font-size: 10.71px;">VS Code</a> <a href="/tag/VTuber/" style="font-size: 10px;">VTuber</a> <a href="/tag/WSL/" style="font-size: 10px;">WSL</a> <a href="/tag/Windows/" style="font-size: 14.29px;">Windows</a> <a href="/tag/WordPress/" style="font-size: 17.14px;">WordPress</a> <a href="/tag/shadowsocks/" style="font-size: 15.71px;">shadowsocks</a> <a href="/tag/%E4%B8%80%E8%A8%80/" style="font-size: 10px;">一言</a> <a href="/tag/%E5%88%86%E4%BA%AB/" style="font-size: 17.14px;">分享</a> <a href="/tag/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tag/%E5%8D%9A%E5%AE%A2/" style="font-size: 20px;">博客</a> <a href="/tag/%E5%90%90%E6%A7%BD/" style="font-size: 10.71px;">吐槽</a> <a href="/tag/%E5%AD%97%E4%BD%93/" style="font-size: 10.71px;">字体</a> <a href="/tag/%E5%AE%89%E5%88%A9/" style="font-size: 10px;">安利</a> <a href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 10px;">密码学</a> <a href="/tag/%E5%B0%8F%E7%8E%A9%E6%84%8F%E5%84%BF/" style="font-size: 10px;">小玩意儿</a> <a href="/tag/%E5%B0%8F%E7%B1%B3/" style="font-size: 10px;">小米</a> <a href="/tag/%E5%B7%A5%E5%85%B7/" style="font-size: 12.86px;">工具</a> <a href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 10.71px;">年度总结</a> <a href="/tag/%E6%8A%98%E8%85%BE/" style="font-size: 10px;">折腾</a> <a href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" style="font-size: 10px;">持续集成</a> <a href="/tag/%E6%95%99%E7%A8%8B/" style="font-size: 11.43px;">教程</a> <a href="/tag/%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81/" style="font-size: 10px;">数字货币</a> <a href="/tag/%E6%B0%B4/" style="font-size: 11.43px;">水</a> <a href="/tag/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" style="font-size: 10px;">皮肤站</a> <a href="/tag/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a> <a href="/tag/%E7%BB%88%E7%AB%AF/" style="font-size: 10.71px;">终端</a> <a href="/tag/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" style="font-size: 10.71px;">网络技术</a> <a href="/tag/%E8%80%B3%E6%9C%BA/" style="font-size: 12.14px;">耳机</a> <a href="/tag/%E8%AE%B0%E5%BD%95/" style="font-size: 18.57px;">记录</a> <a href="/tag/%E8%AE%BE%E8%AE%A1/" style="font-size: 10.71px;">设计</a> <a href="/tag/%E8%AF%84%E6%B5%8B/" style="font-size: 10.71px;">评测</a> <a href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a> <a href="/tag/%E8%BD%AC%E8%BD%BD/" style="font-size: 10px;">转载</a> <a href="/tag/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tag/%E8%BF%90%E7%BB%B4/" style="font-size: 13.57px;">运维</a> <a href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" style="font-size: 10px;">近况报告</a> <a href="/tag/%E9%94%90%E9%80%9F/" style="font-size: 10.71px;">锐速</a> <a href="/tag/%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">音乐</a> <a href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">音视频处理</a>
+</section>
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

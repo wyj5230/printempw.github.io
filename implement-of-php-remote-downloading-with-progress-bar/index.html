@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PHP 远程文件下载的进度条实现 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/implement-of-php-remote-downloading-with-progress-bar/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="PHP," />
+
+<meta name="description" content="PHP 实现远程下载文件到服务端并不是什么新鲜玩意，用 cURL、file_get_contents、fopen 等都能够轻易实现。 但是这几种常规的方法都是在一个线程内下载文件，等文件下载完毕以后才能返回 HTTP 响应。所造成的结果就是用户在页面上点击「下载到服务器」按钮后，会看到空白页和加载的小菊花转啊转，转好久之后才出现「下载成功」的页面。 当然，我上面所举例的情况是只使用纯粹的表单 PO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP 远程文件下载的进度条实现">
+<meta property="og:url" content="https://printempw.github.io/implement-of-php-remote-downloading-with-progress-bar/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="PHP 实现远程下载文件到服务端并不是什么新鲜玩意，用 cURL、file_get_contents、fopen 等都能够轻易实现。 但是这几种常规的方法都是在一个线程内下载文件，等文件下载完毕以后才能返回 HTTP 响应。所造成的结果就是用户在页面上点击「下载到服务器」按钮后，会看到空白页和加载的小菊花转啊转，转好久之后才出现「下载成功」的页面。 当然，我上面所举例的情况是只使用纯粹的表单 PO">
+<meta property="og:image" content="https://img.prinzeugen.net/image.php?di=8CFM">
+<meta property="article:published_time" content="2016-11-26T10:25:00.000Z">
+<meta property="article:modified_time" content="2016-11-26T12:52:25.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.prinzeugen.net/image.php?di=8CFM">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/implement-of-php-remote-downloading-with-progress-bar/">PHP 远程文件下载的进度条实现</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-11-26T10:25:00+00:00">2016-11-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2016-11-26T12:52:25.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-原理"><span class="toc-text">0x01 原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-概述"><span class="toc-text">0x02 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-后端"><span class="toc-text">0x03 后端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-前端"><span class="toc-text">0x04 前端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-效果-amp-总结"><span class="toc-text">0x05 效果 &amp; 总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol></div>
+    
+
+    <div class="post-content"><p>PHP 实现远程下载文件到服务端并不是什么新鲜玩意，用 <code>cURL</code>、<code>file_get_contents</code>、<code>fopen</code> 等都能够轻易实现。</p>
+<p>但是这几种常规的方法都是在一个线程内下载文件，等文件下载完毕以后才能返回 HTTP 响应。所造成的结果就是用户在页面上点击「下载到服务器」按钮后，会看到空白页和加载的小菊花转啊转，转好久之后才出现「下载成功」的页面。</p>
+<p>当然，我上面所举例的情况是只使用纯粹的表单 POST 发送请求的情况。现在的话就算再不济也一般会使用 <code>ajax</code> 发送请求，然后在前台放个加载动画，等收到下载成功的回应之后再进行下一步操作。</p>
+<p><strong>但是！</strong>即使是去掉了恶心的且需要等待的空白页，这样做还是对用户体验有不好的影响。没有具体的下载进度，只有一个一直转呀转的菊花图，估计挺多用户都无法坐和放宽吧<del>（至少对于我来说是这样的）</del></p>
+<p>而我一个 PHP 项目的一键更新系统正好需要重构，遂研究了如何在 PHP 作为后端时显示远程文件下载进度条，并捣鼓出了个像样的解决方案，在这里分享一下。</p>
+<a id="more"></a>
+
+<h2 id="0x01-原理"><a href="#0x01-原理" class="headerlink" title="0x01 原理"></a>0x01 原理</h2><p>也许你在搜索「PHP 下载 进度条」的时候会看到有些文章使用 PHP 的输出控制函数（<code>flush</code> 之类的）控制缓冲区来实现进度条。但是——</p>
+<p><strong>那都是狗屁！</strong></p>
+<p>没有人可以保证用户的 PHP 关闭了默认开启的 <code>output buffering</code>，也无法保证 浏览器 / Web Server 不对脚本输出进行缓存。如果上述两者其中之一处于开启状态的话，你就会喜闻乐见的发现本应该慢慢增长的进度条会在等待完漫长的 xx 秒后一下子蹦到 100%_（因为控制前端进度条长度的语句被缓存起来，在脚本执行结束后一并发送了，而不是一块一块地传给浏览器）_。</p>
+<p>关于上面缓冲区控制的进度条就是辣鸡的更多讨论可以查看文章底部的参考链接。</p>
+<p>闲话休提。那么我们该如何实现下载进度条的更新呢？</p>
+<p>首先通过后端一点点输出控制进度条语句的方案已经 PASS 了，那么我们很自然的就会想到——</p>
+<p><strong>在前端设置一个定时器，Ajax 轮循下载进度并更新页面上的进度条。</strong></p>
+<h2 id="0x02-概述"><a href="#0x02-概述" class="headerlink" title="0x02 概述"></a>0x02 概述</h2><p>知道了原理之后，我们先来考虑下整体的架构与步骤。</p>
+<ol>
+<li>用户点击「下载」按钮，前端展示出进度条，并 ajax 发送 <code>prepare-download</code> 的请求；</li>
+<li>后端收到请求，进行远程下载的准备工作 —— 准备好远程文件链接、临时文件存放位置以及<strong>文件的大小</strong>，并返回给浏览器；</li>
+<li>前端拿到文件大小等信息后，发送真正的 <code>start-download</code> 请求（这个请求耗时可能会很长），并<strong>启动轮循的计时器</strong>；</li>
+<li>计时器启动后，每隔一段时间发送 <code>get-file-size</code> 请求，获取当前临时文件的大小，<strong>计算进度</strong>后更新进度条；</li>
+<li>直到下载完成。</li>
+</ol>
+<p>下面给出前后端代码的实例。</p>
+<h2 id="0x03-后端"><a href="#0x03-后端" class="headerlink" title="0x03 后端"></a>0x03 后端</h2><p>代码照例放在 Gist 上，加载不出自行解决：</p>
+<script src="https://gist.github.com/printempw/9f551b74c86990f8ce62550c2abb2ef3.js"></script>
+
+<p>示例代码使用了 <code>?action=xxx</code> 的 Query String 形式来区分不同的指令，这些请酌情修改。和我业务逻辑有关的一些关键函数都被我替换为浅显易懂的名字（譬如 <code>get_remote_file_url</code>）了，需要你自己去替换实现。</p>
+<h2 id="0x04-前端"><a href="#0x04-前端" class="headerlink" title="0x04 前端"></a>0x04 前端</h2><script src="https://gist.github.com/printempw/8500162cade21ed7eb720c9ecf59b86b.js"></script>
+
+<h2 id="0x05-效果-amp-总结"><a href="#0x05-效果-amp-总结" class="headerlink" title="0x05 效果 &amp; 总结"></a>0x05 效果 &amp; 总结</h2><p><img src="https://img.prinzeugen.net/image.php?di=8CFM" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=8CFM" alt="效果图"></p>
+<p>实例代码用了 <code>fopen</code> 和循环 <code>fwrite</code> 写入一个 chunk 的数据到临时文件，这是借鉴了 KODExplorer 远程下载的函数，在此致谢。另外也有通过 <code>curl_setopt($ch, CURLOPT_FILE, $fp);</code> 给 cURL 设置一个文件句柄的方法，但是我没有测试成功，希望各位也能试一试。</p>
+<p>以上。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="http://php.net/manual/zh/function.flush.php" target="_blank" rel="noopener">PHP: flush - Manual</a> 的「说明」部分</li>
+<li><a href="https://forums.phpfreaks.com/topic/201119-php-progress-bar/" target="_blank" rel="noopener">PHP progress bar - PHP Coding Help - PHP Freaks</a></li>
+<li><a href="http://stackoverflow.com/questions/2832010/what-is-output-buffering" target="_blank" rel="noopener">What is output buffering? - Stack Overflow</a></li>
+<li><a href="https://github.com/kalcaddle/KODExplorer/blob/master/lib/function/file.function.php#L697" target="_blank" rel="noopener">KODExplorer/file.function.php at master</a></li>
+</ul>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/use-certbot-to-renew-lets-encrypt-certificates/">使用 Certbot 更新 Let's Encrypt 证书</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/tips-for-fixing-audio-jack/">耳机插头修理技巧</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "implement-of-php-remote-downloading-with-progress-bar/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/implement-of-php-remote-downloading-with-progress-bar/".replace('index.html', ''),
+      title: 'PHP 远程文件下载的进度条实现',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-原理"><span class="toc-text">0x01 原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-概述"><span class="toc-text">0x02 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-后端"><span class="toc-text">0x03 后端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-前端"><span class="toc-text">0x04 前端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-效果-amp-总结"><span class="toc-text">0x05 效果 &amp; 总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

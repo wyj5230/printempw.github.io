@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>使用 ARP 欺骗禁止同一局域网下的设备访问网络 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/use-arp-spoofing-to-forbid-accessing-internet-on-other-devices-under-the-same-lan/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="网络技术," />
+
+<meta name="description" content="几天前窝们宿舍拿中继蹭对面 WiFi 的事儿被几个大嘴巴说漏了，引来一堆人蹭网，于是速度就慢如狗爬了。。 于是拿出中继的那只就给窝说，有个叫 WiFi 杀手 的 APP，可以让蹭网的不能上网。 窝当时就震惊了，woc 还有这么的 dio 的东西，问了下原理，结果他也讲不出个所以然来，似乎还说啥 DNS 污染。这完全不对嘛，应该是假冒网关之类的吧。遂 Google 之：  WiFi 杀手的工作原理使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ARP 欺骗禁止同一局域网下的设备访问网络">
+<meta property="og:url" content="https://printempw.github.io/use-arp-spoofing-to-forbid-accessing-internet-on-other-devices-under-the-same-lan/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="几天前窝们宿舍拿中继蹭对面 WiFi 的事儿被几个大嘴巴说漏了，引来一堆人蹭网，于是速度就慢如狗爬了。。 于是拿出中继的那只就给窝说，有个叫 WiFi 杀手 的 APP，可以让蹭网的不能上网。 窝当时就震惊了，woc 还有这么的 dio 的东西，问了下原理，结果他也讲不出个所以然来，似乎还说啥 DNS 污染。这完全不对嘛，应该是假冒网关之类的吧。遂 Google 之：  WiFi 杀手的工作原理使">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/09/2015-09-18_14-46-04.jpg">
+<meta property="article:published_time" content="2015-09-18T12:29:02.000Z">
+<meta property="article:modified_time" content="2015-09-18T23:00:33.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="网络技术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2015/09/2015-09-18_14-46-04.jpg">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/use-arp-spoofing-to-forbid-accessing-internet-on-other-devices-under-the-same-lan/">使用 ARP 欺骗禁止同一局域网下的设备访问网络</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2015-09-18T12:29:02+00:00">2015-09-18</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" rel="tag">网络技术</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2015-09-18T23:00:33.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>几天前窝们宿舍拿中继蹭对面 WiFi 的事儿被几个大嘴巴说漏了，引来一堆人蹭网，于是速度就慢如狗爬了。。</p>
+<p>于是拿出中继的那只就给窝说，有个叫 WiFi 杀手 的 APP，可以让蹭网的不能上网。</p>
+<p>窝当时就震惊了，woc 还有这么的 dio 的东西，问了下原理，结果他也讲不出个所以然来，似乎还说啥 DNS 污染。这完全不对嘛，应该是假冒网关之类的吧。遂 Google 之：</p>
+<blockquote>
+<p>WiFi 杀手的工作原理使用了ARP 欺骗的原理，假冒 ARP 回复来欺骗同一 WiFi 网络上的其他设备，让它们以为你的 Android 手机是网关，然后 WiFiKill 丢掉它们的网络包。</p>
+</blockquote>
+<p>唔。。ARP 欺骗啊，窝记得几年前有看过这个的资料（在窝还在使用三六蛋的时候）。这里给出维基百科上关于 <a href="https://zh.wikipedia.org/wiki/%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">ARP</a> 和 <a href="https://zh.wikipedia.org/wiki/ARP%E6%AC%BA%E9%A8%99" target="_blank" rel="noopener">ARP 欺骗</a> 的页面。</p>
+<p>那么这个啥 WiFi 杀手到底是个啥黑科技呢？窝就来通俗的讲讲吧～</p>
+<p>ARP 协议是拿来干啥的呢？就是将一个网络层地址（譬如 IPv4 地址）转换为数据链路物理地址（MAC 地址）。</p>
+<p>那么估计你应该懂了吧？ARP 欺骗的原理就是伪造 ARP 回复报文。举个栗子（栗子中的 A，B 即为 IP，位置即为 MAC 地址：</p>
+<blockquote>
+<p>A 要和局域网中的 B 通信，于是在 LAN 中发了个广播：“我是 A，地址是 123，B，你丫在哪？”。如果是正常情况下，其他人看到广播会保持沉默，等到 B 收到广播后，他就会回应给 A：“A，我是 B，劳资地址是 234，找我干啥？” 于是可以进行通信。</p>
+</blockquote>
+<p>然而，在受到 ARP 欺骗的局域网中，情况就会是这样子。。</p>
+<blockquote>
+<p>A 要和 B 通信，发了个广播找 B 的 MAC 地址：“B，你在哪儿？”，然后就在 B 回应之前，同一局域网下恶意满满的主机 C 以迅雷不及掩耳盗铃之势抢答道：“窝是 B，MAC 地址是 450 哟～☆ ”。然而傻傻的 A 并不会验证 ARP 回复的真实性，就在地址簿上写上：“IP：B，MAC 地址：450” 供通信用，然后主机 A 尝试对 B 进行 IP 通信，就喜闻乐见地错误啦。</p>
+</blockquote>
+<p>ARP 欺骗大☆成★功～</p>
+<p>这就是 WiFi 杀手的原理，如果欺骗的是网关的 MAC 地址的话就会导致无法访问网络了。那么要如何防范呢？Android 平台上也有许多防御 ARP 欺骗的应用，有需要可以去找下。也可以手动清空 ARP 缓存表（在攻击者长时间跑着 ARP 欺骗程序的情况下没卵用</p>
+<p>顺带一提窝是不太提倡使用 WiFi 杀手这类应用呢。</p>
+<p>BTW，ARP 缓存表一般会在设备重启后清空哦～可以在手机终端中使用 <code>cat /proc/net/arp</code> 来查看你设备的 ARP 表</p>
+<p><a href="https://img.blessing.studio/images/2015/09/2015-09-18_14-46-04.jpg" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/09/2015-09-18_14-46-04.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/09/2015-09-18_14-46-04.jpg" alt="image" title="wp-1442587367872"></a></p>
+<p>PS. 今天是窝博客第一次达到文章和评论数量相等哦～（虽然有一半评论是窝的 qwq</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/get-alphassl-wildcard/">AlphaSSL 的 Wildcard 签下来辣~</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/lets-encrypt-project-published-the-first-ca/">Let’s Encrypt 项目发行了第一个证书！</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "use-arp-spoofing-to-forbid-accessing-internet-on-other-devices-under-the-same-lan/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/use-arp-spoofing-to-forbid-accessing-internet-on-other-devices-under-the-same-lan/".replace('index.html', ''),
+      title: '使用 ARP 欺骗禁止同一局域网下的设备访问网络',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

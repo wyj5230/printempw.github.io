@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PRIN BLOG - 半吊子全栈开发者的日常</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/page/3/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="printempw, prin, blog, 博客, 独立博客" />
+
+<meta name="description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PRIN BLOG">
+<meta property="og:url" content="https://printempw.github.io/page/3/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="article:author" content="printempw">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/live-stream-recorder-for-vtuber-fans/">一种监测 VTuber 直播并自动录像的方法</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-10-29T23:45:36+08:00">2018-10-29</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/VTuber/" rel="tag">VTuber</a> <a class="tag-link" href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" rel="tag">音视频处理</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>首先是惯例的闲聊时间。</p>
+<p>虽然这是我第一次在这个博客中提到 <a href="https://zh.wikipedia.org/zh-cn/%E8%99%9B%E6%93%ACYouTuber" target="_blank" rel="noopener">Virtual YouTuber</a>，不过我大概也算是比较早开始看 VTuber 的那一批人了。从始皇帝老爱（<a href="https://zh.wikipedia.org/wiki/%E7%B5%86%E6%84%9B" target="_blank" rel="noopener">キズナアイ</a>）诞生、四天王聚首，到年初 <a href="https://ja.wikipedia.org/wiki/%E3%83%90%E3%83%BC%E3%83%81%E3%83%A3%E3%83%AB%E3%81%AE%E3%81%98%E3%82%83%E3%83%AD%E3%83%AA%E7%8B%90%E5%A8%98Youtuber%E3%81%8A%E3%81%98%E3%81%95%E3%82%93" target="_blank" rel="noopener">狐叔</a> 引领的个人势井喷，再到以彩虹社（<a href="https://ja.wikipedia.org/wiki/%E3%81%AB%E3%81%98%E3%81%95%E3%82%93%E3%81%98" target="_blank" rel="noopener">にじさんじ</a>）为首的 2D 势、杂谈生放势展示了 VTuber 更大的可能性，而注意到这块肥肉的资本们也纷纷入场，百花争鸣的 VTuber 战国时代就此拉开序幕……如此种种，VTuber 界的快速发展令人眼花缭乱，也难怪有「一个月 = VTuber 历一年」的说法。</p>
+          <p><a class="more-link" href="/live-stream-recorder-for-vtuber-fans/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/phpstudy-prober-page-502-bad-gateway/">phpStudy 访问探针页面出现 502 Bad Gateway 的解决方法</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-10-21T20:36:42+08:00">2018-10-21</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>不要问我为什么要用 phpStudy，我也不想。</p>
+          <p><a class="more-link" href="/phpstudy-prober-page-502-bad-gateway/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/new-nickname-prin/">新的网络昵称：PRIN 🍮</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-10-03T12:24:52+08:00">2018-10-03</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E6%B0%B4/" rel="tag">水</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <blockquote>
+<p>2019-11-30 更新：博客标题确实是改成 PRIN BLOG 了，不过「布丁」这个名字说实话后来一次也没用过……还是算了吧，怪尴尬的。</p>
+</blockquote>
+<p>这不是我第一次这么想：</p>
+<p><strong>我的常用 ID <code>printempw</code> 太难读了。</strong></p>
+<p>有多难读呢？难读到连我自己都不知道这玩意该怎么读。</p>
+          <p><a class="more-link" href="/new-nickname-prin/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/vscode-c-cpp-configuration-for-acm-oj/">使用 VS Code 搭建适用于 ACM 练习的 C/C++ 开发环境</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-10-02T18:17:00+08:00">2018-10-02</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/ACM/" rel="tag">ACM</a> <a class="tag-link" href="/tag/C-C/" rel="tag">C/C++</a> <a class="tag-link" href="/tag/VS-Code/" rel="tag">VS Code</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>大学入学也快一个月了，总的来说，我过得很开心，不枉我花费一年的时间 <a href="https://blessing.studio/check-in-2018-07/" target="_blank" rel="noopener">高考复读</a>。具体哪里令人开心呢？我觉得最主要的是，比起初高中，大学的时间分配更为自由。</p>
+<p><strong>中学时代，学生的时间基本都被学校安排得死死的</strong>：早上什么时间必须到校，然后开始早读、上午五节课下午三节课、晚读、晚自习，最后在规定的时间离校（住宿生还要在规定的时间就寝），可以自由分配的时间少得可怜，在某些管理严格的学校甚至连人身自由都要被限制。虽然学生们苦中作乐的摸鱼技巧也不容小觑，但考虑到升学的压力，如果在兴趣上分配的时间过多，很有可能就会像我去年一样落得个无法升学的尴尬境地。</p>
+<p><strong>而大学相对来说就没有那么多破规矩</strong>：有课就上，没课的话时间就随你安排，回寝室睡觉也好出门嗨皮也罢，突出一个爱干嘛干嘛。在这些闲暇时间里，有人选择加入社团以及各种各样的学生组织，有人寻欢作乐讴歌青春，有人一头扎进自己的兴趣爱好中，也有人选择当个快乐摸鱼侠无事一身轻。</p>
+<p>而我就比较硬核了，我选择参加可能让我基本告别头发的 ACM 程序设计竞赛（不）。</p>
+          <p><a class="more-link" href="/vscode-c-cpp-configuration-for-acm-oj/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/wsl-guide/">WSL 配置指北：打造 Windows 最强命令行</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-09-08T15:07:41+08:00">2018-09-08</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/CLI/" rel="tag">CLI</a> <a class="tag-link" href="/tag/WSL/" rel="tag">WSL</a> <a class="tag-link" href="/tag/Windows/" rel="tag">Windows</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>在两年前的八月，Microsoft 正式发布了 Windows 10 Anniversary Update 周年更新（它还有着 RS1，Version 1607，Build 14393 等一大堆别名）。其中最让包括我在内的众多开发者感到兴奋的特性之一，就是 WSL（Windows Subsystem for Linux，当时还叫 Bash on Ubuntu on Windows）的正式加入。</p>
+<p><strong>在 Windows 上原生运行 Linux 可执行文件，牛逼疯了！</strong></p>
+<p>然而 Bug10 也不是浪得虚名，原本只提供给 Insider 的 WSL 在正式发布后依然问题多多（不仅 zsh、tmux 等工具无法使用，网络相关的操作更是一概欠奉，还有各种各样 <a href="https://twitter.com/printempw/status/927862325280772096" target="_blank" rel="noopener">奇妙的 BUG</a>），基本没有可用性，我在尝鲜了一段时间后也不得不重回 Cygwin 的怀抱。不过好消息是，在之后的更新中，<a href="https://blogs.msdn.microsoft.com/commandline/2017/04/11/windows-10-creators-update-whats-new-in-bashwsl-windows-console/" target="_blank" rel="noopener">这些 BUG 都已被逐一消灭</a>。</p>
+<p>经过了两年的发展，WSL 已经<a href="https://twitter.com/printempw/status/927898980385677312" target="_blank" rel="noopener">足够成熟</a>，我也是时候完成这篇<a href="https://twitter.com/printempw/status/928656863310200832" target="_blank" rel="noopener">一咕再咕</a>的博文了。</p>
+<p>（开学在即，仓促成文，如有谬误，还请指正。）</p>
+<p><img src="https://img.blessing.studio/images/2018/09/08/get-wsl.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/09/08/get-wsl.png" alt="get-wsl"></p>
+          <p><a class="more-link" href="/wsl-guide/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/add-notepad-plus-plus-to-context-menu/">添加 Notepad++ 至右键菜单的几种方法</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-08-29T02:35:05+08:00">2018-08-29</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Windows/" rel="tag">Windows</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>作为一名即将开学的计算机系 <a href="https://blessing.studio/check-in-2018-07/" target="_blank" rel="noopener">准大学生</a>，笔记本电脑总归是要有一台的。于是上星期我入手了 <a href="https://twitter.com/printempw/status/1030043615983104000" target="_blank" rel="noopener">小米游戏本顶配版</a>（i7-8750H + 16G + GTX 1066），最近正在重新折腾开发环境，这篇文章要解决的问题也是在此过程中出现的。</p>
+<p>至于为什么要买小米的本子，主要是因为它的「游戏本性能 + 商务本外观」这一点正戳中我好球区。不过这几天使用下来，只能说缺点确实不少，有购买意愿的朋友需谨慎。在 Twitter 上搜索 <code>小米游戏本 from:printempw</code> 就能看到我发的吐槽简评，如果之后有时间的话也打算专门写篇评测（咕咕咕）。</p>
+          <p><a class="more-link" href="/add-notepad-plus-plus-to-context-menu/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/migrate-to-github-pages/">博客迁移至 GitHub Pages</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-08-24T02:16:56+08:00">2018-08-24</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>就在刚才，我把博客完全迁移到了 GitHub Pages 上。</p>
+<p>为啥呢？简单来说，就是我懒得维护服务器了。</p>
+          <p><a class="more-link" href="/migrate-to-github-pages/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/the-difference-between-cli-terminal-shell-tty/">命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-08-22T22:30:13+08:00">2018-08-22</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/CLI/" rel="tag">CLI</a> <a class="tag-link" href="/tag/Shell/" rel="tag">Shell</a> <a class="tag-link" href="/tag/%E7%A7%91%E6%99%AE/" rel="tag">科普</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>诸君，好久不见。</p>
+<p>为什么突然想写这样一篇文章呢？其实是因为在最近计划发布的一篇关于 WSL (Windows Subsystem for Linux) 的博文中，我打算对终端模拟器、Shell 的选择与配置进行一些说明。不过对于刚接触 Linux 或者刚接触命令行界面的同学，可能会有些难以理解它们之间的区别（事实上我当初也是这样）。</p>
+<p>虽然这个话题已是老生常谈，搜索一下应该也能找到大把的相关文章。不过难得提到了这方面，就趁此机会把我的理解写下来，一来看看我是不是真正理解了，二来看看我能不能把它们之间的区别讲得更加简明易懂。</p>
+          <p><a class="more-link" href="/the-difference-between-cli-terminal-shell-tty/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/check-in-2018-07/">近况报告：我的高复生活</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-07-21T19:50:00+08:00">2018-07-21</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E6%B0%B4/" rel="tag">水</a> <a class="tag-link" href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" rel="tag">近况报告</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>好久不见。</p>
+<p>当你正在阅读这篇文章时，你应该很难想象，一位半年多没有写过博客的老鸽是以怎样复杂的心情打出这些文字的。由于我实在是太久没有正经写过文章了，对文字的感觉也未免生疏，所以这篇近况报告可能会写得像流水账一样又臭又长。你就把本文想象成是一位老年人博主重拾博客更新前的康复训练，以温暖的目光看下去吧。</p>
+          <p><a class="more-link" href="/check-in-2018-07/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/splitting-a-subfolder-out-into-a-new-git-repository/">如何将现有 git 仓库中的子目录分离为独立仓库并保留其提交历史</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-02-20T19:23:47+08:00">2018-02-20</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Git/" rel="tag">Git</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>这几天想要把一个 git 仓库中<strong>已经存在</strong>的一个子文件夹独立成一个新的 git 仓库，并且保留之前关于此文件夹的所有提交历史。不过我对 git 并没有这么精通，只好上网搜索之。可能是因为我关键词抓得不准，搜了好一会儿才找到可行的方案，所以写篇博文记录一下。</p>
+<p>另外，在 git 里这种掌控历史的感觉真的很棒。XD</p>
+          <p><a class="more-link" href="/splitting-a-subfolder-out-into-a-new-git-repository/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+
+  <nav class="pagination">
+  <a class="extend prev" rel="prev" href="/page/2/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/">Next</a>
+</nav>
+
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+        
+<section class="widget" id="widget-recent-posts">
+  <h3 class="widget-title">最新文章</h3>
+  <ul class="menu">
+    
+    
+    
+    
+      <li class="menu-item">
+        <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/short-domain-name-for-blog/">博客短域名 printem.pw</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/deal-with-manjaro-19-package-changes/">处理 Manjaro 19.0 升级中的软件包变更</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/nautilus-open-in-guake-terminal/">Nautilus 添加 Open in Guake 右键菜单</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+<section class="widget" id="widget-tagcloud">
+  <h3 class="widget-title">标签云</h3>
+  <a href="/tag/ACGN/" style="font-size: 17.86px;">ACGN</a> <a href="/tag/ACM/" style="font-size: 10px;">ACM</a> <a href="/tag/Android/" style="font-size: 14.29px;">Android</a> <a href="/tag/Apache/" style="font-size: 10px;">Apache</a> <a href="/tag/Arch/" style="font-size: 10px;">Arch</a> <a href="/tag/C-C/" style="font-size: 10.71px;">C/C++</a> <a href="/tag/CLI/" style="font-size: 11.43px;">CLI</a> <a href="/tag/CSS/" style="font-size: 11.43px;">CSS</a> <a href="/tag/Chrome/" style="font-size: 11.43px;">Chrome</a> <a href="/tag/Disqus/" style="font-size: 10px;">Disqus</a> <a href="/tag/Ghost/" style="font-size: 12.86px;">Ghost</a> <a href="/tag/Git/" style="font-size: 10.71px;">Git</a> <a href="/tag/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tag/Google/" style="font-size: 10.71px;">Google</a> <a href="/tag/Hexo/" style="font-size: 13.57px;">Hexo</a> <a href="/tag/Https/" style="font-size: 15px;">Https</a> <a href="/tag/JavaScript/" style="font-size: 16.43px;">JavaScript</a> <a href="/tag/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tag/Laravel/" style="font-size: 17.86px;">Laravel</a> <a href="/tag/Let-s-Encrypt/" style="font-size: 12.14px;">Let's Encrypt</a> <a href="/tag/Linux/" style="font-size: 16.43px;">Linux</a> <a href="/tag/Lumen/" style="font-size: 10px;">Lumen</a> <a href="/tag/Manjaro/" style="font-size: 10.71px;">Manjaro</a> <a href="/tag/Minecraft/" style="font-size: 13.57px;">Minecraft</a> <a href="/tag/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tag/Nginx/" style="font-size: 12.14px;">Nginx</a> <a href="/tag/OpenWRT/" style="font-size: 10.71px;">OpenWRT</a> <a href="/tag/PHP/" style="font-size: 19.29px;">PHP</a> <a href="/tag/PayPal/" style="font-size: 10px;">PayPal</a> <a href="/tag/Python/" style="font-size: 12.14px;">Python</a> <a href="/tag/RSS/" style="font-size: 10.71px;">RSS</a> <a href="/tag/SSH/" style="font-size: 10.71px;">SSH</a> <a href="/tag/Sandboxie/" style="font-size: 10px;">Sandboxie</a> <a href="/tag/Shell/" style="font-size: 13.57px;">Shell</a> <a href="/tag/Sublime/" style="font-size: 11.43px;">Sublime</a> <a href="/tag/Twitter/" style="font-size: 10px;">Twitter</a> <a href="/tag/V2Ray/" style="font-size: 10px;">V2Ray</a> <a href="/tag/VPS/" style="font-size: 17.14px;">VPS</a> <a href="/tag/VS-Code/" style="font-size: 10.71px;">VS Code</a> <a href="/tag/VTuber/" style="font-size: 10px;">VTuber</a> <a href="/tag/WSL/" style="font-size: 10px;">WSL</a> <a href="/tag/Windows/" style="font-size: 14.29px;">Windows</a> <a href="/tag/WordPress/" style="font-size: 17.14px;">WordPress</a> <a href="/tag/shadowsocks/" style="font-size: 15.71px;">shadowsocks</a> <a href="/tag/%E4%B8%80%E8%A8%80/" style="font-size: 10px;">一言</a> <a href="/tag/%E5%88%86%E4%BA%AB/" style="font-size: 17.14px;">分享</a> <a href="/tag/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tag/%E5%8D%9A%E5%AE%A2/" style="font-size: 20px;">博客</a> <a href="/tag/%E5%90%90%E6%A7%BD/" style="font-size: 10.71px;">吐槽</a> <a href="/tag/%E5%AD%97%E4%BD%93/" style="font-size: 10.71px;">字体</a> <a href="/tag/%E5%AE%89%E5%88%A9/" style="font-size: 10px;">安利</a> <a href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 10px;">密码学</a> <a href="/tag/%E5%B0%8F%E7%8E%A9%E6%84%8F%E5%84%BF/" style="font-size: 10px;">小玩意儿</a> <a href="/tag/%E5%B0%8F%E7%B1%B3/" style="font-size: 10px;">小米</a> <a href="/tag/%E5%B7%A5%E5%85%B7/" style="font-size: 12.86px;">工具</a> <a href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 10.71px;">年度总结</a> <a href="/tag/%E6%8A%98%E8%85%BE/" style="font-size: 10px;">折腾</a> <a href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" style="font-size: 10px;">持续集成</a> <a href="/tag/%E6%95%99%E7%A8%8B/" style="font-size: 11.43px;">教程</a> <a href="/tag/%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81/" style="font-size: 10px;">数字货币</a> <a href="/tag/%E6%B0%B4/" style="font-size: 11.43px;">水</a> <a href="/tag/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" style="font-size: 10px;">皮肤站</a> <a href="/tag/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a> <a href="/tag/%E7%BB%88%E7%AB%AF/" style="font-size: 10.71px;">终端</a> <a href="/tag/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" style="font-size: 10.71px;">网络技术</a> <a href="/tag/%E8%80%B3%E6%9C%BA/" style="font-size: 12.14px;">耳机</a> <a href="/tag/%E8%AE%B0%E5%BD%95/" style="font-size: 18.57px;">记录</a> <a href="/tag/%E8%AE%BE%E8%AE%A1/" style="font-size: 10.71px;">设计</a> <a href="/tag/%E8%AF%84%E6%B5%8B/" style="font-size: 10.71px;">评测</a> <a href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a> <a href="/tag/%E8%BD%AC%E8%BD%BD/" style="font-size: 10px;">转载</a> <a href="/tag/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tag/%E8%BF%90%E7%BB%B4/" style="font-size: 13.57px;">运维</a> <a href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" style="font-size: 10px;">近况报告</a> <a href="/tag/%E9%94%90%E9%80%9F/" style="font-size: 10.71px;">锐速</a> <a href="/tag/%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">音乐</a> <a href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">音视频处理</a>
+</section>
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

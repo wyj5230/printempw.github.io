@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>开发 Blessing Skin Server 所学到的 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/what-did-i-learn-from-development-of-bss/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="PHP,分享," />
+
+<meta name="description" content="开发这个皮肤站程序也有一段时间了，写篇文章稍微总结一下。挺久以前的草稿了，可能有些过时内容。  起初接触到 PHP 是在搭建博客的时候，经常因为某种需求而需要对 WordPress 做一些定制。也就是那个时候我写出了人生中 第一行 PHP 代码。 当时对 PHP 也没太大感觉，因为当时也没接触过 Web 开发。真正开始使用 PHP，是萌发想做一个皮肤站的念头后。 在开发语言中，我选择了 PHP 而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开发 Blessing Skin Server 所学到的">
+<meta property="og:url" content="https://printempw.github.io/what-did-i-learn-from-development-of-bss/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="开发这个皮肤站程序也有一段时间了，写篇文章稍微总结一下。挺久以前的草稿了，可能有些过时内容。  起初接触到 PHP 是在搭建博客的时候，经常因为某种需求而需要对 WordPress 做一些定制。也就是那个时候我写出了人生中 第一行 PHP 代码。 当时对 PHP 也没太大感觉，因为当时也没接触过 Web 开发。真正开始使用 PHP，是萌发想做一个皮肤站的念头后。 在开发语言中，我选择了 PHP 而">
+<meta property="article:published_time" content="2016-02-25T00:22:00.000Z">
+<meta property="article:modified_time" content="2016-04-17T05:44:57.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="分享">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/what-did-i-learn-from-development-of-bss/">开发 Blessing Skin Server 所学到的</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-02-25T00:22:00+00:00">2016-02-25</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E5%88%86%E4%BA%AB/" rel="tag">分享</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2016-04-17T05:44:57.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>开发这个皮肤站程序也有一段时间了，写篇文章稍微总结一下。挺久以前的草稿了，可能有些过时内容。</p>
+<hr>
+<p>起初接触到 PHP 是在搭建博客的时候，经常因为某种需求而需要对 WordPress 做一些定制。也就是那个时候我写出了人生中 <a href="https://prinzeugen.net/dont-display-weichuncai-on-mobile-page/" target="_blank" rel="noopener">第一行 PHP 代码</a>。</p>
+<p>当时对 PHP 也没太大感觉，因为当时也没接触过 Web 开发。真正开始使用 PHP，是萌发想做一个皮肤站的念头后。</p>
+<p>在开发语言中，我选择了 PHP 而不是喜欢的 Python。一是因为作为模板语言的PHP天生适合写 web 项目，二也是为了能涨点姿势。</p>
+<p>因为基础还算过得去，我也没必要去看什么 PHP 新手入门教程，上手就直接开始写了。依样画葫芦撸了个基本架构就开始写前端逻辑。</p>
+<a id="more"></a>
+
+<p>现在看来当时确实是挺蠢的，应该先把后端架构好，能跑起来了再说才对。不过人总是在跌跌碰碰中成长的，上次的 <a href="https://prinzeugen.net/blessing-skin-server-0-1/" target="_blank" rel="noopener">refactor</a> 中我也确实学到了不少。</p>
+<p>说是写前端，但到了登录的时候又重新回去打算先把后端搞好。值得庆幸的是，当时我不知道从哪里听来的 ajax，也成功的用了上去，所有的请求均在 <code>ajax.php</code> 中处理（虽然当时叫 check.php）</p>
+<p>统一的入口确实方便很多。编写后台逻辑的时候，我也学到了诸如 POST GET query string 如何处理的知识。</p>
+<p>写 ajax 文件上传的时候，遇到了 如何把 jQuery ajax 得到的数据输出到外部作用域 的问题，解决这个也使我对回调函数有了更好的理解。</p>
+<p>但是那个时候，所有的数据库操作我都只是封装成函数放在 connect.php 中，虽然这样也未尝不可，但还是有点小难看。于是在上一次重构中，我将所有数据库操作封装为一个 <code>Utils</code> 静态工具类以供调用（后来又抽离出了个 <code>Database</code> 类，<code>AdaptedDatabase</code> 类继承并实现数据对接功能）。</p>
+<p>即使这样，<code>ajax.php</code> 中还是有太多 login、register、upload 等逻辑了，然而将这些也封装成函数的话，每次都要把用户名传参，很烦。所以我又封装了一个 User 类，传用户名构造实例，就可以使用各种封装好了的用户操作函数了。</p>
+<p>比如原来的 login，要组装 SQL 查询密码并比较，不仅麻烦，还有 SQL注入漏洞的风险。而现在就可以用 post 用户名实例化一个 User 类，比较 post 密码 和 user 实例的 <code>getPasswd()</code> 返回值就可以了。因为 PHP 有垃圾回收机制，所以开销应该不会差多少，而且看起来也比较舒服。</p>
+<p>还有就是关于 cookie 的问题。因为我的工作目录是本地 web 环境的二级目录，而又有一个 <code>/user</code> 三级目录，于是就喜闻乐见的碰上了 cookie path 的坑爹问题。</p>
+<p>现在后端已经可以完全独立工作了，通信主要都是通过 <code>ajax.php</code> 进行。</p>
+<p>前端框架最开始是使用的 BootStrap，但后来考虑到也没几个页面，又换成了更轻的 Pure.css。虽然在做消息提示的时候想要是 bootstrap 就好了（扶额），有时间再用 BootStrap 写一个。嘛，v2.3 以后就改成使用 AdminLTE 框架了。</p>
+<p>然而由于没有系统学习过前端的原因，写布局的时候浪费了很长时间（当时甚至不知道 bootstrap 的栅格系统）。后来又好好看了一遍 MDN link，学到了不少。</p>
+<p>到这个时候，登录/注册/上传 都已经没问题了，应该要想怎样获取皮肤了。</p>
+<p>最开始我就是将上传的文件分别重命名，存放在 <code>/skin</code> 和 <code>/cape</code> 里，这也是早期的 UniSkinMod 所使用的方法。然而我最开始的目的就是要支持 UniSkinAPI，自然不能这样存放。</p>
+<p>根据 API，我应该提供一个 json，其中存放了用户偏好模型和 皮肤/披风 的唯一标识符。所以我把 upload 逻辑稍微改了一下，改为取文件 hash 重命名并移至 <code>/textures</code>，并且新增了几个数据表字段用于存放 hash，这倒是没有什么难度。</p>
+<p>不过输出 json 难住了我。按照这个要求，静态 json 文件肯定是不可行的，必须要动态生成。但如何访问实际上并不存在的文件呢？那就需要 rewrite 了。</p>
+<p>接触过 WordPress，Discuz 等 PHP 程序的，肯定都知道 伪静态 规则。这次我从复制别人规则的人变成了提供规则的人，想想还有点小激动呢。</p>
+<p>配置 rewrite 规则时所遇到的坑就按下不表了，最后终于可以把请求传给 PHP 了，然后根据 pathinfo 判断是返回 json 还是 png。</p>
+<p>这样一来，<code>index.php</code> 就成为了所有请求的入口点。<code>index.php</code> 负责了路由分发，那么原先 <code>index.php</code> 的内容就得封装成模板来调用了。。</p>
+<p>你 TM 怎么 MVC 了！</p>
+<p>视图层肯定是要和控制器分开的，这就要个 index 控制器来控制视图呈现，user/index.php 和 admin/index.php 也可以封装成两个控制器和对应视图（后来也确实抽离出了模板。。）</p>
+<p>于是我就发现，越写越像 MVC。。嘛，也不是说 MVC 不好，只是因为最开始接触 MVC 的时候嫌它项目结构太复杂而抱有一些成见，现在看起来也确实挺不错的。</p>
+<p>这也是最开始我没打算用 MVC 框架的原因之一。没用过原生 PHP 开发项目，反而一开始就用框架也挺不像话的。</p>
+<p>通过这几个周末的开发以及资料查阅，我也是对设计模式有了更深的理解，也了解了 MVC 框架的具体实现，算是收获颇丰吧～</p>
+<hr>
+<p>其实也没学到啥东西，不过毕竟是初学者嘛，dalao 们见笑了</p>
+<p>下次尝试用 Laravel 重写这个项目看看吧~</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/how-to-connect-to-custom-mysql-port-for-eloquent-orm-connection/">Eloquent ORM Connection 无法自定义 MySQL 连接端口的解决办法</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/happy-chinese-new-year/">新年快乐！</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "what-did-i-learn-from-development-of-bss/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/what-did-i-learn-from-development-of-bss/".replace('index.html', ''),
+      title: '开发 Blessing Skin Server 所学到的',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

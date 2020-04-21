@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>使用 Google Analytics API 实现博客阅读量统计 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/google-analytics-api-page-views-counter/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="博客," />
+
+<meta name="description" content="前段时间，Google Analytics 给我发了封邮件，说二月份我的博客有 9.3K 的 UV。点进去看了看热门的文章，访问量最多的是「Twitter 账号被锁定是种怎样的体验」（17 年的博文了……），其他比较高的还有以前写的教程「Windows Terminal 安装与配置指南」「WSL 配置指北：打造 Windows 最强命令行」，以及后起之秀「记一次 HNS 币空投薅 $500 羊毛的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Google Analytics API 实现博客阅读量统计">
+<meta property="og:url" content="https://printempw.github.io/google-analytics-api-page-views-counter/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="前段时间，Google Analytics 给我发了封邮件，说二月份我的博客有 9.3K 的 UV。点进去看了看热门的文章，访问量最多的是「Twitter 账号被锁定是种怎样的体验」（17 年的博文了……），其他比较高的还有以前写的教程「Windows Terminal 安装与配置指南」「WSL 配置指北：打造 Windows 最强命令行」，以及后起之秀「记一次 HNS 币空投薅 $500 羊毛的">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/google-analytics-api-page-views-counter/google-developer-console-enable-api.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/google-analytics-api-page-views-counter/google-api-add-credential.png">
+<meta property="article:published_time" content="2020-03-24T23:07:00.000Z">
+<meta property="article:modified_time" content="2020-03-24T23:07:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/google-analytics-api-page-views-counter/google-developer-console-enable-api.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2020-03-24T23:07:00+00:00">2020-03-25</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2020-03-24T23:07:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-text">TL;DR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启用-API-与获取凭据"><span class="toc-text">启用 API 与获取凭据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装相应语言的-API-库"><span class="toc-text">安装相应语言的 API 库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过-API-查询-PV-数据"><span class="toc-text">通过 API 查询 PV 数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#踩坑：Serverless-部署的可行性"><span class="toc-text">踩坑：Serverless 部署的可行性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写在后面"><span class="toc-text">写在后面</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>前段时间，Google Analytics 给我发了封邮件，说二月份我的博客有 9.3K 的 UV。点进去看了看热门的文章，访问量最多的是「<a href="https://printempw.github.io/twitter-account-has-been-locked/">Twitter 账号被锁定是种怎样的体验</a>」（17 年的博文了……），其他比较高的还有以前写的教程「<a href="https://printempw.github.io/windows-terminal-setup-guide/">Windows Terminal 安装与配置指南</a>」「<a href="https://printempw.github.io/wsl-guide/">WSL 配置指北：打造 Windows 最强命令行</a>」，以及后起之秀「<a href="https://printempw.github.io/namebase-handshake-airdrop/">记一次 HNS 币空投薅 $500 羊毛的经历</a>」，很真实。</p>
+<p>看着报表上的访问量排名，我突然一寻思，这白花花的数据都在眼前，那能不能利用 GA 里的这些数据，给博客加个访问计数、阅读量统计功能呢？</p>
+<a id="more"></a>
+
+<p>当然可以。</p>
+<p>我 Google 了一下，事实上早就已经有人这么干过了：</p>
+<ul>
+<li><a href="https://ihomura.cn/2018/07/26/%E7%94%A8-Google-Analytics-API-%E4%B8%BA-hexo-%E5%8D%9A%E5%AE%A2%E5%8A%A0%E4%B8%8A%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1/" target="_blank" rel="noopener">用 Google Analytics API 为 hexo 博客加上阅读量统计 | 澪同学的博客</a></li>
+<li><a href="https://liginc.co.jp/210735" target="_blank" rel="noopener">Google Analytics APIでPVを集計しよう【実装編】 | 東京のWeb制作会社LIG</a></li>
+<li><a href="https://www.indiehackers.com/post/is-this-crazy-hit-counter-pulling-from-google-analytics-eae3cdc538" target="_blank" rel="noopener">Is this crazy? Hit counter pulling from Google Analytics</a></li>
+</ul>
+<p>既然 GA 有官方提供的 API，那事情就好办了。</p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>先说成果。我写了两个版本的程序，分别使用 Node.js 和 PHP 实现，都可以通过页面 URI 查询 PV 访问量，提供的 API 也是一样的。源码放在 GitHub 上：</p>
+<ul>
+<li>Node.js 版本：<a href="https://github.com/printempw/google-analytics-hit-counter" target="_blank" rel="noopener">printempw/google-analytics-hit-counter</a></li>
+<li>PHP 版本：同一仓库的 <a href="https://github.com/printempw/google-analytics-hit-counter/tree/php" target="_blank" rel="noopener"><code>php</code></a> 分支</li>
+</ul>
+<p>部署之后，前端通过其提供的 API 获取 PV，具体效果可以参考本博客。</p>
+<p>程序的具体使用方法这里就不多说了，README 上都有写。下面具体讲讲怎么使用 Google Analytics API 以及可能遇到的坑，希望对各位有所帮助。</p>
+<h2 id="启用-API-与获取凭据"><a href="#启用-API-与获取凭据" class="headerlink" title="启用 API 与获取凭据"></a>启用 API 与获取凭据</h2><p>首先根据<a href="https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/service-py" target="_blank" rel="noopener">官方的教程</a>启用 Analytics Reporting API v4。</p>
+<p>登录 Google 账号后打开 <a href="https://console.developers.google.com/start/api?id=analyticsreporting.googleapis.com&credential=client_key" target="_blank" rel="noopener">setup tool</a>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/google-analytics-api-page-views-counter/google-developer-console-enable-api.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/google-analytics-api-page-views-counter/google-developer-console-enable-api.png" alt="google-developer-console-enable-api"></p>
+<p>点击创建项目后（也可以使用现有项目），会自动跳转至凭据页面。</p>
+<p>页面会引导你回答一些问题以确定要创建的凭据的类型（API 密钥、OAuth 或者是服务账号），在我们这个场景下（服务器端访问 Google API 而非用户端访问）应该使用服务账号类型的凭据。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/google-analytics-api-page-views-counter/google-api-add-credential.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/google-analytics-api-page-views-counter/google-api-add-credential.png" alt="google-api-add-credential"></p>
+<p>角色选择 Service Account User，密钥类型选择 JSON，点继续后浏览器会下载一个 JSON 文件，里面就是服务账号的密钥了。记得妥善保存这个密钥文件，下面的操作都要用到它。</p>
+<h2 id="安装相应语言的-API-库"><a href="#安装相应语言的-API-库" class="headerlink" title="安装相应语言的 API 库"></a>安装相应语言的 API 库</h2><p>Google 提供了很多编程语言的 API 支持库，封装简化了认证与请求的流程。具体支持的语言可以查看官方文档：<a href="https://developers.google.com/analytics/devguides/reporting/core/v4/libraries" target="_blank" rel="noopener">Client Libraries | Analytics Reporting API v4</a>。</p>
+<p>Node.js</p>
+<pre><code class="sh">npm install googleapis</code></pre>
+<p>Python</p>
+<pre><code class="sh">pip install --upgrade google-api-python-client</code></pre>
+<p>PHP</p>
+<pre><code class="sh">composer require google/apiclient</code></pre>
+<h2 id="通过-API-查询-PV-数据"><a href="#通过-API-查询-PV-数据" class="headerlink" title="通过 API 查询 PV 数据"></a>通过 API 查询 PV 数据</h2><p>下面以 Node.js 为例进行说明（也有<a href="https://github.com/googleapis/google-api-nodejs-client/blob/master/samples/analyticsReporting/batchGet.js" target="_blank" rel="noopener">官方样例</a>）。</p>
+<p>使用凭据创建认证 client：</p>
+<pre><code class="typescript">// 省略了外层 async 和其他 import
+import { google } from &#39;googleapis&#39;
+
+// 如果使用了服务账号以外的认证方式这里也要改
+const auth = new google.auth.GoogleAuth({
+  // 上面下载的密钥文件。除了直接给文件路径，也可以把
+  // 文件里的内容通过 credentials, projectId 等参数传进来
+  keyFile: path.join(__dirname, &#39;key.json&#39;),
+  // API 作用域，我们只需要访问 Analytics
+  scopes: &#39;https://www.googleapis.com/auth/analytics.readonly&#39;,
+})
+
+const client = await auth.getClient()
+const analyticsreporting = google.analyticsreporting({
+  version: &#39;v4&#39;,
+  auth: client,
+});</code></pre>
+<p>构建请求查询 API：</p>
+<pre><code class="typescript">const res = await analyticsreporting.reports.batchGet({
+  requestBody: {
+    reportRequests: [{
+      // 数据视图 ID，可以在 GA 的「管理 &gt; 数据视图设置」内查看
+      viewId: &#39;213856884&#39;,
+      dateRanges: [{
+        // 查询起始日期，设置一个足够久远的时间以统计所有数据
+        startDate: &#39;2010-01-01&#39;,
+        // 查询结束日期
+        endDate: &#39;today&#39;,
+      }],
+      // Metric，官方翻译是指标，可以理解为要获取的数据字段
+      // 可以指定多个 metric，比如 &#39;ga:avgTimeOnPage&#39;
+      metrics: [{
+        expression: &#39;ga:pageviews&#39;
+      }],
+      // Dimension，官方翻译是维度，我们用这个来过滤数据
+      // 这里使用页面路径，也可以通过 &#39;ga:pageTitle&#39; 按标题过滤
+      dimensions: [{
+        name: &#39;ga:pagePath&#39;
+      }],
+      // 维度过滤器，只返回页面 URI 以所给字符串开头的数据
+      dimensionFilterClauses: [{
+        filters: [{
+          &#39;dimensionName&#39;: &#39;ga:pagePath&#39;,
+          &#39;operator&#39;: &#39;BEGINS_WITH&#39;,
+          &#39;expressions&#39;: [&#39;/foo&#39;],
+        }, {
+          &#39;dimensionName&#39;: &#39;ga:pagePath&#39;,
+          &#39;operator&#39;: &#39;BEGINS_WITH&#39;,
+          &#39;expressions&#39;: [&#39;/bar&#39;],
+        }]
+      }],
+      // 按照页面浏览量降序排序
+      orderBys: [{
+        fieldName: &#39;ga:pageviews&#39;,
+        sortOrder: &#39;DESCENDING&#39;
+      }],
+    }]
+  }
+})</code></pre>
+<p>其中 Metric 和 Dimension 的概念可能有点不好理解，可以参考官方 API 文档：</p>
+<ul>
+<li><a href="https://developers.google.com/analytics/devguides/reporting/core/v4/basics" target="_blank" rel="noopener">Creating a Report | Analytics Reporting API v4</a></li>
+<li><a href="https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/" target="_blank" rel="noopener">Dimensions &amp; Metrics Explorer - Google Analytics Demos &amp; Tools</a></li>
+</ul>
+<p>以查询我博客上最新两篇文章的 PV 为例，API 响应是这样的：</p>
+<pre><code class="json">{
+  &quot;reports&quot;: [
+    {
+      &quot;columnHeader&quot;: {
+        &quot;dimensions&quot;: [
+          &quot;ga:pagePath&quot;
+        ],
+        &quot;metricHeader&quot;: {
+          &quot;metricHeaderEntries&quot;: [{
+            &quot;name&quot;: &quot;ga:pageviews&quot;,
+            &quot;type&quot;: &quot;INTEGER&quot;
+          }]
+        }
+      },
+      &quot;data&quot;: {
+        &quot;rows&quot;: [
+          {
+            &quot;dimensions&quot;: [
+              &quot;/short-domain-name-for-blog/&quot;
+            ],
+            &quot;metrics&quot;: [{
+              &quot;values&quot;: [
+                &quot;135&quot;
+              ]
+            }]
+          },
+          {
+            &quot;dimensions&quot;: [
+              &quot;/reverse-proxy-for-126-mail-pop-server/&quot;
+            ],
+            &quot;metrics&quot;: [{
+              &quot;values&quot;: [
+                &quot;76&quot;
+              ]
+            }]
+          }
+        ],
+        &quot;totals&quot;: [{ &quot;values&quot;: [&quot;211&quot;] }],
+        &quot;rowCount&quot;: 2,
+        &quot;minimums&quot;: [{ &quot;values&quot;: [&quot;76&quot;] }],
+        &quot;maximums&quot;: [{ &quot;values&quot;: [&quot;135&quot;] }]
+      }
+    }
+  ]
+}</code></pre>
+<p>不得不说很复杂、很强大，更高级的用法有待各位挖掘。</p>
+<h2 id="踩坑：Serverless-部署的可行性"><a href="#踩坑：Serverless-部署的可行性" class="headerlink" title="踩坑：Serverless 部署的可行性"></a>踩坑：Serverless 部署的可行性</h2><p>其实最开始，我是没打算部署到自己的服务器上的，想着要是能直接用 Serverless 解决<del>（白嫖免费版）</del>最好。然而折腾了一天，在 <a href="https://workers.cloudflare.com/" target="_blank" rel="noopener">CloudFlare Workers</a> 与 <a href="https://zeit.co/docs" target="_blank" rel="noopener">ZEIT Now</a> 上的尝试均以失败告终。</p>
+<p>CloudFlare Workers 上遇到的问题是 CPU 执行时间超时（script exceeded time limit）。我排查了很长时间，甚至怀疑是 Google 的 Node.js 库没有用 fetch API 的问题，还把 Analytics API 请求的部分用原生 fetch 重写了一遍。结果最后发现是因为 Google 服务账号的鉴权用的是 JWT，HS256 的签名算法。你妈的，难怪啊！</p>
+<p>如果在 API 请求中手动指定 HTTP 请求头 <code>Authorization: Bearer &lt;access token&gt;</code> 认证的话屁事没有一切正常，但要签发 token 的话就不行了，sad。</p>
+<p>不过我还不死心，又去 ZEIT Now 平台写了个 lambda 试了一下。这次运行是可以正常运行了，我却发现了一个挺要命的问题：<strong>缓存</strong>。在我们这个场景下，缓存肯定是必要的。API Client 认证获得了 access token 要缓存，从 API 那查询拿到的数据也要缓存，不然总不能每次请求都重新签发 token、查询数据吧。</p>
+<p>然而我翻遍了文档，也没找到适用于这些 Serveless 平台的缓存解决方案（内存缓存？生命周期不允许；文件缓存？不允许读写文件；NoSQL？我靠，那还得去别的地方弄个远程服务来），或许是应用场景不合适吧。</p>
+<p>无奈之下，只好部署到自己的乞丐版 VPS 上了。白嫖计划泡汤，遗憾。</p>
+<h2 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h2><p>我捣鼓博客这几年以来，在阅读量统计上也花过一些心思：</p>
+<ul>
+<li><a href="https://printempw.github.io/add-page-view-counter-for-ghost-blog/">为 Ghost 博客添加页面访问计数器</a></li>
+<li><a href="https://printempw.github.io/add-page-view-counter-for-hexo/">为 Hexo 博客添加页面访问计数器</a></li>
+</ul>
+<p>直接使用 GA 的数据作为阅读量展示，有其优势也有其局限性。优势是不用自己维护统计的后端了，一个 GA 统计代码就可以通吃，数据也比较一致。</p>
+<p>不足之处我目前想到就是数据更新不及时（GA 本身的延迟和缓存），以及统计代码容易被浏览器屏蔽吧（可以使用 <a href="https://github.com/SukkaW/cloudflare-workers-async-google-analytics" target="_blank" rel="noopener">SukkaW/cloudflare-workers-async-google-analytics</a> 这类异步 GA 解决方案）。不过我的博客浏览量统计对时效性和准确度并不敏感，所以目前看来，直接使用 GA 的数据对我来说应该是最好的方案了。</p>
+<p>另外这也是我第一次在实际项目中使用 TypeScript，体验确实很不错，类型提示和自动补全不要太爽。不过就这么一个小 API 常驻一个 Node 服务有点太占资源了，顶不住，所以我又拿 Lumen 写了个 PHP 的版本。</p>
+<p>两边实现的 API 都是一样的，各位有需要的话可以自行选择。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "google-analytics-api-page-views-counter/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/google-analytics-api-page-views-counter/".replace('index.html', ''),
+      title: '使用 Google Analytics API 实现博客阅读量统计',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-text">TL;DR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启用-API-与获取凭据"><span class="toc-text">启用 API 与获取凭据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装相应语言的-API-库"><span class="toc-text">安装相应语言的 API 库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过-API-查询-PV-数据"><span class="toc-text">通过 API 查询 PV 数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#踩坑：Serverless-部署的可行性"><span class="toc-text">踩坑：Serverless 部署的可行性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写在后面"><span class="toc-text">写在后面</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

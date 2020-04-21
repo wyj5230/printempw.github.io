@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>AUR 软件包的依赖版本太新怎么办 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/aur-package-depends-on-future-version/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="Linux,Arch," />
+
+<meta name="description" content="今天升级软件包时出了点问题，提示是这样的： $ yay -S qv2ray  &#x3D;&#x3D;&gt; Error: Could not find all required packages:     grpc&gt;&#x3D;1.27.0 (Wanted by: qv2ray)     grpc-cli&gt;&#x3D;1.27.0 (Wanted by: qv2ray) Qv2ray 新版本添加了不少功能，我也看过 CH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AUR 软件包的依赖版本太新怎么办">
+<meta property="og:url" content="https://printempw.github.io/aur-package-depends-on-future-version/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="今天升级软件包时出了点问题，提示是这样的： $ yay -S qv2ray  &#x3D;&#x3D;&gt; Error: Could not find all required packages:     grpc&gt;&#x3D;1.27.0 (Wanted by: qv2ray)     grpc-cli&gt;&#x3D;1.27.0 (Wanted by: qv2ray) Qv2ray 新版本添加了不少功能，我也看过 CH">
+<meta property="article:published_time" content="2020-02-07T19:50:00.000Z">
+<meta property="article:modified_time" content="2020-02-07T19:50:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Arch">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/aur-package-depends-on-future-version/">AUR 软件包的依赖版本太新怎么办</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2020-02-07T19:50:00+00:00">2020-02-08</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Arch/" rel="tag">Arch</a> <a class="tag-link" href="/tag/Linux/" rel="tag">Linux</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2020-02-07T19:50:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>今天升级软件包时出了点问题，提示是这样的：</p>
+<pre><code class="plain">$ yay -S qv2ray
+
+==&gt; Error: Could not find all required packages:
+    grpc&gt;=1.27.0 (Wanted by: qv2ray)
+    grpc-cli&gt;=1.27.0 (Wanted by: qv2ray)</code></pre>
+<p><a href="https://github.com/Qv2ray/Qv2ray/" target="_blank" rel="noopener">Qv2ray</a> 新版本添加了不少功能，我也看过 CHANGELOG，新加了 gRPC 的依赖没毛病。但为什么说找不到软件包呢？</p>
+<a id="more"></a>
+
+<p>先看看 AUR 上的 Qv2ray <a href="https://aur.archlinux.org/packages/qv2ray/" target="_blank" rel="noopener">软件包信息</a>：</p>
+<pre><code class="bash">yay -Si qv2ray</code></pre>
+<pre><code>:: Querying AUR...
+Repository      : aur
+Name            : qv2ray
+Keywords        : gui  qt  qv2ray  v2ray
+Version         : 2.0.1-1
+Description     : Cross-platform V2ray Client written in Qt (Stable Release)
+URL             : https://github.com/Qv2ray/Qv2ray
+AUR URL         : https://aur.tuna.tsinghua.edu.cn/packages/qv2ray
+Groups          : None
+Licenses        : GPL3
+Provides        : qv2ray
+Depends On      : hicolor-icon-theme  qt5-charts&gt;5.11.0  grpc&gt;=1.27.0
+Make Deps       : git  make  qt5-tools  which  gcc  qt5-declarative  grpc-cli&gt;=1.27.0
+Check Deps      : None
+Optional Deps   : v2ray  v2ray-domain-list-community  v2ray-geoip
+Conflicts With  : None
+Maintainer      : DuckSoft
+Votes           : 5
+Popularity      : 1.607244
+First Submitted : Wed 28 Aug 2019 09:38:57 PM CST
+Last Modified   : Thu 06 Feb 2020 09:49:45 PM CST
+Out-of-date     : No</code></pre><p>嗯，新添加了 <code>grpc&gt;=1.27.0</code> 和 <code>grpc-cli&gt;=1.27.0</code> 这两个依赖，就是上面报错的东西。</p>
+<p>再看看这俩软件包的信息：</p>
+<pre><code class="bash">yay -Si grpc</code></pre>
+<pre><code>Repository      : community
+Name            : grpc
+Version         : 1.26.0-4
+Description     : High performance, open source, general RPC framework that puts mobile and HTTP/2 first.
+Architecture    : x86_64
+URL             : https://grpc.io
+Licenses        : BSD
+Groups          : None
+Provides        : None
+Depends On      : c-ares  protobuf  openssl
+Optional Deps   : None
+Conflicts With  : None
+Replaces        : None
+Download Size   : 1896.84 KiB
+Installed Size  : 11315.30 KiB
+Packager        : Massimiliano Torromeo &lt;massimiliano.torromeo@gmail.com&gt;
+Build Date      : Thu 02 Jan 2020 04:12:49 PM CST
+Validated By    : MD5 Sum  SHA-256 Sum  Signature</code></pre><p>好嘛！软件源里最新版本才 <code>1.26.0</code>，<code>grpc&gt;=1.27.0</code> 这个依赖能满足得了才有鬼了。</p>
+<p>为什么会这样呢？</p>
+<ul>
+<li><del>AUR 软件包的维护者是未来人</del></li>
+<li>你的软件源太旧了</li>
+</ul>
+<p>如果你正在使用 Manjaro Linux，那么遇到这种情况并不奇怪。Manjaro 是基于 Arch Linux 的，虽然包管理都是那套，但为了追求稳定，Manjaro 不会像 Arch 那样尽可能快地追软件的版本号，一般都是过一段时间后才会把软件源里的包更新到最新版本（也相对降低了滚挂的风险）。</p>
+<p>比如 Arch 软件源里的 <code>community/grpc</code> 现在的版本是 <code>1.27.0</code>（2020-02-05 更新），而 Manjaro 软件源里依然停留在 <code>1.26.0</code>，就造成了开头的那个报错。这个尴尬的情况我之前也碰到过一次，是安装什么软件我忘了，反正当时是 Python 3.8 刚发布就指定了依赖 <code>python&gt;=3.8</code>，对于紧跟新版本的 Arch 用户来说自然不算啥，但官方软件源里 Python 还停留在 3.7 的 Manjaro 用户就吃瘪了。</p>
+<p>解决方法也有两种。如果这个 AUR 包是<strong>确确实实地需要新版本依赖</strong>，用旧版本的不能跑，那就只能自己想办法安装新版本的依赖了。但是这样比较麻烦，官方软件源里没有又要去别处弄，所以如果现有版本的依赖也能跑的话，可以修改一下 AUR 软件包，让它不要要求那么高，拿旧版本的凑合凑合得了。</p>
+<p>获取 <code>PKGBUILD</code>（这里以 <code>yay</code> 为例，用其他方法获取也一样）：</p>
+<pre><code class="bash">yay -G qv2ray</code></pre>
+<p>修改 <code>PKGBUILD</code> 中的依赖版本：</p>
+<pre><code class="diff">diff --git a/PKGBUILD b/PKGBUILD
+index deef5ab..2628076 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -9,9 +9,9 @@ pkgdesc=&quot;Cross-platform V2ray Client written in Qt (Stable Release)&quot;
+ arch=(&#39;x86_64&#39;)
+ url=&#39;https://github.com/Qv2ray/Qv2ray&#39;
+ license=(&#39;GPL3&#39;)
+-depends=(&#39;hicolor-icon-theme&#39; &#39;qt5-charts&gt;5.11.0&#39; &#39;grpc&gt;=1.27.0&#39;)
++depends=(&#39;hicolor-icon-theme&#39; &#39;qt5-charts&gt;5.11.0&#39; &#39;grpc&gt;=1.26.0&#39;)
+ optdepends=(&#39;v2ray&#39; &#39;v2ray-domain-list-community&#39; &#39;v2ray-geoip&#39;)
+-makedepends=(&#39;git&#39; &#39;make&#39; &#39;qt5-tools&#39; &#39;which&#39; &#39;gcc&#39; &#39;qt5-declarative&#39; &#39;grpc-cli&gt;=1.27.0&#39;)
++makedepends=(&#39;git&#39; &#39;make&#39; &#39;qt5-tools&#39; &#39;which&#39; &#39;gcc&#39; &#39;qt5-declarative&#39; &#39;grpc-cli&gt;=1.26.0&#39;)
+ provides=(&#39;qv2ray&#39;)
+ source=(&quot;Qv2ray-${pkgver}::git+${url}#tag=v${pkgver}&quot;)
+ sha512sums=(&#39;SKIP&#39;)</code></pre>
+<p>安装依赖、构建并安装软件包：</p>
+<pre><code class="bash">makepkg -si</code></pre>
+<p>软件包安装完成：</p>
+<pre><code class="bash">pacman -Qi qv2ray</code></pre>
+<pre><code>Name            : qv2ray
+Version         : 2.0.1-1
+Description     : Cross-platform V2ray Client written in Qt (Stable Release)
+Architecture    : x86_64
+URL             : https://github.com/Qv2ray/Qv2ray
+Licenses        : GPL3
+Groups          : None
+Provides        : qv2ray
+Depends On      : hicolor-icon-theme  qt5-charts&gt;5.11.0  grpc&gt;=1.26.0
+Optional Deps   : v2ray [installed]
+                  v2ray-domain-list-community [installed]
+                  v2ray-geoip [installed]
+Required By     : None
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 3.35 MiB
+Packager        : Unknown Packager
+Build Date      : Sat 08 Feb 2020 02:51:10 AM CST
+Install Date    : Sat 08 Feb 2020 02:52:02 AM CST
+Install Reason  : Explicitly installed
+Install Script  : No
+Validated By    : None</code></pre><p>等下一次 Qv2ray 更新的时候，Manjaro 的软件源估计也差不多更新了，到时候再用新版本构建就 OK 了。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/wechat-backup-in-sandboxie/">备份聊天记录至 Sandboxie 内运行的微信</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/happy-new-year-2020/">2020，祝大家各自安好</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "aur-package-depends-on-future-version/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/aur-package-depends-on-future-version/".replace('index.html', ''),
+      title: 'AUR 软件包的依赖版本太新怎么办',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

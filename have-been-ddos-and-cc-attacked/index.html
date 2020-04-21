@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>喜闻乐见被 DDoS + CC 攻击 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/have-been-ddos-and-cc-attacked/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="VPS,运维," />
+
+<meta name="description" content="今早起来准备修一个 Blessing Skin Server 的 BUG 的时候，打开演示站发现慢到没朋友，最起码要 60s+ 才会有响应。当时我也没多想，觉着大概是 DO 线路又抽风了，然后挂上代理访问演示站，但依然是无响应。这时候我开始觉得不对劲了，SSH 连上 VPS，top 一看，诶哟，90% 的 CPU 占用，清一色的 php-fpm 进程。 当时我就有点方了，去 DO 的控制台看了下图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="喜闻乐见被 DDoS + CC 攻击">
+<meta property="og:url" content="https://printempw.github.io/have-been-ddos-and-cc-attacked/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="今早起来准备修一个 Blessing Skin Server 的 BUG 的时候，打开演示站发现慢到没朋友，最起码要 60s+ 才会有响应。当时我也没多想，觉着大概是 DO 线路又抽风了，然后挂上代理访问演示站，但依然是无响应。这时候我开始觉得不对劲了，SSH 连上 VPS，top 一看，诶哟，90% 的 CPU 占用，清一色的 php-fpm 进程。 当时我就有点方了，去 DO 的控制台看了下图">
+<meta property="article:published_time" content="2016-08-21T08:09:14.000Z">
+<meta property="article:modified_time" content="2016-08-21T08:20:26.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="VPS">
+<meta property="article:tag" content="运维">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/have-been-ddos-and-cc-attacked/">喜闻乐见被 DDoS + CC 攻击</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-08-21T08:09:14+00:00">2016-08-21</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/VPS/" rel="tag">VPS</a> <a class="tag-link" href="/tag/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2016-08-21T08:20:26.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>今早起来准备修一个 Blessing Skin Server 的 BUG 的时候，打开演示站发现慢到没朋友，最起码要 60s+ 才会有响应。当时我也没多想，觉着大概是 DO 线路又抽风了，然后挂上代理访问演示站，但依然是无响应。这时候我开始觉得不对劲了，SSH 连上 VPS，top 一看，诶哟，90% 的 CPU 占用，清一色的 php-fpm 进程。</p>
+<p>当时我就有点方了，去 DO 的控制台看了下图表，CPU 从上午十点左右开始就一直是爆满状态。再去看了一下 <code>netstat</code>，有几个 <code>SYN_RECV</code> 和一大票 <code>ESTABLISHED</code>，我就觉得有可能是被 cc 了。</p>
+<p>随后去看了一下 Nginx 的访问日志，发现从早上开始就一直有人不断地 <code>HEAD /</code> 请求，排查了一下最后发现请求的是 <code>skin.prinzeugen.net</code> 这个域名，也就是 Blessing Skin Server 的演示站点。</p>
+<a id="more"></a>
+
+<p>当时我就惊了，我 tm 和你什么仇什么怨你就来打我，真的是搞不懂。不过当时我有其他事要忙，看了一下就几个 <code>SYN_RECV</code> 的连接，怕被 DO 空路由，就把 skin 子域名的解析改到 Andy 给我的 NyaVM 的一台带 DDoS Protect 的机子上，然后把那个 UA 给 ban 掉，就先放置了。</p>
+<p>后来两点左右 NyaVM 的 CoCo 过来跟我说那台机子被 DDoS 封 IP 了，虽然先帮我解了，但是再打的话就要封 12h 了。诶哟没想到这攻击者还挺能，DDoS CC 一起来。</p>
+<p>我又去看了 NyaVM 机子上的 Nginx 日志，发现现在不是 <code>HEAD /</code> 而全变成 <code>GET /csl/xxx.json</code> 了。怕不是被发现我没上缓存，每次生成 JSON 都要去查询数据库所以改请求这个了。差不多每秒有 30+ 个请求，直接把我打得没响应了。</p>
+<p>总这样下去也不是个办法，所以我只好先把 skin 子域名的 nginx <code>deny all;</code> 了，这下虽然好一点（因为没经过 PHP 处理所以不再是 php-fpm 进程占资源了），不过光是 Nginx 回个 403 CPU 就飚到了 50%+。</p>
+<p>总这样下去也不是个办法，于是我把两台机子上的 Nginx 日志拉了下来准备写个脚本分析，如果 IP 没多少的话就全部用 <code>iptables</code> ban 掉。</p>
+<p>然后。。</p>
+<pre><code>HEAD: Total 28 ips.
+GET:  Total 7662 ips.
+[Finished in 3.2s]</code></pre><p>对不起，我服了。</p>
+<p>早些时候的 <code>HEAD</code> 也就是 20 几个 ip 不断地发请求：</p>
+<pre><code>13.75.95.181: 2
+139.129.14.230: 1
+167.160.166.145: 2
+58.216.99.73: 3
+119.57.158.170: 2
+43.224.212.9: 1
+45.32.16.90: 2
+113.250.222.52: 2
+85.93.89.232: 1
+107.178.194.90: 11
+182.108.246.191: 31
+119.97.137.157: 11200
+122.228.199.114: 11190
+157.122.99.90: 11213
+107.178.194.92: 9
+115.28.28.62: 1
+107.178.194.88: 13
+114.232.230.225: 1
+104.131.148.189: 1
+119.81.1.69: 4
+115.63.103.29: 11209
+60.210.10.50: 11208
+158.69.134.29: 1
+168.235.84.233: 2
+113.31.27.206: 11215
+95.188.89.153: 4
+220.176.115.122: 25
+50.205.89.186: 2</code></pre><p>后来的 <code>GET /csl/xxx.json</code> 就是 7k+ 个 IP 在请求了，我是真没辙了，我认怂，您是大哥。</p>
+<pre><code>iptables -I INPUT -i eth0 -p tcp --dport 443 -j DROP</code></pre><p>我他妈的高考改革十月份就得考试，哪有闲心和你们玩。你们都是大爷，要是还是打不停的话，演示站爱谁谁搞去。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/add-extensions-for-blade-in-laravel/">为 Blade 模板引擎添加新文件扩展名</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/generate-incremental-update-package-with-git/">使用 Git 生成增量更新包</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "have-been-ddos-and-cc-attacked/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/have-been-ddos-and-cc-attacked/".replace('index.html', ''),
+      title: '喜闻乐见被 DDoS + CC 攻击',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

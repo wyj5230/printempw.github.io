@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>搭建备用梯子：V2Ray + WebSocket + TLS + CloudFlare - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/v2ray-ws-tls-cloudflare/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="V2Ray," />
+
+<meta name="description" content="2020 年的第一篇博文竟然是讲虚拟砖混结构建筑物逾越技术的，感觉有点微妙。 年终总结啊，在写了在写了，明年就发。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建备用梯子：V2Ray + WebSocket + TLS + CloudFlare">
+<meta property="og:url" content="https://printempw.github.io/v2ray-ws-tls-cloudflare/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="2020 年的第一篇博文竟然是讲虚拟砖混结构建筑物逾越技术的，感觉有点微妙。 年终总结啊，在写了在写了，明年就发。">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/v2ray-ws-tls-cloudflare/v2rayn-client-ws-tls-config.png">
+<meta property="article:published_time" content="2020-01-12T12:20:00.000Z">
+<meta property="article:modified_time" content="2020-01-15T11:30:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="V2Ray">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/v2ray-ws-tls-cloudflare/v2rayn-client-ws-tls-config.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/v2ray-ws-tls-cloudflare/">搭建备用梯子：V2Ray + WebSocket + TLS + CloudFlare</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2020-01-12T12:20:00+00:00">2020-01-12</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/V2Ray/" rel="tag">V2Ray</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2020-01-15T11:30:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-安装-V2Ray"><span class="toc-text">1. 安装 V2Ray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-配置-V2Ray-服务端"><span class="toc-text">2. 配置 V2Ray 服务端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-运行-V2Ray"><span class="toc-text">3. 运行 V2Ray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-配置-Nginx"><span class="toc-text">4. 配置 Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-配置-CloudFlare"><span class="toc-text">5. 配置 CloudFlare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-配置-V2Ray-客户端"><span class="toc-text">6. 配置 V2Ray 客户端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-后记"><span class="toc-text">7. 后记</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>2020 年的第一篇博文竟然是讲虚拟砖混结构建筑物逾越技术的，感觉有点微妙。</p>
+<p>年终总结啊，在写了在写了，明年就发。</p>
+<a id="more"></a>
+
+<p>因为嫌麻烦，我这几年基本用的都是现成的代理服务（俗称机场）。这样虽然不用担心自己机器 IP 被墙、速度方面基本有保障、节点也多，不过俗话说不要把鸡蛋放在一个篮子里，自建一个代理服务器备用还是很有必要的。</p>
+<p>这几年翻墙技术似乎也发展了不少（是吗？），这次我选择的方法是 V2Ray + WebSocket + TLS + CloudFlare 中转：速度不重要，隐蔽性、抗干扰性第一。这么几层裹上去，除非真的掐网线搞大局域网，不然应该还是能撑个一段时间。</p>
+<p>正文开始前先提个醒，本文不是小白教程，就是随手记录一下，所以我会假定你有一定的基础知识与操作经验。</p>
+<h2 id="1-安装-V2Ray"><a href="#1-安装-V2Ray" class="headerlink" title="1. 安装 V2Ray"></a>1. 安装 V2Ray</h2><p>除非你是真的小白零经验，或者「能用就好」主义的忠实信奉者，不然我是不推荐你一上来就直接使用网上那些「一键脚本」的。</p>
+<p>就算一键脚本再怎么优秀再怎么便利，至少也应该亲自手动操作一次，了解一下大致的流程。如果我想要做某件事，应该进行哪些操作，脚本会替我完成哪些操作，这些自动化操作是不是符合自己的预期（尤其是脚本是其他人写好的情况下），最起码这些东西得心里有数。</p>
+<p>脚本写出来就是帮我们自动完成一些繁琐的操作的，其存在当然有意义，不然每台机器上都手动操作一遍过去，不得累死？用肯定是要用，我所不赞成的只是在不了解这个脚本的情况下瞎用。</p>
+<p>线上服务器搭建 LNMP 环境时我也经常用 <a href="https://oneinstack.com/" target="_blank" rel="noopener">OneinStack</a> 这样的一键包，很方便。而且它的源码我也都看过，很清楚它能干嘛、会干嘛。也知道它自带的 <code>vhost.sh</code> 虚拟主机管理脚本虽然看起来挺友好，但其修改出来的东西经常惨不忍睹，所以服务器上 Nginx 的配置我从来不用它，都是自己管理的。</p>
+<p>总的来说就是可以用傻瓜式脚本，但咱也不能真成傻瓜了，对吧。</p>
+<hr>
+<p>好了不说废话，来安装 V2Ray。</p>
+<p>安装方法有很多，这里就直接用官方提供的脚本：</p>
+<pre><code class="bash">bash &lt;(curl -L -s https://install.direct/go.sh)</code></pre>
+<p>脚本会自动安装这些东西：</p>
+<ul>
+<li><code>/usr/bin/v2ray/v2ray</code> V2Ray 程序</li>
+<li><code>/usr/bin/v2ray/v2ctl</code> V2Ray 工具</li>
+<li><code>/etc/v2ray/config.json</code> 配置文件</li>
+<li><code>/usr/bin/v2ray/geoip.dat</code> IP 数据文件</li>
+<li><code>/usr/bin/v2ray/geosite.dat</code> 域名数据文件</li>
+<li><code>/etc/systemd/system/v2ray.service</code> Systemd Service</li>
+<li><code>/etc/init.d/v2ray</code> SysV 启动脚本</li>
+</ul>
+<h2 id="2-配置-V2Ray-服务端"><a href="#2-配置-V2Ray-服务端" class="headerlink" title="2. 配置 V2Ray 服务端"></a>2. 配置 V2Ray 服务端</h2><p>虽然严格来说 V2Ray 并不分客户端和服务端……反正就是那个意思啦。</p>
+<p>编辑配置文件 <code>/etc/v2ray/config.json</code>：</p>
+<pre><code class="javascript">{
+  &quot;inbounds&quot;: [{
+    &quot;port&quot;: 10086,
+    // 因为还要用 Nginx 反代，这里直接监听本地就行
+    &quot;listen&quot;: &quot;127.0.0.1&quot;,
+    &quot;protocol&quot;: &quot;vmess&quot;,
+    &quot;settings&quot;: {
+      &quot;clients&quot;: [
+        {
+          // 用户 UUID，自己随机弄一个
+          &quot;id&quot;: &quot;23ad6b10-8d1a-40f7-8ad0-e3e35cd38297&quot;,
+          &quot;level&quot;: 1,
+          &quot;alterId&quot;: 64
+        }
+      ]
+    },
+    &quot;streamSettings&quot;: {
+      // 指定底层传输方式为 WebSocket
+      &quot;network&quot;: &quot;ws&quot;,
+      &quot;wsSettings&quot;: {
+        // 在哪个路径上提供 WS 服务，可自定义
+        &quot;path&quot;: &quot;/whatever&quot;
+      }
+    }
+  }],
+  &quot;outbounds&quot;: [{
+    &quot;protocol&quot;: &quot;freedom&quot;,
+    &quot;settings&quot;: {}
+  },{
+    &quot;protocol&quot;: &quot;blackhole&quot;,
+    &quot;settings&quot;: {},
+    &quot;tag&quot;: &quot;blocked&quot;
+  }],
+  &quot;routing&quot;: {
+    &quot;rules&quot;: [
+      {
+        // 默认规则，禁止访问服务器内网
+        &quot;type&quot;: &quot;field&quot;,
+        &quot;ip&quot;: [&quot;geoip:private&quot;],
+        &quot;outboundTag&quot;: &quot;blocked&quot;
+      }
+    ]
+  }
+}</code></pre>
+<p>上述配置是直接基于默认配置修改的，V2Ray 的配置很灵活，还有很多可以完善的地方。不过配置调优并不是本文的重点，所以这里按下不表，有兴趣可以自行阅读官方文档。</p>
+<h2 id="3-运行-V2Ray"><a href="#3-运行-V2Ray" class="headerlink" title="3. 运行 V2Ray"></a>3. 运行 V2Ray</h2><p>配置完了，运行一下：</p>
+<pre><code class="bash">systemctl start v2ray</code></pre>
+<p>如果你的服务器不用 Systemd：</p>
+<pre><code class="bash">service v2ray start
+# 要么
+/etc/init.d/v2ray start
+# 或者手动运行
+/usr/bin/v2ray/v2ray -config /etc/v2ray/config.json</code></pre>
+<p>测试一下有没有跑起来：</p>
+<pre><code class="bash">curl -i http://127.0.0.1:10086/whatever</code></pre>
+<pre><code class="plain">HTTP/1.1 400 Bad Request
+Content-Type: text/plain; charset=utf-8
+Sec-Websocket-Version: 13
+X-Content-Type-Options: nosniff
+Date: Sun, 12 Jan 2020 11:45:14 GMT
+Content-Length: 12
+
+Bad Request</code></pre>
+<p>注意 curl 访问的端口和路径要和上面 V2Ray 中配置的一致，出现 400 Bad Request 就对了。</p>
+<h2 id="4-配置-Nginx"><a href="#4-配置-Nginx" class="headerlink" title="4. 配置 Nginx"></a>4. 配置 Nginx</h2><p>毕竟要隐蔽嘛，最好是选一个已经上线的正常网站，悄咪咪地把其中一个路径反代到我们的 V2Ray 上。</p>
+<p>网上不少 V2Ray + WebSocket + TLS 的教程里，Web 服务器 + SSL 证书的配置都是重头戏。可如果你平时就有在捣鼓网站的话，这些实在是都不算啥……所以我这里也就一笔带过了。</p>
+<p>以 Nginx 为例，找个合适的 <code>server {}</code> 块添加以下内容（这重定向语法够蛋疼的）：</p>
+<pre><code class="nginx">location /whatever {
+    proxy_redirect off;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection &quot;upgrade&quot;;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+    set $is_v2ray 0;
+    if ($http_upgrade = &quot;websocket&quot;) {
+        set $is_v2ray 1;
+    }
+
+    if ($is_v2ray = 1) {
+        # 仅当请求为 WebSocket 时才反代到 V2Ray
+        proxy_pass http://127.0.0.1:10086;
+    }
+
+    if ($is_v2ray = 0) {
+        # 否则显示正常网页
+        rewrite ^/(.*)$ /mask-page last;
+    }
+}</code></pre>
+<p>注意 <code>location</code> 的路径要和上面 V2Ray 里配置的一样。</p>
+<p>最后完整的 Nginx 配置大概类似这样：</p>
+<pre><code class="nginx">server {
+    listen 443 ssl http2;
+    server_name example.com;
+    index index.html index.htm index.php;
+    root /data/wwwroot/example;
+
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers EECDH+AESGCM:EDH+AESGCM;
+
+    location ~ [^/]\.php(/|$) {
+        fastcgi_pass unix:/dev/shm/php-cgi.sock;
+        fastcgi_index index.php;
+        include fastcgi.conf;
+    }
+
+    location /whatever {
+        # ...
+    }
+}</code></pre>
+<p>表面看上去像个正常 PHP 网站，<code>/whatever</code> 里才是大有乾坤。</p>
+<p>再把路径和网站内容搞得唬人一点，我寻思隐蔽性方面应该是没问题的。</p>
+<h2 id="5-配置-CloudFlare"><a href="#5-配置-CloudFlare" class="headerlink" title="5. 配置 CloudFlare"></a>5. 配置 CloudFlare</h2><p>呃，这个就不用讲什么了吧。还不说声多谢 CloudFlare 哥？</p>
+<p>CDN 配置完了再用 curl 测试一下：</p>
+<pre><code class="bash">curl -i https://example.com/whatever</code></pre>
+<pre><code class="plain">HTTP/2 400
+date: Sun, 12 Jan 2020 08:44:07 GMT
+content-type: text/plain; charset=utf-8
+content-length: 12
+sec-websocket-version: 13
+x-content-type-options: nosniff
+cf-cache-status: DYNAMIC
+expect-ct: max-age=604800, report-uri=&quot;https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct&quot; server: cloudflare
+
+Bad Request</code></pre>
+<p>同样也是出现 400 Bad Request 就对了。</p>
+<p>如果你像我上面一样在 Nginx 中配置了 <code>$http_upgrade = &quot;websocket&quot;</code> 的判断的话，这里返回的会是用于伪装的那个页面（而且 Nginx 的 <code>$http_upgrade</code> 变量不知道是按什么赋值的，直接 <code>curl --header &quot;Upgrade: websocket&quot;</code> 的话还不认，怪得很）。可以使用 <code>wscat</code> 来测试：</p>
+<pre><code class="bash">wscat -c wss://example.com/whatever</code></pre>
+<pre><code class="plain">Connected (press CTRL+C to quit)</code></pre>
+<h2 id="6-配置-V2Ray-客户端"><a href="#6-配置-V2Ray-客户端" class="headerlink" title="6. 配置 V2Ray 客户端"></a>6. 配置 V2Ray 客户端</h2><p>客户端配置文件大概改成这样：</p>
+<pre><code class="javascript">{
+  &quot;log&quot;: {
+    &quot;loglevel&quot;: &quot;warning&quot;
+  },
+  &quot;inbounds&quot;: [{
+    // 本地代理配置
+    &quot;port&quot;: 1080,
+    &quot;listen&quot;: &quot;127.0.0.1&quot;,
+    &quot;protocol&quot;: &quot;socks&quot;,
+    &quot;settings&quot;: {
+      &quot;auth&quot;: &quot;noauth&quot;,
+      &quot;udp&quot;: false,
+      &quot;ip&quot;: &quot;127.0.0.1&quot;
+    }
+  }],
+  &quot;outbounds&quot;: [{
+    &quot;protocol&quot;: &quot;vmess&quot;,
+    &quot;settings&quot;: {
+      &quot;vnext&quot;: [
+        {
+          // 套过 CloudFlare 的网址
+          &quot;address&quot;: &quot;example.com&quot;,
+          &quot;port&quot;: 443,
+          &quot;users&quot;: [
+            {
+              // id 和 alterId 必须和服务端上配置的一样
+              &quot;id&quot;: &quot;23ad6b10-8d1a-40f7-8ad0-e3e35cd38297&quot;,
+              &quot;alterId&quot;: 64
+            }
+          ]
+        }
+      ]
+    },
+    &quot;streamSettings&quot;: {
+      // 传输协议为 WebSocket
+      &quot;network&quot;: &quot;ws&quot;,
+      // 底层传输安全为 TLS
+      &quot;security&quot;: &quot;tls&quot;,
+      &quot;wsSettings&quot;: {
+        // 路径要和上面设置的一样
+        &quot;path&quot;: &quot;/whatever&quot;
+      }
+    }
+  }],
+  &quot;policy&quot;: {
+    &quot;levels&quot;: {
+      &quot;0&quot;: {&quot;uplinkOnly&quot;: 0}
+    }
+  }
+}</code></pre>
+<p>上述客户端配置同样也是简化的，路由、DNS 什么的都没设置。</p>
+<p>当然，我估计桌面用户基本上用的都是各种图形客户端，不然可不是折腾自己嘛。以 Windows 上的 v2rayN 客户端为例，你可以这样添加服务器：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/v2ray-ws-tls-cloudflare/v2rayn-client-ws-tls-config.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2020/v2ray-ws-tls-cloudflare/v2rayn-client-ws-tls-config.png" alt="v2rayn-client-ws-tls-config"></p>
+<p>不出意外就可以正常使用了。</p>
+<h2 id="7-后记"><a href="#7-后记" class="headerlink" title="7. 后记"></a>7. 后记</h2><p>这一套配置下来，使用体验暂且不说，隐蔽性应该是拉满的。备用梯子嘛，能在大规模断网的时候依然坚挺就算不错了。</p>
+<p>常言道有备无患，眼见着墙越来越高，给自己多留条路子总是好的。</p>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="https://toutyrater.github.io/advanced/wss_and_web.html" target="_blank" rel="noopener">WebSocket+TLS+Web · V2Ray 配置指南|V2Ray 白话文教程</a></li>
+<li><a href="https://www.v2ray.com/chapter_02/" target="_blank" rel="noopener">配置文件 · Project V 官方网站</a></li>
+<li><a href="https://github.com/233boy/v2ray/wiki/%E4%BD%BF%E7%94%A8Cloudflare%E4%B8%AD%E8%BD%ACV2Ray%E6%B5%81%E9%87%8F" target="_blank" rel="noopener">使用Cloudflare中转V2Ray流量 · 233boy/v2ray Wiki</a></li>
+</ul>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/zsh-prompt-theme-customization/">教你写一个 Zsh 主题</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/vscode-cpp-project-quick-setup/">VS Code C/C++ 项目快速配置模板</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "v2ray-ws-tls-cloudflare/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/v2ray-ws-tls-cloudflare/".replace('index.html', ''),
+      title: '搭建备用梯子：V2Ray + WebSocket + TLS + CloudFlare',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-安装-V2Ray"><span class="toc-text">1. 安装 V2Ray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-配置-V2Ray-服务端"><span class="toc-text">2. 配置 V2Ray 服务端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-运行-V2Ray"><span class="toc-text">3. 运行 V2Ray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-配置-Nginx"><span class="toc-text">4. 配置 Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-配置-CloudFlare"><span class="toc-text">5. 配置 CloudFlare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-配置-V2Ray-客户端"><span class="toc-text">6. 配置 V2Ray 客户端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-后记"><span class="toc-text">7. 后记</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

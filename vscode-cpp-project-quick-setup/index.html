@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>VS Code C/C++ 项目快速配置模板 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/vscode-cpp-project-quick-setup/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="VS Code,C/C++," />
+
+<meta name="description" content="去年我写过一篇博客「使用 VS Code 搭建适用于 ACM 练习的 C&#x2F;C++ 开发环境」，主要介绍了在 VS Code 里跑简单 C 程序的一些方法。不过那篇文章里介绍的方法仅适用于单文件程序，所以稍微大一点的项目就力不从心了。 但是对于课程设计这类，说大不大说小也不算小的 C++ 项目，也不是特别想用大型 IDE……所以我更新了一下相关的 VSC 配置，使其也能用于多文件的 C++ 项目。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS Code C&#x2F;C++ 项目快速配置模板">
+<meta property="og:url" content="https://printempw.github.io/vscode-cpp-project-quick-setup/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="去年我写过一篇博客「使用 VS Code 搭建适用于 ACM 练习的 C&#x2F;C++ 开发环境」，主要介绍了在 VS Code 里跑简单 C 程序的一些方法。不过那篇文章里介绍的方法仅适用于单文件程序，所以稍微大一点的项目就力不从心了。 但是对于课程设计这类，说大不大说小也不算小的 C++ 项目，也不是特别想用大型 IDE……所以我更新了一下相关的 VSC 配置，使其也能用于多文件的 C++ 项目。">
+<meta property="og:image" content="https://img.blessing.studio/images/2019/12/19/vscode-cpp-project.png">
+<meta property="article:published_time" content="2019-12-19T11:20:00.000Z">
+<meta property="article:modified_time" content="2019-12-19T11:20:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="VS Code">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2019/12/19/vscode-cpp-project.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/vscode-cpp-project-quick-setup/">VS Code C/C++ 项目快速配置模板</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2019-12-19T11:20:00+00:00">2019-12-19</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/C-C/" rel="tag">C/C++</a> <a class="tag-link" href="/tag/VS-Code/" rel="tag">VS Code</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2019-12-19T11:20:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>去年我写过一篇博客「<a href="https://printempw.github.io/vscode-c-cpp-configuration-for-acm-oj/">使用 VS Code 搭建适用于 ACM 练习的 C/C++ 开发环境</a>」，主要介绍了在 VS Code 里跑简单 C 程序的一些方法。不过那篇文章里介绍的方法仅适用于单文件程序，所以稍微大一点的项目就力不从心了。</p>
+<p>但是对于课程设计这类，说大不大说小也不算小的 C++ 项目，也不是特别想用大型 IDE……所以我更新了一下相关的 VSC 配置，使其也能用于多文件的 C++ 项目。</p>
+<p>为了方便以后复用，也给其他有类似需求的人一个参考，相关的配置文件整理如下（<a href="https://gist.github.com/printempw/bcfa32a33cc268945200cb23172f262d" target="_blank" rel="noopener">Gist</a>，新建项目时复制一份到 <code>.vscode</code> 里就行了）。</p>
+<a id="more"></a>
+
+<blockquote>
+<p>这一年来 VS Code 的 <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools" target="_blank" rel="noopener">C/C++  扩展</a> 更新了不少，还支持在 WSL 里 Remote 开发了。不过本文中还是继续以 Windows 下的 MinGW-w64 为例。WSL 的配置也差不多，有兴趣的可以看看参考链接里的官方文档。</p>
+</blockquote>
+<p><code>c_cpp_properties.json</code>：</p>
+<pre><code class="javascript">{
+    &quot;configurations&quot;: [
+        {
+            // 配置的名称，可以添加多个在编辑器右下角切换
+            &quot;name&quot;: &quot;MinGW G++&quot;,
+            &quot;intelliSenseMode&quot;: &quot;gcc-x64&quot;,
+            // 这里的编译器路径，包括下面的一些选项都只是
+            // 给 IntelliSense 用的，和具体项目构建没关系
+            &quot;compilerPath&quot;: &quot;C:\\Portable\\mingw64\\bin\\g++.exe&quot;,
+            &quot;includePath&quot;: [
+                &quot;${workspaceFolder}/**&quot;
+            ],
+            &quot;defines&quot;: [],
+            &quot;cStandard&quot;: &quot;c11&quot;,
+            &quot;cppStandard&quot;: &quot;c++17&quot;
+        }
+    ],
+    &quot;version&quot;: 4
+}</code></pre>
+<p><code>tasks.json</code>：</p>
+<pre><code class="javascript">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;compile&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            // 拼装编译命令（以 g++ 为例）
+            &quot;command&quot;: &quot;g++&quot;,
+            &quot;args&quot;: [
+                &quot;-g&quot;,
+                &quot;-std=c++1z&quot;,
+                &quot;\&quot;src/*.cpp\&quot;&quot;,
+                &quot;-o&quot;,
+                &quot;\&quot;build/${workspaceFolderBasename}\&quot;&quot;
+            ],
+            &quot;options&quot;: {
+                // 在这个目录里执行编译命令
+                &quot;cwd&quot;: &quot;${workspaceFolder}&quot;,
+                &quot;shell&quot;: {
+                    // 在 PowerShell 里执行命令，否则无法识别 *.cpp
+                    &quot;executable&quot;: &quot;powershell.exe&quot;
+                }
+            },
+            &quot;presentation&quot;: {
+                &quot;reveal&quot;: &quot;always&quot;,
+                &quot;panel&quot;: &quot;shared&quot;,
+                &quot;focus&quot;: false,
+                &quot;echo&quot;: true
+            },
+            // 从编译器的输出里提取 WARNING、ERROR 等信息
+            &quot;problemMatcher&quot;: [&quot;$gcc&quot;],
+            &quot;group&quot;: {
+                &quot;kind&quot;: &quot;build&quot;,
+                &quot;isDefault&quot;: true
+            }
+        }
+    ]
+}</code></pre>
+<p><code>launch.json</code>：</p>
+<pre><code class="javascript">{
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            // 使用 GDB 调试程序
+            &quot;name&quot;: &quot;(gdb) Launch&quot;,
+            &quot;type&quot;: &quot;cppdbg&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            // 之前编译好的可执行文件路径
+            &quot;program&quot;: &quot;${workspaceFolder}/build/${workspaceFolderBasename}.exe&quot;,
+            &quot;args&quot;: [],
+            &quot;stopAtEntry&quot;: false,
+            // 设置 cwd 到 build 目录
+            &quot;cwd&quot;: &quot;${workspaceFolder}/build&quot;,
+            &quot;environment&quot;: [],
+            // 不要在集成终端里运行程序
+            &quot;externalConsole&quot;: true,
+            &quot;MIMode&quot;: &quot;gdb&quot;,
+            // 调试器可执行文件的路径
+            &quot;miDebuggerPath&quot;: &quot;C:\\Portable\\mingw64\\bin\\gdb.exe&quot;,
+            &quot;setupCommands&quot;: [
+                {
+                    &quot;description&quot;: &quot;Enable pretty-printing for gdb&quot;,
+                    &quot;text&quot;: &quot;-enable-pretty-printing&quot;,
+                    &quot;ignoreFailures&quot;: true
+                }
+            ],
+            // 调试前先运行 compile（定义在上面的 tasks.json 里）
+            &quot;preLaunchTask&quot;: &quot;compile&quot;
+        }
+    ]
+}</code></pre>
+<p>稍微解释一下这些文件的作用。</p>
+<p>这三个文件都是放在项目的 <code>.vscode</code> 目录下的，其中 <code>c_cpp_properties.json</code> 用于配置 VSC 的 C/C++ 扩展，<code>tasks.json</code> 配置项目的构建流程，<code>launch.json</code> 则是配置如何运行（或调试）构建好的程序。</p>
+<p>在 VSC 内编辑这些配置文件时，鼠标移动到 JSON 的 key 上就可以查看相关配置项的说明，非常方便。另外 <code>c_cpp_properties.json</code> 这个文件，也可以通过 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> 面板运行 <code>C/C++: Edit Configurations (UI)</code> 命令打开图形化配置页面。关键配置项的作用都已经在上面的注释里说明了，就不再赘述。</p>
+<p>最终整个项目的目录结构应该是这样的：</p>
+<pre><code class="text">$ tree -a
+.
+├── .vscode
+│   ├── c_cpp_properties.json
+│   ├── launch.json
+│   ├── settings.json
+│   └── tasks.json
+├── build
+│   └── vscode-cpp-quick-setup.exe
+└── src
+    ├── Greeter.cpp
+    ├── Greeter.h
+    └── main.cpp</code></pre>
+<p>所有源代码放在 <code>src</code> 目录中，编译后的可执行文件将以当前 workspace 命名（一般是目录名），存放于 <code>build</code> 目录中。</p>
+<p>另外必须吐槽的一点是，9012 年了，C/C++ 扩展还不支持「以非调试模式运行」，绝了。如果你想要不调试直接跑，可以自己新建一个 Task 来运行程序。不过这超出了本文的讨论范围，故按下不表。</p>
+<p><img src="https://img.blessing.studio/images/2019/12/19/vscode-cpp-project.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2019/12/19/vscode-cpp-project.png" alt="vscode-cpp-project"></p>
+<br>
+
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="https://code.visualstudio.com/docs/languages/cpp" target="_blank" rel="noopener">C++ programming with Visual Studio Code</a></li>
+<li><a href="https://code.visualstudio.com/docs/cpp/config-mingw" target="_blank" rel="noopener">Get Started with C++ and Mingw-w64 in Visual Studio Code</a></li>
+<li><a href="https://code.visualstudio.com/docs/cpp/config-wsl" target="_blank" rel="noopener">Get Started with C++ and Windows Subsystem for Linux in Visual Studio Code</a></li>
+<li><a href="https://code.visualstudio.com/docs/editor/variables-reference" target="_blank" rel="noopener">Visual Studio Code Variables Reference</a></li>
+<li><a href="https://github.com/Microsoft/vscode-cpptools/issues/1201" target="_blank" rel="noopener">Support “Run without debugging” · Issue #1201 · microsoft/vscode-cpptools</a></li>
+</ul>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/v2ray-ws-tls-cloudflare/">搭建备用梯子：V2Ray + WebSocket + TLS + CloudFlare</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/freedom-of-thought/">写在思想未被戴上脚镣前</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "vscode-cpp-project-quick-setup/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/vscode-cpp-project-quick-setup/".replace('index.html', ''),
+      title: 'VS Code C/C++ 项目快速配置模板',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

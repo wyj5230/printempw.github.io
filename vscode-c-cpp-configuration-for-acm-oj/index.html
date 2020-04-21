@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>使用 VS Code 搭建适用于 ACM 练习的 C/C++ 开发环境 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/vscode-c-cpp-configuration-for-acm-oj/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="VS Code,C/C++,ACM," />
+
+<meta name="description" content="大学入学也快一个月了，总的来说，我过得很开心，不枉我花费一年的时间 高考复读。具体哪里令人开心呢？我觉得最主要的是，比起初高中，大学的时间分配更为自由。 中学时代，学生的时间基本都被学校安排得死死的：早上什么时间必须到校，然后开始早读、上午五节课下午三节课、晚读、晚自习，最后在规定的时间离校（住宿生还要在规定的时间就寝），可以自由分配的时间少得可怜，在某些管理严格的学校甚至连人身自由都要被限制。虽">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 VS Code 搭建适用于 ACM 练习的 C&#x2F;C++ 开发环境">
+<meta property="og:url" content="https://printempw.github.io/vscode-c-cpp-configuration-for-acm-oj/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="大学入学也快一个月了，总的来说，我过得很开心，不枉我花费一年的时间 高考复读。具体哪里令人开心呢？我觉得最主要的是，比起初高中，大学的时间分配更为自由。 中学时代，学生的时间基本都被学校安排得死死的：早上什么时间必须到校，然后开始早读、上午五节课下午三节课、晚读、晚自习，最后在规定的时间离校（住宿生还要在规定的时间就寝），可以自由分配的时间少得可怜，在某些管理严格的学校甚至连人身自由都要被限制。虽">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/02/cs-no-hair.jpg">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/02/installing-mingw-w64.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/02/ms-vscode-cpptools.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/02/vsc-code-runner.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/02/code-runner-demo.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/02/configue-launch-json.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/02/vsc-debugger-demo.png">
+<meta property="article:published_time" content="2018-10-02T10:17:00.000Z">
+<meta property="article:modified_time" content="2018-10-02T10:17:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="VS Code">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="ACM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2018/10/02/cs-no-hair.jpg">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/vscode-c-cpp-configuration-for-acm-oj/">使用 VS Code 搭建适用于 ACM 练习的 C/C++ 开发环境</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2018-10-02T10:17:00+00:00">2018-10-02</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/ACM/" rel="tag">ACM</a> <a class="tag-link" href="/tag/C-C/" rel="tag">C/C++</a> <a class="tag-link" href="/tag/VS-Code/" rel="tag">VS Code</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2018-10-02T10:17:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-需求分析"><span class="toc-text">0x01 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-安装-C-C-编译器"><span class="toc-text">0x02 安装 C&#x2F;C++ 编译器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-配置-VS-Code-扩展"><span class="toc-text">0x03 配置 VS Code 扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-配置一键编译运行"><span class="toc-text">0x04 配置一键编译运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-配置调试器"><span class="toc-text">0x05 配置调试器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-后记"><span class="toc-text">0x06 后记</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>大学入学也快一个月了，总的来说，我过得很开心，不枉我花费一年的时间 <a href="https://blessing.studio/check-in-2018-07/" target="_blank" rel="noopener">高考复读</a>。具体哪里令人开心呢？我觉得最主要的是，比起初高中，大学的时间分配更为自由。</p>
+<p><strong>中学时代，学生的时间基本都被学校安排得死死的</strong>：早上什么时间必须到校，然后开始早读、上午五节课下午三节课、晚读、晚自习，最后在规定的时间离校（住宿生还要在规定的时间就寝），可以自由分配的时间少得可怜，在某些管理严格的学校甚至连人身自由都要被限制。虽然学生们苦中作乐的摸鱼技巧也不容小觑，但考虑到升学的压力，如果在兴趣上分配的时间过多，很有可能就会像我去年一样落得个无法升学的尴尬境地。</p>
+<p><strong>而大学相对来说就没有那么多破规矩</strong>：有课就上，没课的话时间就随你安排，回寝室睡觉也好出门嗨皮也罢，突出一个爱干嘛干嘛。在这些闲暇时间里，有人选择加入社团以及各种各样的学生组织，有人寻欢作乐讴歌青春，有人一头扎进自己的兴趣爱好中，也有人选择当个快乐摸鱼侠无事一身轻。</p>
+<p>而我就比较硬核了，我选择参加可能让我基本告别头发的 ACM 程序设计竞赛（不）。</p>
+<a id="more"></a>
+
+<p><img src="https://img.blessing.studio/images/2018/10/02/cs-no-hair.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/02/cs-no-hair.jpg" alt="cs-no-hair"></p>
+<p>好啦言归正传，今天我们的主题是在 VS Code 编辑器中搭建适用于 ACM 练习的 C/C++ 开发环境。</p>
+<h2 id="0x01-需求分析"><a href="#0x01-需求分析" class="headerlink" title="0x01 需求分析"></a>0x01 需求分析</h2><p>在我们学校，大一新生想要参加 ACM 集训队，必须先在学校的 OJ (Online Judge) 平台上刷完 200 道入门程序题。可选的语言有 C、C++ 和 Java，经过 <a href="https://twitter.com/printempw/status/1040451170962071552" target="_blank" rel="noopener">一番权衡</a> 后，我选择使用 C 语言来完成这些题目。</p>
+<p>由于我之前基本上没有用过 C，所以上手第一步自然是搭建开发环境。</p>
+<p>关于开发环境，C 程序设计的课以及学校 ACM 的讨论群里推荐的一般都是 <a href="http://www.programarts.com/cfree_ch/" target="_blank" rel="noopener">C-Free</a>、<a href="http://www.codeblocks.org/home" target="_blank" rel="noopener">Code::Blocks</a>、<a href="https://sourceforge.net/projects/orwelldevcpp/" target="_blank" rel="noopener">Dev-C++</a> 这类适用于初学者入门的老牌 IDE，但是我不喜欢这些软件，<strong>因为它们太丑了</strong>（直球）。而如果直接用那些现代化的大型 IDE（Visual Studio、CLion 等）的话，大材小用且不说，光启动就要半天我可受不了。所以我选择继续用我最爱的代码编辑器 —— <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> 来搭建 C 语言（也适用于 C++）的开发环境。</p>
+<p>另外，鉴于 ACM 这类算法竞赛的特殊性，我们并不需要特别关注开发环境的工程相关特性（比如说依赖管理、代码导航、单元测试、代码重构等），所以我在这篇文章中介绍的开发环境配置基本不会涉及这些功能。如果想要用 C/C++ 开发大型项目，那么还是出门左转乖乖用 IDE 吧。</p>
+<p>我对这个开发环境有如下需求：</p>
+<ul>
+<li><strong>好看</strong>（语法高亮、界面配色等）；</li>
+<li>运行速度快；</li>
+<li>智能提示、自动补全、语法检查；</li>
+<li>一键编译运行；</li>
+<li>断点调试、变量追踪等。</li>
+</ul>
+<p>得益于 VS Code 强大的扩展功能，这些特性通过简单的配置即可实现。</p>
+<h2 id="0x02-安装-C-C-编译器"><a href="#0x02-安装-C-C-编译器" class="headerlink" title="0x02 安装 C/C++ 编译器"></a>0x02 安装 C/C++ 编译器</h2><p>有点常识的选手都知道，程序源码想要运行，必须要经过编译、连接等各种步骤。你在 IDE 上按个按钮就能直接跑，<strong>只是因为 IDE 默默地帮你把这些活儿都干了</strong>（所以一直以来都有人呼吁让编程初学者不要使用 IDE，原因是这会让新手难以了解底层的细节，其实也不是没有道理）。现在，我们得自己来干这些活儿了。</p>
+<p>以下列出主流的 C/C++ 编译器及其适用平台以供参考：</p>
+<ul>
+<li><p><a href="https://gcc.gnu.org/" target="_blank" rel="noopener"><strong>GCC</strong></a> (GNU Compiler Collection)</p>
+<p>相信大家或多或少都听说过 GCC 以及 GNU 工具链的鼎鼎大名。</p>
+<p><em>适用平台：GNU/Linux, Windows (MinGW), Unix, macOS.</em></p>
+</li>
+<li><p><a href="http://clang.llvm.org/" target="_blank" rel="noopener"><strong>Clang</strong></a></p>
+<p>另一个流行的 C/C++/Objective C 编译器，使用 LLVM 后端。</p>
+<p><em>适用平台：GNU/Linux, Windows, Unix, macOS.</em></p>
+</li>
+<li><p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/msvc-the-best-choice-for-windows/" target="_blank" rel="noopener"><strong>MSVC</strong></a> (Microsoft Visual C++ compiler and libraries toolset)</p>
+<p>微软官方出品的 C/C++ 编译器，Visual Studio 中默认使用的就是这个。后来出了 standalone 版本，现在可以和其他一票 MSVC 工具集一起在 <a href="https://aka.ms/buildtools" target="_blank" rel="noopener">Visual Studio Build Tools</a> 中下载到。</p>
+<p><em>适用平台：Windows.</em></p>
+</li>
+</ul>
+<p>使用什么编译器看个人喜好与实际需求，如果不知道怎么选那就用 GCC，准没错。本文后续的配置也均基于 Windows 上的 GCC 进行，如果你打算使用其他编译器，配置也都是一个道理，自己改改就好了。</p>
+<p>想在 Windows 上使用 GCC，必须安装 <a href="http://www.mingw.org/" target="_blank" rel="noopener">MinGW</a>、<a href="https://www.cygwin.com/" target="_blank" rel="noopener">Cygwin</a> 或者 <a href="http://tdm-gcc.tdragon.net/" target="_blank" rel="noopener">TDM-GCC</a> 这类 GCC 移植版与配套环境。下文将以 <a href="http://mingw-w64.org/" target="_blank" rel="noopener">MinGW-w64</a> （简单来说就是 MinGW 的增强版，如果你想知道它俩之间的那些破事儿也可以自己去搜一搜）为例进行配置。</p>
+<blockquote>
+<p>当然，你也可以安装 <a href="https://blessing.studio/wsl-guide/" target="_blank" rel="noopener">WSL (Windows Subsystem for Linux)</a>，在 WSL 中安装 GCC，然后在 Windows 下 <a href="https://github.com/Microsoft/vscode-cpptools/blob/master/Documentation/LanguageServer/Windows%20Subsystem%20for%20Linux.md" target="_blank" rel="noopener">调用 WSL 中的 GCC 编译源码为 Linux 可执行程序</a> 并直接在 WSL 中运行。</p>
+<p><del>如果你愿意，你甚至可以在 WSL 中安装 mingw-w64 交叉编译工具集，然后在 Windows 上调用 WSL 中的 <code>x86_64-w64-mingw32-gcc</code> 交叉编译器在 WSL 中把源码交叉编译为 Windows 可执行程序，最后在 WSL 中运行 Windows 可执行程序……但是没事谁这么蛋疼呢？</del></p>
+</blockquote>
+<p>MinGW-w64 的安装过程我就不赘述了，在 <a href="https://sourceforge.net/projects/mingw-w64/files/" target="_blank" rel="noopener">这里</a> 下载安装包，一路点安装就完事儿了（便携版用户请注意将安装目录下的 <code>bin</code> 目录添加至 <code>PATH</code> 环境变量）。如果你需要，这里也有一个傻瓜教程：<a href="http://rsreland.net/archives/1760" target="_blank" rel="noopener">《⑨也懂系列：MinGW-w64 安装教程》著名 C/C++ 编译器 GCC 的 Windows 版本</a>。</p>
+<p>安装过程中会要求你设置一些选项（这些同样适用于便携版的选择）：</p>
+<ul>
+<li><strong>Version</strong>：GCC 版本，没特殊要求就选最高；</li>
+<li><strong>Architecture</strong>：系统架构，64 位选 <code>x86_64</code>，32 位选 <code>i686</code>；</li>
+<li><strong>Threads</strong>：操作系统 API，拿不准的话就选 <code>win32</code>；</li>
+<li><strong>Exception</strong>：异常处理模型，<code>seh</code> 只支持 64 位系统，<code>sjlj</code> 兼容 32 位；</li>
+<li><strong>Build revision</strong>：修订版本，保持默认即可。</li>
+</ul>
+<p><img src="https://img.blessing.studio/images/2018/10/02/installing-mingw-w64.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/02/installing-mingw-w64.png" alt="installing-mingw-w64"></p>
+<p>安装完后，在 <code>cmd.exe</code> 或者 PowerShell 中运行 <code>gcc --version</code> 命令，如果看到类似下面这样的输出，那么 MinGW-w64 就算安装完成了。</p>
+<pre><code class="text">gcc.exe (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 5.4.0
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code></pre>
+<h2 id="0x03-配置-VS-Code-扩展"><a href="#0x03-配置-VS-Code-扩展" class="headerlink" title="0x03 配置 VS Code 扩展"></a>0x03 配置 VS Code 扩展</h2><p>想要实现我们在第一节提出的需求，必不可少的就是 Microsoft 官方推出的 VS Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools" target="_blank" rel="noopener">C/C++ 扩展</a>。这个扩展提供了针对 C/C++ 的 IntelliSense 与调试等功能，搜索「C/C++」即可直接安装。</p>
+<p><img src="https://img.blessing.studio/images/2018/10/02/ms-vscode-cpptools.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/02/ms-vscode-cpptools.png" alt="ms-vscode-cpptools"></p>
+<p>安装完后，<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> 打开命令面板运行 <strong>C/Cpp: Edit configurations</strong>，这会自动在当前打开的目录下创建 <code>.vscode/c_cpp_properties.json</code> 配置文件。由于下面的配置文件都是存储在当前文件夹下的 <code>.vscode</code> 目录中而非全局的，所以我推荐专门开一个工作区用于 C/C++ 开发（废话）。</p>
+<p>生成的 <code>c_cpp_properties.json</code> 文件自带模板，你只需要修改其中的 <code>compilerPath</code> 为你的编译器可执行文件所在目录即可。如果你在上一步正确的安装步骤正确，VS Code 甚至可以自动检测你的编译器位置，无需任何修改。在我的机器上，这个文件的内容如下：</p>
+<pre><code class="json">{
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;MinGW&quot;,
+            &quot;intelliSenseMode&quot;: &quot;gcc-x64&quot;,
+            &quot;compilerPath&quot;: &quot;C:\\Portable\\mingw64\\bin\\gcc.exe&quot;,
+            &quot;includePath&quot;: [
+                &quot;${workspaceFolder}/**&quot;
+            ],
+            &quot;defines&quot;: [],
+            &quot;cStandard&quot;: &quot;c11&quot;,
+            &quot;cppStandard&quot;: &quot;c++17&quot;
+        }
+    ],
+    &quot;version&quot;: 4
+}</code></pre>
+<p>另外需要注意的是，网上不少教程都在 <code>includePath</code> 中添加了一大堆乱七八糟的目录，但是现在的 VS Code C/C++ 扩展已经可以通过 <code>compilerPath</code> 自动推断头文件以及库文件所在的目录，所以无需手动配置。</p>
+<p>配置好此文件后，你就可以正常使用 IntelliSense 等功能了。</p>
+<h2 id="0x04-配置一键编译运行"><a href="#0x04-配置一键编译运行" class="headerlink" title="0x04 配置一键编译运行"></a>0x04 配置一键编译运行</h2><p>虽然我们可以写完源码后切换至终端手动运行命令来编译运行：</p>
+<pre><code>$ gcc A.c -o A.exe
+$ ./A.exe</code></pre><p>但是这样未免也太麻烦，像我这种懒人，一键编译运行肯定是要搞一个的。</p>
+<p>正如标题中提到的，本文所配置的开发环境主要目的是用于 ACM 练习。这些练习题基本上在单文件内即可完成，很少会需要用到多个源文件，更别提 Makefile 之类的工程化构建了。所以针对这些单文件的编译运行，我们有两种方法。其中一种比较简单，另一种稍微复杂一些。</p>
+<p><strong>第一种，使用 Code Runner 扩展。</strong></p>
+<p>这个扩展非常强大，可以让你在 VS Code 中直接运行各种语言的代码。虽然它并不支持复杂的构建流程，但是对于我们这种「编译运行单文件」的需求，Code Runner 正好胜任，而且更为简单快捷。</p>
+<p><img src="https://img.blessing.studio/images/2018/10/02/vsc-code-runner.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/02/vsc-code-runner.png" alt="vsc-code-runner"></p>
+<p>扩展安装完成后，进入设置页面搜索 <code>code-runner</code>，可以看到这个扩展提供了很多配置项。这里我推荐各位将自定义的配置项 <strong>保存至工作区</strong>（别告诉我你用了这么久 VS Code 还不知道工作区是啥）而非全局，因为这个扩展也可以用于其他语言，最好不要让我们之后做出的一些专门针对 C/C++ 的配置污染到全局作用域中。</p>
+<p>配置项有很多，各位可以根据自己的实际需求进行修改。以下是一些推荐修改的配置项：</p>
+<pre><code class="javascript">{
+    // 在终端中运行编译命令，否则我们无法与程序通过标准输入交互
+    &quot;code-runner.runInTerminal&quot;: true,
+    // 如果你全局设置中的默认终端是 WSL 之类的，那么可以在工作区设置中改回 PowerShell
+    &quot;terminal.integrated.shell.windows&quot;: &quot;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe&quot;,
+    // 运行代码之前清除之前的输出
+    &quot;code-runner.clearPreviousOutput&quot;: true,
+    // 开启这个后在运行编译命令之前会自动 cd 至文件所在目录
+    &quot;code-runner.fileDirectoryAsCwd&quot;: true,
+    // 因为上面那个选项会自动 cd，所以我删除了默认编译命令中的 cd 语句
+    // 同时我将编译结果的输出目录修改为了同目录下的 build 文件夹
+    // 不然源码文件和编译结果混杂在一个目录中非常杂乱（尤其是刷题时）
+    // 这里只保留了 C 和 C++ 的编译命令，有需要其他语言的请自行添加
+    &quot;code-runner.executorMap&quot;: {
+        &quot;c&quot;: &quot;gcc $fileName -o build/$fileNameWithoutExt &amp;&amp; .\\build\\$fileNameWithoutExt&quot;,
+        &quot;cpp&quot;: &quot;g++ $fileName -o build/$fileNameWithoutExt &amp;&amp; .\\build\\$fileNameWithoutExt&quot;,
+    },
+    // 运行代码后切换焦点至终端，方便直接输入测试数据
+    &quot;code-runner.preserveFocus&quot;: false,
+    // 在运行代码之前保存文件
+    &quot;code-runner.saveFileBeforeRun&quot;: true,
+}</code></pre>
+<p>配置完成后，你可以通过 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>N</kbd> 快捷键（可以自定义，我改成了 <kbd>F5</kbd>）或者右键菜单等方式编译运行当前编辑器中打开的文件，非常方便。效果如下：</p>
+<p><img src="https://img.blessing.studio/images/2018/10/02/code-runner-demo.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/02/code-runner-demo.png" alt="code-runner-demo"></p>
+<p><strong>除了使用 Code Runner，另一种在 VS Code 内执行编译的方法就是定义 Task。</strong></p>
+<p>因为 Code Runner 只适用于单文件的编译运行（这对于 ACM 刷题的练习基本上已经足够），但如果你的程序涉及更复杂的编译流程，或者你需要使用 Debugger，那么就必须定义一个 Task 来完成构建：</p>
+<ul>
+<li><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> 打开命令面板，运行 <strong>Tasks: Configure Task</strong>；</li>
+<li>选择「使用模板创建 tasks.json 文件」；</li>
+<li>选择「Others 运行任意外部命令的示例」。</li>
+</ul>
+<p>这会在 <code>.vscode</code> 目录中生成一个 <code>tasks.json</code> 文件（上面生成的那个 <code>c_cpp_properties.json</code> 配置文件也在这个目录里），将其内容修改为（注意，我这里给出的示例依然是适用于单文件的）：</p>
+<pre><code class="javascript">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;compile&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;gcc&quot;,
+            &quot;args&quot;: [
+                &quot;-g&quot;,
+                &quot;\&quot;${file}\&quot;&quot;,
+                &quot;-o&quot;,
+                &quot;\&quot;${fileDirname}\\build\\${fileBasenameNoExtension}\&quot;&quot;
+            ],
+            &quot;presentation&quot;: {
+                &quot;reveal&quot;: &quot;always&quot;,
+                &quot;panel&quot;: &quot;shared&quot;,
+                &quot;focus&quot;: false,
+                &quot;echo&quot;: true
+            },
+            &quot;group&quot;: {
+                &quot;kind&quot;: &quot;build&quot;,
+                &quot;isDefault&quot;: true
+            },
+            &quot;problemMatcher&quot;: {
+                &quot;owner&quot;: &quot;cpp&quot;,
+                &quot;fileLocation&quot;: &quot;absolute&quot;,
+                &quot;pattern&quot;: {
+                    &quot;regexp&quot;: &quot;^(.*):(\\d+):(\\d+):\\s+(error):\\s+(.*)$&quot;,
+                    &quot;file&quot;: 1,
+                    &quot;line&quot;: 2,
+                    &quot;column&quot;: 3,
+                    &quot;severity&quot;: 4,
+                    &quot;message&quot;: 5
+                }
+            }
+        }
+    ]
+}</code></pre>
+<p>我们主要需要关注的就是 <code>command</code> 和 <code>args</code> 这两个配置项，相信大家都能看懂，我就不多解释了。如果你用的是 C++，将 <code>command</code> 中的 <code>gcc</code> 修改为 <code>g++</code> 即可。如果你想知道其他那些配置项是啥意思，也可以参考 VS Code 的官方文档：<a href="https://code.visualstudio.com/docs/editor/tasks" target="_blank" rel="noopener">Integrate with External Tools via Tasks</a>。</p>
+<p>配置完成后，我们就可以通过命令面板运行 <strong>Tasks: Run Build Task</strong> 或者 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> 快捷键运行刚才定义的 Task 执行构建（不过这只会执行编译命令，并不会运行编译后的程序）。</p>
+<h2 id="0x05-配置调试器"><a href="#0x05-配置调试器" class="headerlink" title="0x05 配置调试器"></a>0x05 配置调试器</h2><p>配置好了一键编译运行，我们还得配置一下调试器 (Debugger)。虽然我以前写 PHP 和 JavaScript 时都是不用调试器、<code>var_dump</code> <code>console.log</code> 一把梭的选手，但是这在写 C 时可行不通，所以还是乖乖用调试器吧。</p>
+<p>C/C++ 的调试器也有很多，下面以我们之前安装的 MinGW-w64 中配套的 GDB 为例进行配置：</p>
+<ul>
+<li>在 VS Code 侧边栏切换至「调试」面板；</li>
+<li>点击面板上部的齿轮图标（配置或修复 <code>launch.json</code>）；</li>
+<li>在弹出的「选择环境」面板中选择 <code>C++ (GDB/LLDB)</code>。</li>
+</ul>
+<p><img src="https://img.blessing.studio/images/2018/10/02/configue-launch-json.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/02/configue-launch-json.png" alt="configue-launch-json"></p>
+<p>这会在当前工作区的 <code>.vscode</code> 目录中新建一个 <code>launch.json</code> 文件，修改文件内容如下：</p>
+<pre><code class="javascript">{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;(gdb) Launch&quot;,
+            &quot;type&quot;: &quot;cppdbg&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;program&quot;: &quot;${fileDirname}/build/${fileBasenameNoExtension}.exe&quot;,
+            &quot;args&quot;: [],
+            &quot;stopAtEntry&quot;: false,
+            &quot;cwd&quot;: &quot;${workspaceFolder}&quot;,
+            &quot;environment&quot;: [],
+            &quot;externalConsole&quot;: true,
+            &quot;MIMode&quot;: &quot;gdb&quot;,
+            // 这里填你 MinGW-w64 安装目录下的 gdb 路径
+            &quot;miDebuggerPath&quot;: &quot;C:\\Portable\\mingw64\\bin\\gdb.exe&quot;,
+            &quot;setupCommands&quot;: [
+                {
+                    &quot;description&quot;: &quot;Enable pretty-printing for gdb&quot;,
+                    &quot;text&quot;: &quot;-enable-pretty-printing&quot;,
+                    &quot;ignoreFailures&quot;: true
+                }
+            ],
+            // 这里要与你在 tasks.json 中配置的 label 一致
+            &quot;preLaunchTask&quot;: &quot;compile&quot;,
+        }
+    ]
+}</code></pre>
+<p>其中各配置项的作用可以参阅官方文档：<a href="https://github.com/Microsoft/vscode-cpptools/blob/master/launch.md" target="_blank" rel="noopener">Configuring launch.json for C/C++ debugging</a>.</p>
+<p>配置正确后的调试效果图如下：</p>
+<p><img src="https://img.blessing.studio/images/2018/10/02/vsc-debugger-demo.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/02/vsc-debugger-demo.png" alt="vsc-debugger-demo"></p>
+<h2 id="0x06-后记"><a href="#0x06-后记" class="headerlink" title="0x06 后记"></a>0x06 后记</h2><p>至此，我们已经完成了对 VS Code C/C++ 开发环境的配置。</p>
+<p>虽然真正用 C/C++ 开发项目时还是用正儿八经的 IDE 比较好，但是如果只是用于 ACM 这类算法相关竞赛的刷题练习的话，用 VS Code 这类轻量级的代码编辑器还是非常舒适的。</p>
+<p>如果想了解更多使用 VS Code 开发 C/C++ 的信息，这里有一些参考链接：</p>
+<ul>
+<li><a href="https://code.visualstudio.com/docs/languages/cpp" target="_blank" rel="noopener">C/C++ for Visual Studio Code (Preview)</a></li>
+<li><a href="https://github.com/Microsoft/vscode-cpptools" target="_blank" rel="noopener">Microsoft/vscode-cpptools</a></li>
+<li><a href="https://segmentfault.com/a/1190000014800106" target="_blank" rel="noopener">使用 Visual Studio Code 搭建 C/C++ 开发和调试环境</a></li>
+<li><a href="https://www.jianshu.com/p/8933ebdac814" target="_blank" rel="noopener">使用 VSCode 搭建 C/C++ 开发环境</a></li>
+</ul>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/new-nickname-prin/">新的网络昵称：PRIN 🍮</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/wsl-guide/">WSL 配置指北：打造 Windows 最强命令行</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "vscode-c-cpp-configuration-for-acm-oj/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/vscode-c-cpp-configuration-for-acm-oj/".replace('index.html', ''),
+      title: '使用 VS Code 搭建适用于 ACM 练习的 C/C++ 开发环境',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-需求分析"><span class="toc-text">0x01 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-安装-C-C-编译器"><span class="toc-text">0x02 安装 C&#x2F;C++ 编译器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-配置-VS-Code-扩展"><span class="toc-text">0x03 配置 VS Code 扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-配置一键编译运行"><span class="toc-text">0x04 配置一键编译运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-配置调试器"><span class="toc-text">0x05 配置调试器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-后记"><span class="toc-text">0x06 后记</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

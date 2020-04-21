@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PRIN BLOG - 半吊子全栈开发者的日常</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/page/2/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="printempw, prin, blog, 博客, 独立博客" />
+
+<meta name="description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PRIN BLOG">
+<meta property="og:url" content="https://printempw.github.io/page/2/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="article:author" content="printempw">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/v2ray-ws-tls-cloudflare/">搭建备用梯子：V2Ray + WebSocket + TLS + CloudFlare</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2020-01-12T20:20:00+08:00">2020-01-12</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/V2Ray/" rel="tag">V2Ray</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>2020 年的第一篇博文竟然是讲虚拟砖混结构建筑物逾越技术的，感觉有点微妙。</p>
+<p>年终总结啊，在写了在写了，明年就发。</p>
+          <p><a class="more-link" href="/v2ray-ws-tls-cloudflare/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/vscode-cpp-project-quick-setup/">VS Code C/C++ 项目快速配置模板</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2019-12-19T19:20:00+08:00">2019-12-19</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/C-C/" rel="tag">C/C++</a> <a class="tag-link" href="/tag/VS-Code/" rel="tag">VS Code</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>去年我写过一篇博客「<a href="https://printempw.github.io/vscode-c-cpp-configuration-for-acm-oj/">使用 VS Code 搭建适用于 ACM 练习的 C/C++ 开发环境</a>」，主要介绍了在 VS Code 里跑简单 C 程序的一些方法。不过那篇文章里介绍的方法仅适用于单文件程序，所以稍微大一点的项目就力不从心了。</p>
+<p>但是对于课程设计这类，说大不大说小也不算小的 C++ 项目，也不是特别想用大型 IDE……所以我更新了一下相关的 VSC 配置，使其也能用于多文件的 C++ 项目。</p>
+<p>为了方便以后复用，也给其他有类似需求的人一个参考，相关的配置文件整理如下（<a href="https://gist.github.com/printempw/bcfa32a33cc268945200cb23172f262d" target="_blank" rel="noopener">Gist</a>，新建项目时复制一份到 <code>.vscode</code> 里就行了）。</p>
+          <p><a class="more-link" href="/vscode-cpp-project-quick-setup/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/freedom-of-thought/">写在思想未被戴上脚镣前</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2019-12-18T22:55:00+08:00">2019-12-18</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    无标签
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>今天不谈技术，我们来聊一聊思想。</p>
+<p>不过事先声明，我这人挺浅薄的，文笔也不好。各位如果看着不太开心，随时右上角没有问题。网上有一类人挺讨人厌，就是书读得少，想得又太多，还喜欢瞎 BB。希望这篇文章不会让我成为他们中的一员。</p>
+          <p><a class="more-link" href="/freedom-of-thought/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/setting-up-manjaro-linux/">Manjaro Linux 踩坑调教记录</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2019-11-23T22:26:53+08:00">2019-11-23</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Linux/" rel="tag">Linux</a> <a class="tag-link" href="/tag/Manjaro/" rel="tag">Manjaro</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>去年买的游戏本重得要死，续航又差，背出去简直像个傻 X。所以这次双十一对比了一下最近的机器，新添置了一台轻薄本 —— 荣耀 MagicBook 2019 锐龙版。Ryzen 5 3500U，8 + 512G，￥3499，香疯了！AMD YES！</p>
+<p>之前我就听说过 Manjaro 这个 Arch Linux 的衍生发行版有多么多么赞<del>（洗手.jpg）</del>，既然这次正好机器也没预装 Windows，就打算在实机上安装体验一下。这是我第一次在日常生活中使用 Linux 作为主力操作系统（以前要么是虚拟机要么是 WSL），从结果来看，不得不说实际体验还是非常不错的。</p>
+<p>虽然 Linux 桌面对普通用户依然不友好（你看这篇文章配置各种软件写了这么长就知道了……），不过对于我这种算不上非常 geek 但还是懂一些 Linux 知识的人来说，只需要进行一番配置就能用得很舒适 —— 网页浏览、影音视听、聊天通讯、文档编辑、编程开发，实际几天日常使用下来，一点问题也没有，远超我的预期。</p>
+          <p><a class="more-link" href="/setting-up-manjaro-linux/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/windows-terminal-setup-guide/">Windows Terminal 安装与配置指南</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2019-10-14T20:08:00+08:00">2019-10-14</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/CLI/" rel="tag">CLI</a> <a class="tag-link" href="/tag/%E6%95%99%E7%A8%8B/" rel="tag">教程</a> <a class="tag-link" href="/tag/%E7%BB%88%E7%AB%AF/" rel="tag">终端</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>自今年微软开发者大会 Build 2019 中<a href="https://devblogs.microsoft.com/commandline/introducing-windows-terminal/" target="_blank" rel="noopener">首次亮相</a>以来，经历了近半年的发展，万众瞩目的 Windows Terminal 已经日趋成熟。从十月份开始，我将其作为主力终端使用了一段时间，暂时还没遇到什么严重的问题。</p>
+<p>为了方便其他想要试试 WT 的选手，这里我将安装配置过程中的一些步骤以及踩到的坑整理成文，希望对各位有所帮助。</p>
+          <p><a class="more-link" href="/windows-terminal-setup-guide/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/hexo-posts-in-subfolder/">使用子文件夹管理 Hexo 文章且不改变文章永久链接</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2019-10-13T03:38:00+08:00">2019-10-13</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Hexo/" rel="tag">Hexo</a> <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <blockquote>
+<p><strong>2020-01-15 更新</strong>：如果你只是想实现「文章源码放在子目录、永久链接保持不变」的效果，可以直接修改 <code>_config.yml</code> 中的配置：</p>
+<pre><code class="yaml">permalink: :name/
+new_post_name: :year/:title.md</code></pre>
+<p>感谢 <a href="https://skk.moe/" target="_blank" rel="noopener">@SukkaW</a> 在评论区提供的建议！</p>
+</blockquote>
+<p>在 Hexo 中，我们可以通过站点配置中的 <code>permalink</code> 配置项来指定文章的永久链接的格式。比如说默认值是 <code>:year/:month/:day/:title/</code>，那么一篇 slug 为 <code>hello-world</code> 的文章，最终生成的链接就是 <code>2019/10/13/hello-world/</code>。</p>
+<p>如果你不想分得这么细，也可以根据自己的喜好 <a href="https://hexo.io/zh-cn/docs/permalinks" target="_blank" rel="noopener">自定义这个配置项</a>。本博客就将其设置为了 <code>:title/</code>，即仅使用文章的 slug 作为永久链接，更清爽一些。</p>
+<p>但是这样一来，文章源文件的管理就有点难办了。Hexo 中所有的文章（Post layout）都存放在 <code>source/_posts</code> 目录中，如果仅使用 slug 作为文件名的话，文章一多就会出现乱成一坨的惨状 —— 只能通过文件名查找，根本无法通过日期定位文章！</p>
+          <p><a class="more-link" href="/hexo-posts-in-subfolder/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/disqus-migration-tools-url-mapper/">使用 URL Mapper 迁移整理 Disqus 评论</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2019-09-26T22:06:00+08:00">2019-09-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Disqus/" rel="tag">Disqus</a> <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>本文主要介绍了 Disqus 提供的评论迁移工具之一，URL Mapper 的使用方法。</p>
+          <p><a class="more-link" href="/disqus-migration-tools-url-mapper/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/first-post-of-2019/">博客更新报告：2019 年的第一篇博文</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2019-09-23T05:00:00+08:00">2019-09-23</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a> <a class="tag-link" href="/tag/%E6%B0%B4/" rel="tag">水</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>哎呀你看，这人博客草都长三米高了耶！博主好摸哦！</p>
+<hr>
+<p>好久不见。各位最近过得怎么样？我还是老样子，忙。又摸又忙。</p>
+<p>大概从去年年底开始到最近几个月，我在某个项目（大概能算是项目吧？）上投注了大量的时间和精力，以至于基本没有时间顾及这边的东西。从我的 GitHub 格子就可以很直观地看出来，我这一年实属摸得透彻。</p>
+<p><img src="https://img.blessing.studio/images/2019/09/23/github-activities-2018-now.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2019/09/23/github-activities-2018-now.png" alt="github-activities-2018-now"></p>
+<p>至于在忙什么，等到以后能公开的时候我会写一篇博客聊一聊的。</p>
+<p>回到正题。这次久违的博文主要是报告一下博客的变化。<strong>没错，我终于换主题啦！</strong></p>
+          <p><a class="more-link" href="/first-post-of-2019/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/hexo-plugin-to-make-posts-sage-unlisted/">为 Hexo 博客添加隐藏文章功能</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-11-14T23:33:30+08:00">2018-11-14</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Hexo/" rel="tag">Hexo</a> <a class="tag-link" href="/tag/JavaScript/" rel="tag">JavaScript</a> <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <blockquote>
+<p>更新：咕了一万年之后插件终于更新了，从 <code>hexo-sage-posts</code> 更名为 <code>hexo-hide-posts</code>，修复了「上一篇 / 下一篇文章」暴露隐藏文章入口的问题，添加了 <code>hidden:list</code> 命令，另外用了点小 hack，支持自动向隐藏文章页面插入 <code>noindex</code> 标签防止搜索引擎收录。</p>
+</blockquote>
+<p>隐藏博客中某些特定的文章应该算是一个比较常见的需求，毕竟谁都有些不希望让别人看到的东西。当然啦，你可能会说，「不想被看到就不要放到博客上来嘛」。话是没错，不过有时候人就是这么别扭，想让某些文章被看到，却又不想被所有人看到，又或者是某些文章只想和自己熟悉的人一起分享。</p>
+          <p><a class="more-link" href="/hexo-plugin-to-make-posts-sage-unlisted/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/setup-nginx-php-on-windows/">Windows 下手动搭建 PHP + Nginx/Apache 开发环境</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2018-11-01T23:00:10+08:00">2018-11-01</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Apache/" rel="tag">Apache</a> <a class="tag-link" href="/tag/Nginx/" rel="tag">Nginx</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>看到这个标题，有人可能会想吐槽：</p>
+<p><strong>你他娘的写了这么久 PHP，怎么现在想起来搭建开发环境了？</strong></p>
+<p>呃，情况呢是这么个情况，我之前开发的那个 PHP 项目 (<a href="https://github.com/printempw/blessing-skin-server/" target="_blank" rel="noopener">printempw/blessing-skin-server</a>) 在两个月前发布 v3.5.0 版本后基本就已经告一段落了。虽然我本意是不再更新<del>（弃坑的委婉说法）</del>，因为当前的版本已经足够完善，该有的东西都有了（而且说实话搞了这么久我也腻味，不仅是对这个程序，还有对国内 Minecraft 开发生态以及用户群体的失望）。</p>
+<p>不过我的朋友 <a href="https://blog.gplane.win/" target="_blank" rel="noopener">g-plane</a> 说他愿意接坑，所以现在这个项目的后续开发都是他在搞。而我也乐得清闲，做个甩手掌柜 <a href="https://blessing.studio/vscode-c-cpp-configuration-for-acm-oj/" target="_blank" rel="noopener">搞别的</a> 去了。当我摸鱼正快活时，他过来联系我说准备发布 4.0.0-alpha 了，我才想起来这茬：「啊，我连新版本长啥样都还不知道呢！😂」于是急急忙忙 pull 了新代码准备 review 一下，却发现我的新笔电上甚至压根儿就没安装 PHP 开发环境，只能说是非常地真实。</p>
+          <p><a class="more-link" href="/setup-nginx-php-on-windows/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+
+  <nav class="pagination">
+  <a class="extend prev" rel="prev" href="/">Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">Next</a>
+</nav>
+
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+        
+<section class="widget" id="widget-recent-posts">
+  <h3 class="widget-title">最新文章</h3>
+  <ul class="menu">
+    
+    
+    
+    
+      <li class="menu-item">
+        <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/short-domain-name-for-blog/">博客短域名 printem.pw</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/deal-with-manjaro-19-package-changes/">处理 Manjaro 19.0 升级中的软件包变更</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/nautilus-open-in-guake-terminal/">Nautilus 添加 Open in Guake 右键菜单</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+<section class="widget" id="widget-tagcloud">
+  <h3 class="widget-title">标签云</h3>
+  <a href="/tag/ACGN/" style="font-size: 17.86px;">ACGN</a> <a href="/tag/ACM/" style="font-size: 10px;">ACM</a> <a href="/tag/Android/" style="font-size: 14.29px;">Android</a> <a href="/tag/Apache/" style="font-size: 10px;">Apache</a> <a href="/tag/Arch/" style="font-size: 10px;">Arch</a> <a href="/tag/C-C/" style="font-size: 10.71px;">C/C++</a> <a href="/tag/CLI/" style="font-size: 11.43px;">CLI</a> <a href="/tag/CSS/" style="font-size: 11.43px;">CSS</a> <a href="/tag/Chrome/" style="font-size: 11.43px;">Chrome</a> <a href="/tag/Disqus/" style="font-size: 10px;">Disqus</a> <a href="/tag/Ghost/" style="font-size: 12.86px;">Ghost</a> <a href="/tag/Git/" style="font-size: 10.71px;">Git</a> <a href="/tag/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tag/Google/" style="font-size: 10.71px;">Google</a> <a href="/tag/Hexo/" style="font-size: 13.57px;">Hexo</a> <a href="/tag/Https/" style="font-size: 15px;">Https</a> <a href="/tag/JavaScript/" style="font-size: 16.43px;">JavaScript</a> <a href="/tag/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tag/Laravel/" style="font-size: 17.86px;">Laravel</a> <a href="/tag/Let-s-Encrypt/" style="font-size: 12.14px;">Let's Encrypt</a> <a href="/tag/Linux/" style="font-size: 16.43px;">Linux</a> <a href="/tag/Lumen/" style="font-size: 10px;">Lumen</a> <a href="/tag/Manjaro/" style="font-size: 10.71px;">Manjaro</a> <a href="/tag/Minecraft/" style="font-size: 13.57px;">Minecraft</a> <a href="/tag/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tag/Nginx/" style="font-size: 12.14px;">Nginx</a> <a href="/tag/OpenWRT/" style="font-size: 10.71px;">OpenWRT</a> <a href="/tag/PHP/" style="font-size: 19.29px;">PHP</a> <a href="/tag/PayPal/" style="font-size: 10px;">PayPal</a> <a href="/tag/Python/" style="font-size: 12.14px;">Python</a> <a href="/tag/RSS/" style="font-size: 10.71px;">RSS</a> <a href="/tag/SSH/" style="font-size: 10.71px;">SSH</a> <a href="/tag/Sandboxie/" style="font-size: 10px;">Sandboxie</a> <a href="/tag/Shell/" style="font-size: 13.57px;">Shell</a> <a href="/tag/Sublime/" style="font-size: 11.43px;">Sublime</a> <a href="/tag/Twitter/" style="font-size: 10px;">Twitter</a> <a href="/tag/V2Ray/" style="font-size: 10px;">V2Ray</a> <a href="/tag/VPS/" style="font-size: 17.14px;">VPS</a> <a href="/tag/VS-Code/" style="font-size: 10.71px;">VS Code</a> <a href="/tag/VTuber/" style="font-size: 10px;">VTuber</a> <a href="/tag/WSL/" style="font-size: 10px;">WSL</a> <a href="/tag/Windows/" style="font-size: 14.29px;">Windows</a> <a href="/tag/WordPress/" style="font-size: 17.14px;">WordPress</a> <a href="/tag/shadowsocks/" style="font-size: 15.71px;">shadowsocks</a> <a href="/tag/%E4%B8%80%E8%A8%80/" style="font-size: 10px;">一言</a> <a href="/tag/%E5%88%86%E4%BA%AB/" style="font-size: 17.14px;">分享</a> <a href="/tag/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tag/%E5%8D%9A%E5%AE%A2/" style="font-size: 20px;">博客</a> <a href="/tag/%E5%90%90%E6%A7%BD/" style="font-size: 10.71px;">吐槽</a> <a href="/tag/%E5%AD%97%E4%BD%93/" style="font-size: 10.71px;">字体</a> <a href="/tag/%E5%AE%89%E5%88%A9/" style="font-size: 10px;">安利</a> <a href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 10px;">密码学</a> <a href="/tag/%E5%B0%8F%E7%8E%A9%E6%84%8F%E5%84%BF/" style="font-size: 10px;">小玩意儿</a> <a href="/tag/%E5%B0%8F%E7%B1%B3/" style="font-size: 10px;">小米</a> <a href="/tag/%E5%B7%A5%E5%85%B7/" style="font-size: 12.86px;">工具</a> <a href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 10.71px;">年度总结</a> <a href="/tag/%E6%8A%98%E8%85%BE/" style="font-size: 10px;">折腾</a> <a href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" style="font-size: 10px;">持续集成</a> <a href="/tag/%E6%95%99%E7%A8%8B/" style="font-size: 11.43px;">教程</a> <a href="/tag/%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81/" style="font-size: 10px;">数字货币</a> <a href="/tag/%E6%B0%B4/" style="font-size: 11.43px;">水</a> <a href="/tag/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" style="font-size: 10px;">皮肤站</a> <a href="/tag/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a> <a href="/tag/%E7%BB%88%E7%AB%AF/" style="font-size: 10.71px;">终端</a> <a href="/tag/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" style="font-size: 10.71px;">网络技术</a> <a href="/tag/%E8%80%B3%E6%9C%BA/" style="font-size: 12.14px;">耳机</a> <a href="/tag/%E8%AE%B0%E5%BD%95/" style="font-size: 18.57px;">记录</a> <a href="/tag/%E8%AE%BE%E8%AE%A1/" style="font-size: 10.71px;">设计</a> <a href="/tag/%E8%AF%84%E6%B5%8B/" style="font-size: 10.71px;">评测</a> <a href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a> <a href="/tag/%E8%BD%AC%E8%BD%BD/" style="font-size: 10px;">转载</a> <a href="/tag/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tag/%E8%BF%90%E7%BB%B4/" style="font-size: 13.57px;">运维</a> <a href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" style="font-size: 10px;">近况报告</a> <a href="/tag/%E9%94%90%E9%80%9F/" style="font-size: 10.71px;">锐速</a> <a href="/tag/%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">音乐</a> <a href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">音视频处理</a>
+</section>
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

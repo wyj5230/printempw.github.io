@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>Windows 下手动搭建 PHP + Nginx/Apache 开发环境 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/setup-nginx-php-on-windows/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="Nginx,PHP,Apache," />
+
+<meta name="description" content="看到这个标题，有人可能会想吐槽： 你他娘的写了这么久 PHP，怎么现在想起来搭建开发环境了？ 呃，情况呢是这么个情况，我之前开发的那个 PHP 项目 (printempw&#x2F;blessing-skin-server) 在两个月前发布 v3.5.0 版本后基本就已经告一段落了。虽然我本意是不再更新（弃坑的委婉说法），因为当前的版本已经足够完善，该有的东西都有了（而且说实话搞了这么久我也腻味，不仅是对这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 下手动搭建 PHP + Nginx&#x2F;Apache 开发环境">
+<meta property="og:url" content="https://printempw.github.io/setup-nginx-php-on-windows/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="看到这个标题，有人可能会想吐槽： 你他娘的写了这么久 PHP，怎么现在想起来搭建开发环境了？ 呃，情况呢是这么个情况，我之前开发的那个 PHP 项目 (printempw&#x2F;blessing-skin-server) 在两个月前发布 v3.5.0 版本后基本就已经告一段落了。虽然我本意是不再更新（弃坑的委婉说法），因为当前的版本已经足够完善，该有的东西都有了（而且说实话搞了这么久我也腻味，不仅是对这">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/11/01/php-cgi-processes.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/11/01/nginx-php-works.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/11/01/wnmp-all-processes.png">
+<meta property="article:published_time" content="2018-11-01T15:00:10.000Z">
+<meta property="article:modified_time" content="2020-03-03T13:37:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Apache">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2018/11/01/php-cgi-processes.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/setup-nginx-php-on-windows/">Windows 下手动搭建 PHP + Nginx/Apache 开发环境</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2018-11-01T15:00:10+00:00">2018-11-01</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Apache/" rel="tag">Apache</a> <a class="tag-link" href="/tag/Nginx/" rel="tag">Nginx</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2020-03-03T13:37:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-安装-Nginx-Apache"><span class="toc-text">0x01 安装 Nginx &#x2F; Apache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-安装-PHP"><span class="toc-text">0x02 安装 PHP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-配置-FastCGI-转发"><span class="toc-text">0x03 配置 FastCGI 转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-编写启停脚本"><span class="toc-text">0x04 编写启停脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-后记"><span class="toc-text">0x05 后记</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>看到这个标题，有人可能会想吐槽：</p>
+<p><strong>你他娘的写了这么久 PHP，怎么现在想起来搭建开发环境了？</strong></p>
+<p>呃，情况呢是这么个情况，我之前开发的那个 PHP 项目 (<a href="https://github.com/printempw/blessing-skin-server/" target="_blank" rel="noopener">printempw/blessing-skin-server</a>) 在两个月前发布 v3.5.0 版本后基本就已经告一段落了。虽然我本意是不再更新<del>（弃坑的委婉说法）</del>，因为当前的版本已经足够完善，该有的东西都有了（而且说实话搞了这么久我也腻味，不仅是对这个程序，还有对国内 Minecraft 开发生态以及用户群体的失望）。</p>
+<p>不过我的朋友 <a href="https://blog.gplane.win/" target="_blank" rel="noopener">g-plane</a> 说他愿意接坑，所以现在这个项目的后续开发都是他在搞。而我也乐得清闲，做个甩手掌柜 <a href="https://blessing.studio/vscode-c-cpp-configuration-for-acm-oj/" target="_blank" rel="noopener">搞别的</a> 去了。当我摸鱼正快活时，他过来联系我说准备发布 4.0.0-alpha 了，我才想起来这茬：「啊，我连新版本长啥样都还不知道呢！😂」于是急急忙忙 pull 了新代码准备 review 一下，却发现我的新笔电上甚至压根儿就没安装 PHP 开发环境，只能说是非常地真实。</p>
+<a id="more"></a>
+
+<p>因为 <a href="https://blessing.studio/phpstudy-prober-page-502-bad-gateway/" target="_blank" rel="noopener">某些原因</a>，我不想继续使用那些 PHP 一键包来搭建开发环境了，所以这次我打算全部自己来。本文记录了我手动安装配置 PHP + Nginx/Apache 开发环境的过程，希望能帮到后来人。</p>
+<p>注意，本文中的配置适用于本地开发环境，应用至生产环境时要注意哦。</p>
+<blockquote>
+<p><strong>2020/03/03 更新</strong>：</p>
+<p>你也可以直接用 scoop 来管理 WNMP 开发环境。</p>
+<p>安装：</p>
+<pre><code class="cmd">scoop install nginx mariadb php</code></pre>
+<p>启动：</p>
+<pre><code class="cmd">nginx -p %NGINX_HOME%
+mysqld --standalone
+php-cgi -b 127.0.0.1:9000</code></pre>
+<p>配置或数据文件的位置：</p>
+<pre><code class="plain">C:\Users\printempw\scoop\apps\nginx\current\conf
+C:\Users\printempw\scoop\apps\mariadb\current\data
+C:\Users\printempw\scoop\apps\php\current\cli</code></pre>
+<p>比起手动下载方便不少。</p>
+</blockquote>
+<h2 id="0x01-安装-Nginx-Apache"><a href="#0x01-安装-Nginx-Apache" class="headerlink" title="0x01 安装 Nginx / Apache"></a>0x01 安装 Nginx / Apache</h2><p><strong>如果你用的是 Nginx：</strong></p>
+<ul>
+<li>去 <a href="https://nginx.org/en/download.html" target="_blank" rel="noopener">官网</a> 下载 Windows 版的 Nginx（我下载的是 <code>nginx-1.14.0.zip</code>）；</li>
+<li>解压至你喜欢的地方（我放在 <code>E:\environment\nginx</code> 里）；</li>
+<li>直接双击运行 <code>nginx.exe</code>；</li>
+<li>如果能正常访问 <code>http://localhost:80</code>，就可以进行下一步了。</li>
+</ul>
+<p>推荐修改的 <code>nginx.conf</code> 配置如下：</p>
+<pre><code class="nginx"># 可以适当调高，但不要超过 CPU 核心数量
+worker_processes  4;
+
+events {
+    # 开发环境下不用太考虑 worker 最大并发连接数
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile      on;
+    keepalive_timeout 65;
+
+    # 启用 gzip
+    gzip on;
+    gzip_disable &quot;MSIE [1-6].(?!.*SV1)&quot;;
+    gzip_http_version 1.1;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_min_length 1000;
+    gzip_buffers 16 8k;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/xml text/javascript application/json application/x-javascript application/xml application/xml+rss;
+
+    # 这里面的内容等 0x03 再细说
+    include vhosts.conf;
+}</code></pre>
+<p><strong>如果你用的是 Apache：</strong></p>
+<ul>
+<li>因为 Apache 官网并不提供 Windows 版的构建下载，所以需要去 <a href="https://www.apachelounge.com/download/" target="_blank" rel="noopener">Apache Lounge</a> 或者其他 <a href="https://httpd.apache.org/docs/current/platform/windows.html#down" target="_blank" rel="noopener">官方推荐的站点</a> 下载预编译二进制包（我下载的是 <code>httpd-2.4.37-win64-VC15.zip</code>，你愿意的话也可以自己编译）；</li>
+<li>解压至你喜欢的地方（我放在 <code>E:\environment\apache</code> 里）；</li>
+<li>直接双击运行 <code>bin/httpd.exe</code>；</li>
+<li>如果能正常访问 <code>http://localhost:80</code>，就可以进行下一步了。</li>
+</ul>
+<p>推荐修改的 <code>httpd.conf</code> 配置如下：</p>
+<pre><code class="apache"># 修改为你的安装目录
+Define SRVROOT &quot;E:\environment\apache&quot;
+ServerRoot &quot;${SRVROOT}&quot;
+
+Listen 80
+ServerName localhost
+
+# 按需启用模块
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule ...
+
+# 推荐注释掉自带的 DocumentRoot 和 &lt;Directory&gt;
+# 这里面的内容等 0x03 再细说
+Include conf/extra/httpd-php.conf
+Include conf/vhosts.conf</code></pre>
+<h2 id="0x02-安装-PHP"><a href="#0x02-安装-PHP" class="headerlink" title="0x02 安装 PHP"></a>0x02 安装 PHP</h2><p>Windows 版 PHP 下载地址：</p>
+<p><a href="https://windows.php.net/download" target="_blank" rel="noopener">https://windows.php.net/download</a></p>
+<p>其中有 NTS（Non Thread Safe，非线程安全）和 TS（Thread Safe，线程安全）两种版本，简单来说就是 <strong>Nginx 用 NTS 版，Apache 通常用 TS 版</strong>（也可以用 NTS），它们之间的具体区别有兴趣的话可以自己去了解一下。</p>
+<p>为了同时兼容 Nginx 与 Apache，本文将以 NTS 版为例进行配置。</p>
+<ul>
+<li>下载合适的版本（我下载的是 <code>php-7.2.11-nts-Win32-VC15-x64.zip</code>）；</li>
+<li>解压至你喜欢的位置（我放在 <code>E:\environment\php</code> 里）；</li>
+<li>复制一份 <code>php.ini-development</code>，重命名为 <code>php.ini</code> 并适当修改其中配置；</li>
+<li>直接双击运行 <code>php.exe</code>；</li>
+<li>如果能正常打开 PHP Interactive Shell，就可以进入下一步了。</li>
+</ul>
+<p><strong>如果无法运行，请检查你是否安装了对应的 VC 运行库。</strong></p>
+<p>推荐修改的 <code>php.ini</code> 配置如下：</p>
+<pre><code class="ini">; 扩展所在的目录，自行修改
+extension_dir = &quot;E:\environment\php\ext&quot;
+; 按自己的需求启用扩展
+extension=pdo_mysql
+extension=...
+; 各种缓存的位置
+sys_temp_dir = &quot;E:\environment\php\temp&quot;
+upload_tmp_dir = &quot;E:\environment\php\temp&quot;
+session.save_path = &quot;E:\environment\php\temp&quot;
+; 其他杂七杂八的
+upload_max_filesize = 100M
+date.timezone = Asia/Shanghai</code></pre>
+<h2 id="0x03-配置-FastCGI-转发"><a href="#0x03-配置-FastCGI-转发" class="headerlink" title="0x03 配置 FastCGI 转发"></a>0x03 配置 FastCGI 转发</h2><p>接下来才是重头戏，我们要让 Web Server 与 PHP 能够互相通信以完成请求。</p>
+<p>作为 Web Server 的后端时，PHP 主要有两种运行方式，一种是 <strong>独立进程、使用 <a href="http://www.nowamagic.net/librarys/veda/detail/1319" target="_blank" rel="noopener">FastCGI 协议</a> 与 Web Server 通信</strong>（Nginx 用的就是这种），另外一种是 <strong>作为模块直接加载到 Web Server 中</strong>（比如 Apache 的 <code>mod_php</code> 模块，不过 Apache 也支持 FastCGI 方式）。详细的原理我就不介绍了，有兴趣的选手可以去了解一下。</p>
+<p>为了能够同时兼容 Nginx 和 Apache，<strong>本文均使用 FastCGI 方式加载 PHP</strong>。</p>
+<hr>
+<p>首先我们需要配置一下 PHP 的 FastCGI 进程管理器。为什么呢？因为直接运行 PHP 的 FastCGI 进程（在 Windows 上就是 <code>php-cgi.exe</code>）有以下缺点：</p>
+<ul>
+<li>配置文件 <code>php.ini</code> 修改后无法平滑重载，需要重新启动 <code>php-cgi</code> 进程；</li>
+<li>Windows 下 <code>php-cgi</code> 默认处理 500 个请求后就自动退出（<code>PHP_FCGI_MAX_REQUESTS</code>）；</li>
+<li>如果因为其他原因造成 <code>php-cgi</code> 进程崩溃，就无法处理后续请求了。</li>
+</ul>
+<p>所以我们需要一个类似守护进程的东西，来保证始终有一定数量的 <code>php-cgi</code> 进程在运行。<a href="http://php.net/manual/zh/install.fpm.php" target="_blank" rel="noopener">PHP-FPM</a> (PHP FastCGI Process Manager) 是 PHP 官方钦定的 FastCGI 进程管理器，但遗憾的是，它只适用于类 Unix 系统。在 Windows 上，我们可以使用这些替代品来实现类似的功能（<strong>Apache 用户不需要配置这些东西</strong>，因为它的 <code>mod_fcgid</code> 模块自带 FastCGI 进程管理功能）：</p>
+<ul>
+<li><a href="https://github.com/78/xxfpm" target="_blank" rel="noopener">xxfpm</a></li>
+<li><a href="https://github.com/deemru/php-cgi-spawner" target="_blank" rel="noopener">php-cgi-spawner</a></li>
+<li><a href="https://github.com/lighttpd/spawn-fcgi" target="_blank" rel="noopener">spawn-fcgi</a></li>
+</ul>
+<p>本文将以 php-cgi-spawner 为例进行配置。</p>
+<ul>
+<li><p>在 <a href="https://github.com/deemru/php-cgi-spawner/releases" target="_blank" rel="noopener">这里</a> 下载编译好的 <code>php-cgi-spawner.exe</code>；</p>
+</li>
+<li><p>放到 PHP 的安装目录下（本文为 <code>E:\environment\php</code>）；</p>
+</li>
+<li><p>打开 PowerShell 或者 CMD，运行命令：</p>
+<pre><code class="powershell"># 令 PHP FastCGI 处理程序监听在 9000 端口上
+# 至少开启 4 个 php-cgi 进程，高负载时最多可以开到 16 个
+.\php-cgi-spawner.exe &quot;php-cgi.exe -c php.ini&quot; 9000 4+16</code></pre>
+</li>
+<li><p>如果一切正常，你将可以在任务管理器中看到同时运行的多个 <code>php-cgi</code> 进程。</p>
+</li>
+</ul>
+<p><img src="https://img.blessing.studio/images/2018/11/01/php-cgi-processes.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/11/01/php-cgi-processes.png" alt="php-cgi-processes"></p>
+<p><strong>接下来修改 Nginx 配置</strong>（即 0x01 中提到的 <code>vhosts.conf</code> 中的内容），通过 FastCGI 协议将请求转发给监听在 9000 端口上的 PHP 进行处理：</p>
+<pre><code class="nginx">server {
+    listen       80;
+    server_name  localhost;
+    root   E:/wwwroot;
+    index  index.html index.htm index.php;
+
+    location ~ [^/]\.php(/|$) {
+        # 从 URI 中分离出 $fastcgi_script_name 和 $fastcgi_path_info 的值
+        # 不推荐使用 php.ini 中的 cgi.fix_pathinfo 选项，这可能会造成安全隐患
+        # 虽然我感觉 8012 年了应该没人用 PATH_INFO 了……不需要的话去掉即可
+        fastcgi_split_path_info  ^(.+?\.php)(/.*)$;
+        fastcgi_param  PATH_INFO  $fastcgi_path_info;
+
+        # 当请求的 .php 文件不存在时直接返回 404
+        # 不然交给 PHP 处理的话那边就会返回 No input file specified.
+        if (!-f $document_root$fastcgi_script_name) {
+            return 404;
+        }
+
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        # 自带的配置文件，里面设置了一大堆 CGI 协议中的变量
+        include        fastcgi.conf;
+    }
+}</code></pre>
+<hr>
+<p><strong>Apache 用户不需要手动配置 PHP FastCGI 进程管理器，相对简单一些：</strong></p>
+<ul>
+<li>在上面提到的 <a href="https://www.apachelounge.com/download/" target="_blank" rel="noopener">Apache Lounge</a> 上下载编译好的 <code>mod_fcgid</code> 模块；</li>
+<li>解压后，将 <code>mod_fcgid.so</code> 放入 Apache 的 <code>modules</code> 目录；</li>
+<li>编辑配置文件加载模块（即 0x01 中提到的 <code>conf/extra/httpd-php.conf</code>）：</li>
+</ul>
+<pre><code class="apache"># 如果嫌麻烦的话这一段也可以直接放到 httpd.conf 里面去
+LoadModule fcgid_module modules/mod_fcgid.so
+
+&lt;IfModule fcgid_module&gt;
+FcgidInitialEnv PHPRC &quot;E:/environment/php/&quot;
+FcgidInitialEnv PHP_FCGI_MAX_REQUESTS 1000
+AddHandler fcgid-script .php
+FcgidWrapper &quot;E:/environment/php/php-cgi.exe&quot; .php
+FcgidIOTimeout 384
+FcgidConnectTimeout 360
+FcgidOutputBufferSize 128
+FcgidMaxRequestsPerProcess 1000
+FcgidMinProcessesPerClass 0
+FcgidMaxProcesses 16
+FcgidMaxRequestLen 268435456
+ProcessLifeTime 360
+&lt;/IfModule&gt;</code></pre>
+<ul>
+<li>编辑 <code>conf/vhosts.conf</code> 允许运行 CGI 程序：</li>
+</ul>
+<pre><code class="apache">&lt;VirtualHost localhost:80&gt;
+  DocumentRoot &quot;E:\wwwroot&quot;
+  &lt;Directory &quot;E:\wwwroot&quot;&gt;
+    DirectoryIndex index.html index.php
+    # 注意这里的 +ExecCGI，不加的话会 403
+    Options -Indexes -FollowSymLinks +ExecCGI
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></pre>
+<p>如果一切配置正确，你应该就能正常访问 PHP 网页了。</p>
+<p><img src="https://img.blessing.studio/images/2018/11/01/nginx-php-works.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/11/01/nginx-php-works.png" alt="nginx-php-works"></p>
+<h2 id="0x04-编写启停脚本"><a href="#0x04-编写启停脚本" class="headerlink" title="0x04 编写启停脚本"></a>0x04 编写启停脚本</h2><p>虽然整个系统是跑起来了，但总不能每次启动都得开一大堆控制台窗口吧？弄个小工具管理 Nginx/Apache 和 PHP 的进程还是很有必要的。各种一键包中一般都自带了方便好用的界面来管理这些进程，不过既然我们选择了手动配置，那这一块也得我们自己搞定了。因为图方便，我选择使用 Windows 的批处理脚本（Batch File）来完成这项需求，保存为 <code>.bat</code> 文件双击运行就完事儿了。</p>
+<p><strong>启动 Nginx 和 PHP：</strong></p>
+<pre><code class="cmd">@ECHO OFF
+set nginx_home=..\nginx
+set php_home=..\php
+
+ECHO Starting PHP FastCGI...
+.\RunHiddenConsole.exe %php_home%\php-cgi-spawner.exe &quot;%php_home%\php-cgi.exe -c %php_home%\php.ini&quot; 9000 4+16
+
+ECHO Starting Nginx...
+.\RunHiddenConsole.exe %nginx_home%\nginx.exe -p %nginx_home%</code></pre>
+<p><strong>停止 Nginx 和 PHP：</strong></p>
+<pre><code class="cmd">@ECHO OFF
+
+ECHO Stopping nginx...
+taskkill /F /IM nginx.exe &gt; nul
+
+ECHO Stopping PHP FastCGI...
+taskkill /F /IM php-cgi-spawner.exe &gt; nul
+taskkill /F /IM php-cgi.exe &gt; nul</code></pre>
+<p><strong>重载 Nginx 配置：</strong></p>
+<pre><code class="cmd">@ECHO OFF
+set nginx_home=..\nginx
+
+ECHO Reloading Nginx...
+%nginx_home%\nginx.exe -s reload</code></pre>
+<p><strong>启动 Apache</strong>（Apache 会帮我们启动 PHP 的）：</p>
+<pre><code class="cmd">@ECHO OFF
+set apache_home=..\apache
+
+ECHO Starting Apache Httpd...
+.\RunHiddenConsole.exe %apache_home%\bin\httpd.exe</code></pre>
+<p><strong>停止 Apache：</strong></p>
+<pre><code class="cmd">@ECHO OFF
+
+ECHO Stopping Apache Httpd...
+taskkill /F /IM httpd.exe &gt; nul</code></pre>
+<p>这些脚本我放在 <code>E:\environment\scripts</code> 目录中，如果你需要放在其他地方，请适当修改脚本中的可执行文件路径。另外，脚本中用到了 <code>RunHiddenConsole.exe</code> 来隐藏命令行窗口，你可以在 <a href="http://redmine.lighttpd.net/attachments/660/RunHiddenConsole.zip" target="_blank" rel="noopener">这里</a> 下载到这个小工具。</p>
+<p><img src="https://img.blessing.studio/images/2018/11/01/wnmp-all-processes.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/11/01/wnmp-all-processes.png" alt="wnmp-all-processes"></p>
+<h2 id="0x05-后记"><a href="#0x05-后记" class="headerlink" title="0x05 后记"></a>0x05 后记</h2><p>配置完成后的目录结构大概是这样的（有省略）：</p>
+<pre><code class="text">E:\environment&gt; tree
+.
+├── apache
+│   ├── bin
+│   ├── cgi-bin
+│   ├── conf
+│   │   ├── extra
+│   │   ├── original
+│   │   ├── charset.conv
+│   │   ├── httpd.conf *
+│   │   ├── magic
+│   │   ├── mime.types
+│   │   ├── openssl.cnf
+│   │   └── vhosts.conf *
+│   ├── include
+│   ├── lib
+│   ├── logs
+│   └── modules
+├── mysql
+│   ├── bin
+│   ├── data
+│   ├── include
+│   ├── lib
+│   └── share
+├── nginx
+│   ├── conf
+│   │   ├── fastcgi.conf
+│   │   ├── fastcgi_params
+│   │   ├── koi-utf
+│   │   ├── koi-win
+│   │   ├── mime.types
+│   │   ├── nginx.conf *
+│   │   ├── scgi_params
+│   │   ├── uwsgi_params
+│   │   ├── vhosts.conf *
+│   │   └── win-utf
+│   ├── contrib
+│   ├── logs
+│   └── nginx.exe
+├── php
+│   ├── dev
+│   ├── ext
+│   ├── extras
+│   ├── lib
+│   ├── sasl2
+│   ├── temp
+│   ├── ...
+│   ├── php7.dll
+│   ├── php-cgi.exe
+│   ├── php-cgi-spawner.exe *
+│   ├── php.exe
+│   └── php.ini *
+└── scripts
+    ├── reload-nginx.bat
+    ├── restart-nginx.bat
+    ├── RunHiddenConsole.exe
+    ├── start-all.bat
+    ├── start-apache.bat
+    ├── start-mysql.bat
+    ├── start-nginx.bat
+    ├── stop-all.bat
+    ├── stop-apache.bat
+    ├── stop-mysql.bat
+    └── stop-nginx.bat</code></pre>
+<p>非常清爽，有种一切尽在掌控中的感觉，我喜欢。</p>
+<p>如果你是一名 PHP 开发者，却从来没有手动配置过 PHP 环境的话，那我建议你尝试一下。虽然生产环境上一般都是采用成熟的一键包，不过手动配置一下这一套东西可以更深入地了解 PHP 与 Web Server 的协作机制，这对于编写上层应用以及运维也是很有好处的。</p>
+<p>本来想顺带凑齐一套 WNMP，但是 MySQL 的安装配置相对比较简单，而且也不像 PHP 与 Web Server 那样耦合紧密，所以这里就按下不表。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/hexo-plugin-to-make-posts-sage-unlisted/">为 Hexo 博客添加隐藏文章功能</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/live-stream-recorder-for-vtuber-fans/">一种监测 VTuber 直播并自动录像的方法</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "setup-nginx-php-on-windows/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/setup-nginx-php-on-windows/".replace('index.html', ''),
+      title: 'Windows 下手动搭建 PHP + Nginx/Apache 开发环境',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-安装-Nginx-Apache"><span class="toc-text">0x01 安装 Nginx &#x2F; Apache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-安装-PHP"><span class="toc-text">0x02 安装 PHP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-配置-FastCGI-转发"><span class="toc-text">0x03 配置 FastCGI 转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-编写启停脚本"><span class="toc-text">0x04 编写启停脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-后记"><span class="toc-text">0x05 后记</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

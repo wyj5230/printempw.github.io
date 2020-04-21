@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>使用 ffmpeg 拼接 bilibili 客户端所下载的分段 flv 视频 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/use-ffmpeg-to-concat-flv-videos-downloaded-by-bilibili-client/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="Shell," />
+
+<meta name="description" content="唉，我现在用的这破手机播 1080P 视频要掉帧，只好在电脑上看，说不出话。 缘起前些天我关注的某 气人主播 在 bilibili 上传了《盗贼之海》（Sea of Thieves）Alpha 测试的直播录像，却因吃了文化亏不慎违反了保密协定，不久视频就被不存在了。不过好在有热心猛男把缓存好了的睾清视频发了出来，像我这样没赶上趟的人才能爽到 :P  然而这位pong友上传的是 bilibili 客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ffmpeg 拼接 bilibili 客户端所下载的分段 flv 视频">
+<meta property="og:url" content="https://printempw.github.io/use-ffmpeg-to-concat-flv-videos-downloaded-by-bilibili-client/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="唉，我现在用的这破手机播 1080P 视频要掉帧，只好在电脑上看，说不出话。 缘起前些天我关注的某 气人主播 在 bilibili 上传了《盗贼之海》（Sea of Thieves）Alpha 测试的直播录像，却因吃了文化亏不慎违反了保密协定，不久视频就被不存在了。不过好在有热心猛男把缓存好了的睾清视频发了出来，像我这样没赶上趟的人才能爽到 :P  然而这位pong友上传的是 bilibili 客">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/05/13/20170513185210.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/05/13/QQ20170513201744.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/05/13/QQ20170513201722.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/05/13/QQ20170513202429.png">
+<meta property="article:published_time" content="2017-05-13T12:48:50.000Z">
+<meta property="article:modified_time" content="2017-05-13T13:48:21.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2017/05/13/20170513185210.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/use-ffmpeg-to-concat-flv-videos-downloaded-by-bilibili-client/">使用 ffmpeg 拼接 bilibili 客户端所下载的分段 flv 视频</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2017-05-13T12:48:50+00:00">2017-05-13</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Shell/" rel="tag">Shell</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2017-05-13T13:48:21.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#缘起"><span class="toc-text">缘起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#需求"><span class="toc-text">需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#尝试"><span class="toc-text">尝试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写个脚本"><span class="toc-text">写个脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>唉，我现在用的这破手机播 1080P 视频要掉帧，只好在电脑上看，说不出话。</p>
+<h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>前些天我关注的某 <a href="http://space.bilibili.com/15810/#!/" target="_blank" rel="noopener">气人主播</a> 在 bilibili 上传了《盗贼之海》（<em>Sea of Thieves</em>）Alpha 测试的直播录像，却因吃了文化亏不慎违反了保密协定，不久视频就被不存在了。不过好在有热心猛男把缓存好了的睾清视频发了出来，像我这样没赶上趟的人才能爽到 :P</p>
+<p><img src="https://img.blessing.studio/images/2017/05/13/20170513185210.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/05/13/20170513185210.png" alt="感谢这位pong友"></p>
+<p>然而这位pong友上传的是 bilibili 客户端的下载（缓存）格式，虽然放在手机的 <code>/Android/data/tv.danmaku.bili/download</code> 目录下就可以被客户端直接识别，但是想要在电脑上直接播放就没那么容易了。</p>
+<a id="more"></a>
+
+<p>我们先来看看 B 站客户端下载内容的目录结构：</p>
+<pre><code class="text">10034455（视频 AV 号）
+├── 1（视频的各分 P）
+│   ├── danmaku.xml（弹幕文件）
+│   ├── entry.json（单 Part 信息、标题等等）
+│   └── lua.flv.bili2api.3（分段视频，一段差不多六分钟）
+│       ├── 0.blv（就是改了后缀的 flv 文件）
+│       ├── 0.blv.4m.sum（校验码）
+│       ├── 1.blv
+│       ├── 1.blv.4m.sum
+│       ├── 2.blv
+│       ├── 2.blv.4m.sum
+│       └── index.json（储存分段信息）
+├── 2
+└── 3</code></pre>
+<p>可以看到目录的结构还是比较清晰的，一眼看过去就能懂个大概，也没有什么反人类的混淆机制。想要在电脑上观看的话，就必须把那些 <code>0.blv</code>、<code>1.blv</code> 之类的文件后缀先修改为 <code>.flv</code>，然后再把他们合并起来（不合并的话就无法在那些本地弹幕播放器中与弹幕文件时间轴对应了）。</p>
+<p>不过作为一个搞技术的人，我自然是不可能去手动重命名 + 合并这些东西的，那太蠢了。这种无脑力气活就该让计算机来帮我们解决 ;)</p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><ul>
+<li>合并分段的 flv 文件到一个文件；</li>
+<li>操作方便；</li>
+<li>速度尽可能地快。</li>
+</ul>
+<h3 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h3><p>因为图方便，我先是在 Google 上找了一些视频合并的软件，包括「格式工厂」、「硕鼠合并」、「极速 FLV 合并器」、「BoilsoftVideoJoiner」等。经试用，硕鼠等大部分过久没有更新的软件都无法正确识别上述的 FLV 格式，导致合并失败，具体原因没有去深究。而格式工厂等软件似乎必须对所有分段视频进行转码后再合并（有损合并），即使那些视频的尺寸、音视频编码均相同。这也导致这些软件合并速度屌慢，不予考虑。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>最后还是决定用 <code>ffmpeg</code> 进行视频合并操作。不得不说，<code>ffmpeg</code> 这个养活了绝大多数国产视频处理软件的开源项目在视频处理方面确实是一把好手，Google 一下就找到了解决方案。</p>
+<p>举个栗子，如果你有 这几个视频要合并：</p>
+<p><code>1.flv</code>、<code>2.flv</code>、<code>3.flv</code></p>
+<p>你只需要建立一个文本文件（e.g. <code>ff.txt</code>），在里面写上：</p>
+<pre><code># 相对路径、绝对路径均可
+file &#39;/path/to/1.flv&#39;
+file &#39;/path/to/2.flv&#39;
+file &#39;/path/to/3.flv&#39;</code></pre><p>然后在 shell 中运行：</p>
+<pre><code class="bash">ffmpeg -f concat -i /path/to/ff.txt -c copy output.mp4
+
+# 参数说明：
+# -i 设定输入文件
+# -f 设定编码器，这里使用 concat 无损合并
+# -c 流选择器，这里选择所有流
+# 最后可以选择任何可以封装的格式，不一定是 MP4</code></pre>
+<p>然后，就好了。合并速度差不多就是你硬盘的 I/O 速度。</p>
+<p>题外话，在 Windows 上，<code>ffmpeg</code> 可以用 <a href="https://chocolatey.org/" target="_blank" rel="noopener">Chocolatey</a> 这个包管理器安装。直接在终端中运行 <code>$ choco install ffmpeg</code>，下载安装修改环境变量一步到位，突出一个爽到。</p>
+<h3 id="写个脚本"><a href="#写个脚本" class="headerlink" title="写个脚本"></a>写个脚本</h3><p>知道了原理，就可以动手写个自动化脚本了。这里我选择了 Bash 脚本语言，毕竟就这么点功能，几行就 OK。用 Bash 的话开个终端复制进去就可以直接运行，比起其他语言也方便 <del>（我才不会说是因为我 Python 都快忘光了呢）</del>。代码放在 <a href="https://gist.github.com/printempw/1bc29da99b238d68e87af874f898f435" target="_blank" rel="noopener">Gist</a> 上：</p>
+<script src="https://gist.github.com/printempw/1bc29da99b238d68e87af874f898f435.js"></script>
+
+<p>这里是压缩过的单行版，方便复制：</p>
+<pre><code class="bash">cat /dev/null &gt; ff.txt;for i in `ls -1 *.flv | sort -n`; do echo &quot;file &#39;${i}&#39;&quot; &gt;&gt; ff.txt;done;ffmpeg -f concat -i ff.txt -c copy ../output.mp4;rm ff.txt;printf &quot;success&quot;</code></pre>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p><img src="https://img.blessing.studio/images/2017/05/13/QQ20170513201744.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/05/13/QQ20170513201744.png" alt="终端执行"></p>
+<p><img src="https://img.blessing.studio/images/2017/05/13/QQ20170513201722.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/05/13/QQ20170513201722.png" alt="输出结果"></p>
+<p>合并过程大概六七秒吧，一发入魂非常到位。</p>
+<p>将合并后的视频文件 <code>output.mp4</code> 和 <code>danmaku.xml</code> 弹幕文件一起拖入「弹弹 Play」或「BiliLocal」等本地弹幕播放器后就可以观看了，爽到。</p>
+<p><img src="https://img.blessing.studio/images/2017/05/13/QQ20170513202429.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/05/13/QQ20170513202429.png" alt="弹幕播放器"></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.cnbeining.com/2014/05/dealing-with-cat-all-on-video-non-destructive-merge-mainly-h-264-problem/" target="_blank" rel="noopener">和猫打交道——所有关于视频无损合并（主要是 H.264）的问题</a></li>
+<li><a href="https://github.com/soimort/you-get/issues/324" target="_blank" rel="noopener">使用 ffmpeg concat 分离器来更有效地拼接视频</a></li>
+</ul>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/rip-ath-c770/">纪念 ATH-C770 君</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/hackers-and-painters-reading-note/">《黑客与画家》读书笔记</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "use-ffmpeg-to-concat-flv-videos-downloaded-by-bilibili-client/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/use-ffmpeg-to-concat-flv-videos-downloaded-by-bilibili-client/".replace('index.html', ''),
+      title: '使用 ffmpeg 拼接 bilibili 客户端所下载的分段 flv 视频',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#缘起"><span class="toc-text">缘起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#需求"><span class="toc-text">需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#尝试"><span class="toc-text">尝试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写个脚本"><span class="toc-text">写个脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

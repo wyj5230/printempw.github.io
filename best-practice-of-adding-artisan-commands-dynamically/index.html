@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>Laravel 动态添加 Artisan 命令的最佳实践 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/best-practice-of-adding-artisan-commands-dynamically/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="PHP,Laravel," />
+
+<meta name="description" content="虽然 Laravel 官方文档提供的添加 Artisan Command 的方法是直接修改 app&#x2F;Console&#x2F;Kernel.php 文件并在 $commands 属性中注册要添加的 Artisan 命名的类名（Laravel 服务容器会自动解析），但是，如果我们出现需要「动态（运行时）添加 Artisan 命令」的需求的话，就会很容易吃瘪。因为，Laravel 的文档（当然，我说的是官网上的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel 动态添加 Artisan 命令的最佳实践">
+<meta property="og:url" content="https://printempw.github.io/best-practice-of-adding-artisan-commands-dynamically/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="虽然 Laravel 官方文档提供的添加 Artisan Command 的方法是直接修改 app&#x2F;Console&#x2F;Kernel.php 文件并在 $commands 属性中注册要添加的 Artisan 命名的类名（Laravel 服务容器会自动解析），但是，如果我们出现需要「动态（运行时）添加 Artisan 命令」的需求的话，就会很容易吃瘪。因为，Laravel 的文档（当然，我说的是官网上的">
+<meta property="og:image" content="https://i.loli.net/2017/07/30/597df1d0e5231.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/07/30/934f97e408371023.png">
+<meta property="article:published_time" content="2017-07-30T10:45:50.000Z">
+<meta property="article:modified_time" content="2017-07-30T10:45:50.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Laravel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2017/07/30/597df1d0e5231.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/best-practice-of-adding-artisan-commands-dynamically/">Laravel 动态添加 Artisan 命令的最佳实践</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2017-07-30T10:45:50+00:00">2017-07-30</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2017-07-30T10:45:50.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR-太长不看"><span class="toc-text">TL;DR 太长不看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-初步尝试"><span class="toc-text">0x01 初步尝试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-继续尝试"><span class="toc-text">0x02 继续尝试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-一些牢骚"><span class="toc-text">0x03 一些牢骚</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>虽然 Laravel 官方文档提供的添加 Artisan Command 的方法是直接修改 <code>app/Console/Kernel.php</code> 文件并在 <code>$commands</code> 属性中注册要添加的 Artisan 命名的类名（Laravel 服务容器会自动解析），但是，如果我们出现需要「动态（运行时）添加 Artisan 命令」的需求的话，就会很容易吃瘪。因为，Laravel 的文档（当然，我说的是官网上的）几乎没有提到任何关于这方面的内容。</p>
+<a id="more"></a>
+
+<p>这也是我为什么总是吐槽 Laravel 文档有些地方很烂的原因 —— 很多时候你为了实现一个文档里没提到的功能，需要去翻半天 Laravel 的框架源码才能找到解决方法（我博客的 <a href="https://blessing.studio/tag/Laravel/" target="_blank" rel="noopener">Laravel 标签</a> 下已经有不少这样的踩坑文了）。虽然 Laravel 框架的源码很优雅，看着也不会难受，但是在一堆文件中跳来跳去寻找逻辑浪费脑细胞的行为还是能省则省吧 :(</p>
+<p>这次要实现的功能是在运行时动态加载自定义的 Artisan Command（更详细一些的需求就是在皮肤站的一个插件中注册 Artisan 命令，Laravel 插件系统的实现可以参考我之前的 <a href="https://blessing.studio/laravel-plugin-system-1/" target="_blank" rel="noopener">另一篇文章</a>）。</p>
+<h2 id="TL-DR-太长不看"><a href="#TL-DR-太长不看" class="headerlink" title="TL;DR 太长不看"></a>TL;DR 太长不看</h2><p>总之先上干货，毕竟不是所有人都喜欢听我废话一大堆后才拿到解决方案的。</p>
+<p>Laravel 5.3 及以上：</p>
+<pre><code class="php">Artisan::starting(function ($artisan) {
+    // 传入类名字符串即可，会被服务容器自动解析
+    $artisan-&gt;resolve(&#39;Example\FooCommand&#39;);
+    // 批量添加
+    $artisan-&gt;resolveCommands([
+        &#39;Example\FuckCommand&#39;,
+        &#39;Example\ShitCommand&#39;
+    ]);
+    // 参数必须为 Symfony\Component\Console\Command\Command 的实例
+    // 继承自 Illuminate\Console\Command 的类实例也可以
+    $artisan-&gt;add($command);
+});</code></pre>
+<p>Laravel 5.2：</p>
+<pre><code class="php">Event::listen(&#39;Illuminate\Console\Events\ArtisanStarting&#39;, function ($event) {
+    // 其他用法同上
+    $event-&gt;artisan-&gt;resolve(&#39;Example\BarCommand&#39;);
+});</code></pre>
+<p>Laravel 5.1：</p>
+<pre><code class="php">Event::listen(&#39;artisan.start&#39;, function ($event) {
+    // 其他用法同上
+    $event-&gt;artisan-&gt;resolve(&#39;Example\WtfCommand&#39;);
+});</code></pre>
+<p>接下来就是我摸索时尝试的步骤，写下来权当记录<del>水博文</del>，发了发牢骚，有兴趣的就继续看下去吧。</p>
+<h2 id="0x01-初步尝试"><a href="#0x01-初步尝试" class="headerlink" title="0x01 初步尝试"></a>0x01 初步尝试</h2><p>既然 Laravel 最常见的注册 Artisan 命令的方式是修改 <code>APP\Console\Kernel</code> 类中的 <code>$commands</code>，那么一般正常人都会从这边开始下手。可以看到，这个类是继承自 <code>Illuminate\Foundation\Console\Kernel</code> 类并覆写了 <code>$commands</code> 属性。让我们稍微看一下这个 <code>$commands</code> 属性用在哪了：</p>
+<pre><code class="php">/**
+ * Get the Artisan application instance.
+ *
+ * @return \Illuminate\Console\Application
+ */
+protected function getArtisan()
+{
+    if (is_null($this-&gt;artisan)) {
+        return $this-&gt;artisan = (new Artisan($this-&gt;app, $this-&gt;events, $this-&gt;app-&gt;version()))
+                            -&gt;resolveCommands($this-&gt;commands);
+    }
+
+    return $this-&gt;artisan;
+}</code></pre>
+<p>可以看到，这个方法用单例模式实例化了一个 Artisan（<code>Artisan</code> 是 <code>Illuminate\Console\Application</code> 的别名），其中最重要的是调用了 <code>Illuminate\Console\Application::resolveCommands</code> 这个方法，并且将那个注册了自定义 Artisan 命令的属性给传了进去。我们跳转到那个 <code>resolveCommands</code> 方法看一看……</p>
+<pre><code class="php">/**
+ * Add a command, resolving through the application.
+ *
+ * @param  string  $command
+ * @return \Symfony\Component\Console\Command\Command
+ */
+public function resolve($command)
+{
+    return $this-&gt;add($this-&gt;laravel-&gt;make($command));
+}
+
+/**
+ * Resolve an array of commands through the application.
+ *
+ * @param  array|mixed  $commands
+ * @return $this
+ */
+public function resolveCommands($commands)
+{
+    $commands = is_array($commands) ? $commands : func_get_args();
+
+    foreach ($commands as $command) {
+        $this-&gt;resolve($command);
+    }
+
+    return $this;
+}</code></pre>
+<p>代码条理很清晰，挨个儿把那些 <code>$commands</code> 中的元素给丢进 Laravel 服务容器里实例化之后，调用父类方法 <code>Symfony\Component\Console\Application::add</code> （是的，Laravel 用了很多很多 Symfony 的组件）添加到自身实例中，持引用以供之后的调用所需。</p>
+<p>继续翻看 <code>Illuminate\Foundation\Console\Kernel</code> 的源码，可以看到 Laravel 贴心地开放了一个 <code>registerCommand</code> 方法：</p>
+<pre><code class="php">/**
+ * Register the given command with the console application.
+ *
+ * @param  \Symfony\Component\Console\Command\Command  $command
+ * @return void
+ */
+public function registerCommand($command)
+{
+    $this-&gt;getArtisan()-&gt;add($command);
+}</code></pre>
+<p>那么我们要做的就是，在运行时中拿到 <code>Kernel</code> 的实例，并且通过调用 <code>registerCommand</code> 方法把我们的自定义 Artisan 命令也给加进去。那么我们要怎样才能拿到这个实例呢？</p>
+<p>相信对 Laravel 有所了解的各位都会想到 —— 服务容器。</p>
+<p>通过查阅 Laravel 命令行入口（根目录下的 <code>artisan</code> 文件）源码可以知道，Laravel 就是使用服务容器来实例化 <code>Kernel</code> 的：</p>
+<pre><code class="php">$kernel = $app-&gt;make(Illuminate\Contracts\Console\Kernel::class);</code></pre>
+<p>如果你有心的话，会发现 Laravel 框架的 Web 入口文件（<code>public/index.php</code>）和命令行入口文件中实例化 <code>Kernel</code> 的语句都是一样的，那么为什么通过 Web 访问时解析出来的是 <code>App\Http\Kernel</code> 的实例而通过命令行访问时解析出来的就是 <code>App\Console\Kernel</code> 的实例了呢？</p>
+<p>这里就涉及 Laravel 服务容器的一个强大的核心功能 —— 绑定接口至实现。因为这些实例都实现了相同的接口，所以我们可以使用相同的代码并且很方便地更换接口后的具体实现，这也是使用 IoC 容器的好处之一，有兴趣的多去了解了解吧 :)</p>
+<p>闲话休提，那么我们只要通过服务容器就可以拿到 <code>Kernel</code> 实例了（当然，如果你愿意，你也可以直接通过 <code>$GLOBAL[&#39;kernel&#39;]</code> 来访问全局作用域下定义的那个 <code>$kernel</code> 变量，效果都是一样的，但是太 tmd lowb 了，所以我不愿意用），看起来已经离成功了一大半呢！</p>
+<pre><code class="php">$kernel = app(&#39;Illuminate\Contracts\Console\Kernel&#39;);
+// 因为 registerCommand 方法只接受 Symfony\Component\Console\Command\Command 的实例作为参数
+$kernel-&gt;registerCommand(app(&#39;Example\FooCommand&#39;));</code></pre>
+<p>然后我们执行一下 <code>php artisan list</code>，就能看到我们的命令已经出现啦：</p>
+<pre><code>Laravel Framework version 5.2.45
+
+Usage:
+  command [options] [arguments]
+
+Available commands:
+  help           Displays help for a command
+  list           Lists commands
+  foo            Example command</code></pre><p>但是等等……Laravel 自带的那些 <code>make</code>、<code>migrate</code> 等命令哪里去了？我最开始出现这个问题的时候还以为是我太早把 <code>Kernel</code> 解析出来了，后来直接使用 <code>$GLOBALS[&#39;kernel&#39;]</code> 也是一样的问题时才认识到问题另有原因。仔细阅读源码后发现 Artisan 命令行在调用（<code>handle</code>、<code>call</code> 等方法）之前都会调用这样一个方法：</p>
+<pre><code class="php">$this-&gt;bootstrap();</code></pre>
+<style>.post-content table, .post-content code { word-wrap: break-word; }</style>
+
+<p>通过阅读源码可以知道这个 <code>bootstrap</code> 方法就是用来加载 Laravel 框架的基本组件的，包括 <code>Illuminate\Foundation\Providers\ArtisanServiceProvider</code> 这个服务提供者中提供的所有框架内置 Artisan 命令。好在这个方法是 public 的，所以我们只要在 <code>registerCommand</code> 之前调用一下这个方法就可以啦：</p>
+<pre><code class="php">$kernel = app(&#39;Illuminate\Contracts\Console\Kernel&#39;);
+$kernel-&gt;bootstrap();
+$kernel-&gt;registerCommand(app(&#39;Example\FooCommand&#39;));</code></pre>
+<p>如果你愿意，你甚至还可以直接使用 <code>Artisan</code> 这个 <code>Facade</code>，因为它就是指向 <code>Illuminate\Contracts\Console\Kernel</code> 的：</p>
+<pre><code class="php">Artisan::bootstrap();
+Artisan::registerCommand(app(&#39;InsaneProfileCache\Commands\Clean&#39;));</code></pre>
+<p>结果如下：</p>
+<p><img src="https://i.loli.net/2017/07/30/597df1d0e5231.png" srcset="/images/loading.jpg" data-srcset="https://i.loli.net/2017/07/30/597df1d0e5231.png" alt="Screenshot"></p>
+<h2 id="0x02-继续尝试"><a href="#0x02-继续尝试" class="headerlink" title="0x02 继续尝试"></a>0x02 继续尝试</h2><p>虽然这样确实能够实现我们的需求，但是我觉得这样不行（话说我都不晓得嘻哈梗怎么突然就流行起来了，虽然确实蛮有意思的啦）。</p>
+<p><img src="https://img.blessing.studio/images/2017/07/30/934f97e408371023.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/07/30/934f97e408371023.png" alt="我觉得不行"></p>
+<p>又要自己取出 <code>Kernel</code> 实例，又要自己调用 <code>bootstrap</code> 方法，调用 <code>registerCommand</code> 方法之前还有自己先把 Command 实例化……这么繁琐，肯定不是运行时添加 Artisan 命令的最佳实践，所以我决定继续寻找更优解。</p>
+<p>虽然我们上面用的方法是取出 <code>Kernel</code> 实例并进行操作的，但是其实该方法里的操作也是基于 <code>getArtisan</code> 所获取的  <code>Illuminate\Console\Application</code> （👈这玩意在 Laravel 源码里经常被 as 为 <code>Artisan</code>）实例进行的。可惜的是这个方法是 <code>protected</code> 的，我们无法直接调用它，所以我们还是先去看这个类的源码吧：</p>
+<pre><code class="php">/**
+ * Create a new Artisan console application.
+ *
+ * @param  \Illuminate\Contracts\Container\Container  $laravel
+ * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+ * @param  string  $version
+ * @return void
+ */
+public function __construct(Container $laravel, Dispatcher $events, $version)
+{
+    parent::__construct(&#39;Laravel Framework&#39;, $version);
+
+    $this-&gt;laravel = $laravel;
+    $this-&gt;setAutoExit(false);
+    $this-&gt;setCatchExceptions(false);
+
+    $events-&gt;fire(new Events\ArtisanStarting($this));
+}</code></pre>
+<p>瞧我发现了什么？Artisan 在实例化之后会触发一个 <code>Illuminate\Console\Events\ArtisanStarting</code> 事件，并且把自身实例给传递过去。那么我们要做的就很简单了：监听该事件，拿到 Artisan 实例，调用 <code>resolve</code> 或 <code>resolveCommands</code> 方法来注册我们的 Artisan 命令即可。</p>
+<p>具体的方法在最上面给出了，我这里就不多说了。另外需要注意的是，Laravel 5.1 版本并没有 <code>ArtisanStarting</code> 这个事件，而是 <code>artisan.start</code>，不过原理都是一样的：</p>
+<pre><code class="php">$events-&gt;fire(&#39;artisan.start&#39;, [$this]);</code></pre>
+<p>另外，在 Laravel 5.3 及以上版本中，Artisan 还贴心地提供了 <code>Artisan::starting</code> 这个方法，和监听事件的效果差不多，不过是直接修改实例的 <code>$bootstrappers</code> 属性的，传递一个闭包进去即可，示例代码见最上方。</p>
+<h2 id="0x03-一些牢骚"><a href="#0x03-一些牢骚" class="headerlink" title="0x03 一些牢骚"></a>0x03 一些牢骚</h2><p>虽然只要看源码就能知道，Laravel 框架很多地方都预留了非常多的接口，让我们可以方便优雅地实现很多自定义功能，这也是我为什么喜欢这个框架的原因之一。</p>
+<p>但是……但是，你的文档就不能写好一点吗！哪怕提一下这些 API 也好啊！</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/minecraft-yggdrasil-api-third-party-implementation/">又是一种 Minecraft 外置登录解决方案：自行实现 Yggdrasil API</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/deploy-dont-starve-together-dedicated-server/">饥荒联机版独立服务器搭建踩坑记录</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "best-practice-of-adding-artisan-commands-dynamically/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/best-practice-of-adding-artisan-commands-dynamically/".replace('index.html', ''),
+      title: 'Laravel 动态添加 Artisan 命令的最佳实践',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR-太长不看"><span class="toc-text">TL;DR 太长不看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-初步尝试"><span class="toc-text">0x01 初步尝试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-继续尝试"><span class="toc-text">0x02 继续尝试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-一些牢骚"><span class="toc-text">0x03 一些牢骚</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

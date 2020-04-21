@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>安装 fail2ban 防止 SSH 暴力破解 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/install-fail2ban-to-ban-ips-that-make-too-many-authentication-failures/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="运维," />
+
+<meta name="description" content="窝一直天真的以为不会有人暴力破解窝的，直到今天看了一下 grep sshd &#x2F;var&#x2F;log&#x2F;auth.log 。。  防止 ssh 暴力破解大概就是使用 ssh key，改端口，关闭口令登录，还有就是 fail2ban，denyhost 之类的软件了，这里窝打算使用 fail2ban。项目地址：GitHub，官网：http:&#x2F;&#x2F;www.fail2ban.org&#x2F; __      _ _ ___">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安装 fail2ban 防止 SSH 暴力破解">
+<meta property="og:url" content="https://printempw.github.io/install-fail2ban-to-ban-ips-that-make-too-many-authentication-failures/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="窝一直天真的以为不会有人暴力破解窝的，直到今天看了一下 grep sshd &#x2F;var&#x2F;log&#x2F;auth.log 。。  防止 ssh 暴力破解大概就是使用 ssh key，改端口，关闭口令登录，还有就是 fail2ban，denyhost 之类的软件了，这里窝打算使用 fail2ban。项目地址：GitHub，官网：http:&#x2F;&#x2F;www.fail2ban.org&#x2F; __      _ _ ___">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/08/2015-08-15_12-49-38.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/08/2015-08-15_13-19-37.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/08/2015-08-12_12-42-14.jpg">
+<meta property="article:published_time" content="2015-08-15T21:26:29.000Z">
+<meta property="article:modified_time" content="2015-08-28T16:34:52.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="运维">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2015/08/2015-08-15_12-49-38.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/install-fail2ban-to-ban-ips-that-make-too-many-authentication-failures/">安装 fail2ban 防止 SSH 暴力破解</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2015-08-15T21:26:29+00:00">2015-08-16</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2015-08-28T16:34:52.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装"><span class="toc-text">1. 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-基本配置"><span class="toc-text">2. 基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-进阶配置"><span class="toc-text">3. 进阶配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-测试一下？"><span class="toc-text">4. 测试一下？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-参考资料"><span class="toc-text">5. 参考资料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-UPDATE-LOG："><span class="toc-text">6. UPDATE LOG：</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>窝一直天真的以为不会有人暴力破解窝的，直到今天看了一下 <code>grep sshd /var/log/auth.log</code> 。。</p>
+<p><img src="https://img.blessing.studio/images/2015/08/2015-08-15_12-49-38.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/08/2015-08-15_12-49-38.png" alt="log"></p>
+<p>防止 ssh 暴力破解大概就是使用 ssh key，改端口，关闭口令登录，还有就是 fail2ban，denyhost 之类的软件了，这里窝打算使用 fail2ban。项目地址：<a href="https://github.com/fail2ban/fail2ban" target="_blank" rel="noopener">GitHub</a>，官网：<a href="http://www.fail2ban.org/" target="_blank" rel="noopener">http://www.fail2ban.org/</a></p>
+<pre><code>__      _ _ ___ _               
+/ _|__ _(_) |_  ) |__  __ _ _ _  
+|  _/ _` | | |/ /| &#39;_ \/ _` | &#39; \
+|_| \__,_|_|_/___|_.__/\__,_|_||_|
+v0.9.3.dev              2015/XX/XX</code></pre><blockquote>
+<p>简介：Fail2Ban scans log files like /var/log/pwdfail and bans IP that makes too many password failures. It updates firewall rules to reject the IP address. These rules can be defined by the user. Fail2Ban can read multiple log files such as sshd or Apache web server ones.</p>
+</blockquote>
+<h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><p>安装可以源码编译安装也可以直接包管理器安装，Ubuntu 软件仓库中已经添加了 fail2ban，直接 apt-get 即可。源码编译安装请参照官方项目 README。</p>
+<pre><code>$ sudo apt-get update
+$ sudo apt-get install fail2ban</code></pre><h3 id="2-基本配置"><a href="#2-基本配置" class="headerlink" title="2. 基本配置"></a>2. 基本配置</h3><p>安装完成后 fail2ban 的配置文件可以在 <code>/etc/fail2ban/</code> 中找到，其中：</p>
+<pre><code>/etc/fail2ban/fail2ban.conf  #fail2ban 的配置文件
+/etc/fail2ban/jail.conf  #一个 filter 或者多个 action 的组合，阻挡设定文件
+/etc/fail2ban/filter.d/  #过滤器，具体过滤规则文件目录
+/etc/fail2ban/action.d/  #操作，检测到后采取相对应措施的目录</code></pre><p>fail2ban 中已经内置常用软件的过滤规则，如 ssh，ftp 等，在 <code>/etc/fail2ban/jail.conf</code> 中配置为 enable 即可</p>
+<p><img src="https://img.blessing.studio/images/2015/08/2015-08-15_13-19-37.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/08/2015-08-15_13-19-37.png" alt="jail"></p>
+<p>另外如果需要自定义 filter 的话需要正则表达式知识，这里就不多说了，自带的对于防范 ssh 暴力破解已经够用了</p>
+<pre><code>启动|关闭|状态|重启 fail2ban： `service fail2ban {start|stop|status|restart}`</code></pre><p>下面讲一下如何对 fail2ban 的默认配置进行调整</p>
+<h3 id="3-进阶配置"><a href="#3-进阶配置" class="headerlink" title="3. 进阶配置"></a>3. 进阶配置</h3><p>首先，将默认配置 <code>/etc/fail2ban/jail.conf</code> 拷贝一份为 <code>jail.local</code></p>
+<p>注意，<code>*.local</code> 中的配置会覆盖掉 <code>*.conf</code> 中的配置</p>
+<pre><code class="shell">sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local</code></pre>
+<p>编辑它</p>
+<pre><code>sudo vim /etc/fail2ban/jail.local
+
+In this file, there are a few settings you may wish to adjust. The settings located under the [DEFAULT] section will be applied to all services enabled for fail2ban that are not overridden in the service’s own section.
+
+ignoreip = 127.0.0.1/8
+
+You can adjust the source addresses that fail2ban ignores by adding a value to the ignoreip parameter. Currently, it is configured not ban any traffic coming from the local machine. You can add additional addresses to ignore by appending them to the end of the parameter, separated by a space.
+
+bantime = 600
+
+The bantime parameter sets length of time that a client will be banned when they have failed to authenticate correctly. This is measured in seconds. By default, this is set to 600 seconds, or 10 minutes.
+
+findtime = 600 maxretry = 3
+
+The next two parameters that you want to pay attention to are findtime and maxretry. These work together to establish the conditions under which a client is found to be an illegitimate user that should be banned.
+
+The maxretry variable sets the number of tries a client has to authenticate within a window of time defined by findtime, before being banned. With the default settings, the fail2ban service will ban a client that unsuccessfully attempts to log in 3 times within a 10 minute window.
+
+destemail = root@localhost sendername = Fail2Ban mta = sendmail
+
+Some other settings you may wish to are the destemail, sendername, and mta settings if you wish to configure email alerts. The destemail parameter sets the email address that should receive ban messages. The sendername sets the value of the “From” field in the email. The mta parameter configures what mail service will be used to send mail.
+
+action = $(action_)s
+
+This parameter configures the action that fail2ban takes when it wants to institute a ban. The value action_ is defined in the file shortly before this parameter. The default action is to simply configure the firewall to reject traffic from the offending host until the ban time elapses.
+
+If you would like to configure email alerts, you can change the value from action_ to action_mw. If you want the email to include the relevant log lines, you can change it to action_mwl. Make sure you have the appropriate mail settings configured if you choose to use mail alerts.</code></pre><h3 id="4-测试一下？"><a href="#4-测试一下？" class="headerlink" title="4. 测试一下？"></a>4. 测试一下？</h3><p>现在窝们的 fail2ban 已经配置好了，是时候作死一波了（反正重新拨号就换 IP 怕啥</p>
+<p>根据 <code>/etc/fail2ban/jail.conf</code> 中 <code>ssh</code> 的配置，只要窝们登录失败六次错误就会被 ban 掉 IP，那么就让窝祭出 cmd 大法来 ssh 登录吧！</p>
+<p><img src="https://img.blessing.studio/images/2015/08/2015-08-12_12-42-14.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/08/2015-08-12_12-42-14.jpg" alt="em1"></p>
+<p>测试结果明天更吧~</p>
+<h3 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5. 参考资料"></a>5. 参考资料</h3><p><a href="https://github.com/fail2ban/fail2ban/blob/master/README.md" target="_blank" rel="noopener">https://github.com/fail2ban/fail2ban/blob/master/README.md</a></p>
+<p><a href="http://drops.wooyun.org/tips/3029" target="_blank" rel="noopener">http://drops.wooyun.org/tips/3029</a></p>
+<p><a href="http://my.oschina.net/lijialong/blog/109497" target="_blank" rel="noopener">http://my.oschina.net/lijialong/blog/109497</a></p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04?utm_medium=community&utm_source=newsletter&utm_campaign=8272015" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04?utm_medium=community&amp;utm_source=newsletter&amp;utm_campaign=8272015</a></p>
+<h3 id="6-UPDATE-LOG："><a href="#6-UPDATE-LOG：" class="headerlink" title="6. UPDATE LOG："></a>6. UPDATE LOG：</h3><p>8.28 使用分页和 bootstrap 对教程重新排版；添加了一些内容</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/remove-su-indicator-on-status-bar-in-cm12/">去除 CM12 通知栏的 SU Indicator</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/digitalocean-or-conoha-that-is-a-problem/">DigitalOcean 和 ConoHa 的对比与评测</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "install-fail2ban-to-ban-ips-that-make-too-many-authentication-failures/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/install-fail2ban-to-ban-ips-that-make-too-many-authentication-failures/".replace('index.html', ''),
+      title: '安装 fail2ban 防止 SSH 暴力破解',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装"><span class="toc-text">1. 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-基本配置"><span class="toc-text">2. 基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-进阶配置"><span class="toc-text">3. 进阶配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-测试一下？"><span class="toc-text">4. 测试一下？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-参考资料"><span class="toc-text">5. 参考资料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-UPDATE-LOG："><span class="toc-text">6. UPDATE LOG：</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

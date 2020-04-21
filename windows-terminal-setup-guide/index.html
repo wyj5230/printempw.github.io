@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>Windows Terminal 安装与配置指南 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/windows-terminal-setup-guide/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="教程,CLI,终端," />
+
+<meta name="description" content="自今年微软开发者大会 Build 2019 中首次亮相以来，经历了近半年的发展，万众瞩目的 Windows Terminal 已经日趋成熟。从十月份开始，我将其作为主力终端使用了一段时间，暂时还没遇到什么严重的问题。 为了方便其他想要试试 WT 的选手，这里我将安装配置过程中的一些步骤以及踩到的坑整理成文，希望对各位有所帮助。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Terminal 安装与配置指南">
+<meta property="og:url" content="https://printempw.github.io/windows-terminal-setup-guide/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="自今年微软开发者大会 Build 2019 中首次亮相以来，经历了近半年的发展，万众瞩目的 Windows Terminal 已经日趋成熟。从十月份开始，我将其作为主力终端使用了一段时间，暂时还没遇到什么严重的问题。 为了方便其他想要试试 WT 的选手，这里我将安装配置过程中的一些步骤以及踩到的坑整理成文，希望对各位有所帮助。">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-microsoft-store.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-default-look.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/opening-wt-profile-json.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-new-profile.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-acrylic-background.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-context-menu.png">
+<meta property="article:published_time" content="2019-10-14T12:08:00.000Z">
+<meta property="article:modified_time" content="2020-03-14T15:35:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="CLI">
+<meta property="article:tag" content="终端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-microsoft-store.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/windows-terminal-setup-guide/">Windows Terminal 安装与配置指南</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2019-10-14T12:08:00+00:00">2019-10-14</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/CLI/" rel="tag">CLI</a> <a class="tag-link" href="/tag/%E6%95%99%E7%A8%8B/" rel="tag">教程</a> <a class="tag-link" href="/tag/%E7%BB%88%E7%AB%AF/" rel="tag">终端</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2020-03-14T15:35:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-WT-好处都有啥？"><span class="toc-text">1. WT 好处都有啥？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-总之先安装"><span class="toc-text">2. 总之先安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-配置"><span class="toc-text">3. 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-配置文件简介"><span class="toc-text">3.1 配置文件简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-全局配置"><span class="toc-text">3.2 全局配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-添加新-Shell"><span class="toc-text">3.3 添加新 Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-调整配色"><span class="toc-text">3.4 调整配色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-修改按键绑定"><span class="toc-text">3.5 修改按键绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-添加右键菜单"><span class="toc-text">3.6 添加右键菜单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-后记"><span class="toc-text">4. 后记</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>自今年微软开发者大会 Build 2019 中<a href="https://devblogs.microsoft.com/commandline/introducing-windows-terminal/" target="_blank" rel="noopener">首次亮相</a>以来，经历了近半年的发展，万众瞩目的 Windows Terminal 已经日趋成熟。从十月份开始，我将其作为主力终端使用了一段时间，暂时还没遇到什么严重的问题。</p>
+<p>为了方便其他想要试试 WT 的选手，这里我将安装配置过程中的一些步骤以及踩到的坑整理成文，希望对各位有所帮助。</p>
+<a id="more"></a>
+
+<h2 id="1-WT-好处都有啥？"><a href="#1-WT-好处都有啥？" class="headerlink" title="1. WT 好处都有啥？"></a>1. WT 好处都有啥？</h2><p>根据官方介绍，Windows Terminal 是一个面向命令行用户的全新、现代化、功能丰富的高性能终端应用程序。它在实现了社区用户热切期望的许多功能的同时（包括多标签页、富文本、全球化、可配置性、对主题与样式的支持等），依然保持快速与高效，不会消耗大量的内存或电量。</p>
+<blockquote>
+<p>不清楚什么是终端？来看看这篇博客吧：<a href="https://printempw.github.io/the-difference-between-cli-terminal-shell-tty/">命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？</a></p>
+</blockquote>
+<p>说得挺唬人，不过到底也就是一个终端模拟器，玩不出什么花儿来。终端一抓一大把，mintty、ConEmu、Hyper、Terminus……有什么特别的理由用 WT 吗？</p>
+<p>在我看来，WT 的一些特性更偏向于「润物细无声」型。比如基于 DirectX 的字体渲染引擎，原生支持 Unicode 字符、Emoji、连字等，虽然不起眼，但确确实实地提升了用户体验。而且……亚克力背景真的很好看呀！<del>好看是第一生产力嘛</del></p>
+<p>作为微软团队主导开发的开源项目，我对其还是抱有很大信心的。</p>
+<h2 id="2-总之先安装"><a href="#2-总之先安装" class="headerlink" title="2. 总之先安装"></a>2. 总之先安装</h2><p><strong>注意：Windows Terminal 要求 Windows 10 1903 (build 18362) 及以上版本。</strong></p>
+<p>WT 现在已经上架 <a href="https://www.microsoft.com/store/apps/9n0dx20hk701?cid=storebadge&ocid=badge" target="_blank" rel="noopener">Microsoft Store</a>，所以直接在商店里搜索安装即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-microsoft-store.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-microsoft-store.png" alt="windows-terminal-microsoft-store"></p>
+<p>如果你无法使用 Microsoft Store，也可以下载 <a href="https://github.com/microsoft/terminal/releases" target="_blank" rel="noopener">releases</a> 页面打包好的 <code>.msixbundle</code> 手动安装（记得先安装依赖库 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=53175" target="_blank" rel="noopener">Desktop Bridge VC++ v14 Redistributable Package</a>）。</p>
+<p>也可以使用 Chocolatey 包管理器来安装：</p>
+<pre><code class="sh">choco install microsoft-windows-terminal</code></pre>
+<p>或者使用 Scoop 安装（通过 <a href="https://github.com/h404bi" target="_blank" rel="noopener">@h404bi</a> 维护的第三方 bucket）：</p>
+<pre><code class="sh">scoop bucket add dorado https://github.com/h404bi/dorado
+scoop install windowsterminal</code></pre>
+<p>如果你愿意，你还可以手动编译安装，具体请参考 <a href="https://github.com/microsoft/terminal/blob/master/README.md#developer-guidance" target="_blank" rel="noopener">官方文档</a>。</p>
+<h2 id="3-配置"><a href="#3-配置" class="headerlink" title="3. 配置"></a>3. 配置</h2><p>安装完成之后，WT 默认是长这样的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-default-look.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-default-look.png" alt="windows-terminal-default-look"></p>
+<p>是不是感觉没什么出彩的？让我们给它打扮打扮！</p>
+<blockquote>
+<p><strong>2020/03/14 更新</strong>：现在 Windows Terminal 自带 Cascadia Code 字体，开箱颜值就挺高了。而且这字体我很喜欢，Linux 上作为终端字体也很好看。</p>
+</blockquote>
+<h3 id="3-1-配置文件简介"><a href="#3-1-配置文件简介" class="headerlink" title="3.1 配置文件简介"></a>3.1 配置文件简介</h3><p>目前（截至 2019 年 10 月 <del>2020 年 3 月也一样</del>），我们只能通过 <code>profiles.json</code> 配置文件来配置 Windows Terminal。</p>
+<p>在标签右侧的下拉菜单中点击「Settings」，即可用你默认的 <code>.json</code> 文件编辑器打开配置文件。该文件的实际位置在这里：</p>
+<pre><code class="plain">%localappdata%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\profiles.json</code></pre>
+<p>按住 Alt 键再点击「Settings」，可以打开默认的配置文件 <code>defaults.json</code>。你可以将其作为参考修改 <code>profiles.json</code>，但注意不要直接修改 <code>defaults.json</code>，因为对其做出的改动均不会被保留。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/opening-wt-profile-json.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/opening-wt-profile-json.png" alt="opening-wt-profile-json"></p>
+<p>下面我会简单描述一下各配置项的作用，如果想要更详细地了解，请参考官方文档：</p>
+<ul>
+<li><a href="https://github.com/microsoft/terminal/blob/master/doc/user-docs/UsingJsonSettings.md" target="_blank" rel="noopener">Editing Windows Terminal JSON Settings</a></li>
+<li><a href="https://github.com/microsoft/terminal/blob/master/doc/cascadia/SettingsSchema.md" target="_blank" rel="noopener">Profiles.json Documentation</a></li>
+</ul>
+<h3 id="3-2-全局配置"><a href="#3-2-全局配置" class="headerlink" title="3.2 全局配置"></a>3.2 全局配置</h3><p>这里仅介绍些常用配置，剩下的看上面的文档去罢。</p>
+<pre><code class="json">{
+    // 默认打开的 Profile GUID（下面会详细介绍）
+    &quot;defaultProfile&quot;: &quot;{e1e1ac58-02c1-456a-a857-01149673a65d}&quot;,
+    // 终端窗口默认大小
+    &quot;initialCols&quot;: 120,
+    &quot;initialRows&quot;: 30,
+    // 亮色或暗色主题，可选值 &quot;light&quot;, &quot;dark&quot;, &quot;system&quot;
+    &quot;requestedTheme&quot;: &quot;system&quot;,
+    // 合并标题栏和标签栏
+    &quot;showTabsInTitlebar&quot;: true,
+    // 如果 showTabsInTitlebar 与本值同为 false 时，自动隐藏标签栏
+    &quot;alwaysShowTabs&quot;: true,
+    // 在标题栏上显示当前活动标签页的标题
+    &quot;showTerminalTitleInTitlebar&quot;: true,
+    // 双击选择时用于分词的字符
+    &quot;wordDelimiters&quot;: &quot; /\\()\&quot;&#39;-.,:;&lt;&gt;~!@#$%^&amp;*|+=[]{}~?\u2502&quot;,
+    // 选择时复制到剪贴板
+    &quot;copyOnSelect&quot;: true,
+    // 标签页宽度不固定
+    &quot;tabWidthMode&quot;: &quot;titleLength&quot;,
+
+    // ...
+}</code></pre>
+<h3 id="3-3-添加新-Shell"><a href="#3-3-添加新-Shell" class="headerlink" title="3.3 添加新 Shell"></a>3.3 添加新 Shell</h3><p>以 WSL 为例（虽然 WT 自带了 WSL 的 Profile，不过这里不管它）：</p>
+<pre><code class="json">&quot;profiles&quot;: {
+    &quot;defaults&quot;: {
+        // 所有 Profile 共用的设置可以放这里，就不用写多次了
+        // 字体设置
+        &quot;fontFace&quot;: &quot;Cascadia Code&quot;,
+        &quot;fontSize&quot;: 11,
+        // 光标类型，可选值 &quot;vintage&quot; ( ▃ ), &quot;bar&quot; ( ┃ ), &quot;underscore&quot; ( ▁ ), &quot;filledBox&quot; ( █ ), &quot;emptyBox&quot; ( ▯ )
+        &quot;cursorShape&quot;: &quot;underscore&quot;,
+        // 背景亚克力透明效果（窗口失去焦点时无效）
+        &quot;useAcrylic&quot;: true,
+        &quot;acrylicOpacity&quot;: 0.8
+    },
+    &quot;list&quot;: [
+        {
+            // 每个 Profile 的唯一标识符，生成方法见下
+            &quot;guid&quot;: &quot;{e1e1ac58-02c1-456a-a857-01149673a65d}&quot;,
+            // 设置为 true 即可在新建菜单中隐藏
+            &quot;hidden&quot;: false,
+            // 名字，会显示在菜单中
+            &quot;name&quot;: &quot;Ubuntu&quot;,
+            // 启动命令行
+            &quot;commandline&quot;: &quot;wsl.exe&quot;,
+            // 启动目录
+            &quot;startingDirectory&quot;: &quot;.&quot;,
+
+            // 背景图片
+            // &quot;backgroundImage&quot; : &quot;X:\\path\\to\\background.png&quot;,
+            // &quot;backgroundImageOpacity&quot; : 0.5,
+            // &quot;backgroundImageStretchMode&quot; : &quot;uniformToFill&quot;,
+
+            // 菜单与标签中显示的图标
+            &quot;icon&quot;: &quot;X:\\path\\to\\ubuntu.png&quot;,
+            // 配色方案，见下
+            &quot;colorScheme&quot;: &quot;Tango Dark&quot;,
+            // 光标颜色
+            &quot;cursorColor&quot;: &quot;#FFFFFF&quot;,
+
+            // ... 其他配置请参见官方文档
+        }
+    ]
+}</code></pre>
+<p>GUID 网上有很多生成器，你也可以用 PowerShell 命令生成一个：</p>
+<pre><code class="powershell">[guid]::NewGuid()</code></pre>
+<p>把之前的 <code>defaultProfile</code> 设置为某个 Profile 的 GUID，打开 WT、新建标签页时就会默认使用这个 Profile。</p>
+<p>另外你可能会注意到 <code>defaults.json</code> 中有些 Profile 的 <code>icon</code> 图片路径是以 <code>ms-appx:///ProfileIcons/</code> 开头的。这是 UWP 应用的 <a href="https://docs.microsoft.com/en-us/windows/uwp/app-resources/uri-schemes" target="_blank" rel="noopener">URI Schemes</a>，<code>ms-appx:///</code> 指向的物理路径是应用的实际安装路径。</p>
+<p>官方文档中推荐我们把自定义图标、背景图之类的放到与 <code>profiles.json</code> 同一目录里去，然后在配置中用 <code>ms-appdata:///Local/xxx</code> 的形式来引用资源。不过如果嫌麻烦的话，直接使用绝对路径也是没问题的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-new-profile.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-new-profile.png" alt="windows-terminal-new-profile"></p>
+<h3 id="3-4-调整配色"><a href="#3-4-调整配色" class="headerlink" title="3.4 调整配色"></a>3.4 调整配色</h3><p>从 <code>defaults.json</code> 中可以看出，WT 内建可用的配色方案有：<code>Campbell</code>、<code>Campbell Powershell</code>、<code>Vintage</code>、<code>One Half Dark</code>、<code>One Half Light</code>、<code>Solarized Dark</code>、<code>Solarized Light</code>。</p>
+<p>如果你对这些都不感冒，<a href="https://github.com/mbadolato/iTerm2-Color-Schemes" target="_blank" rel="noopener">mbadolato/iTerm2-Color-Schemes</a> 这个 repo 里有超多的终端配色，总有一款适合你（而且都提供了 WT 的配置格式，复制粘贴就能直接使用）。比如说我习惯使用 Tango 配色：</p>
+<pre><code class="json">&quot;schemes&quot;: [
+    {
+        &quot;name&quot;: &quot;Tango Dark&quot;,
+        &quot;black&quot;: &quot;#000000&quot;,
+        &quot;red&quot;: &quot;#cc0000&quot;,
+        &quot;green&quot;: &quot;#4e9a06&quot;,
+        &quot;yellow&quot;: &quot;#c4a000&quot;,
+        &quot;blue&quot;: &quot;#3465a4&quot;,
+        &quot;purple&quot;: &quot;#75507b&quot;,
+        &quot;cyan&quot;: &quot;#06989a&quot;,
+        &quot;white&quot;: &quot;#d3d7cf&quot;,
+        &quot;brightBlack&quot;: &quot;#555753&quot;,
+        &quot;brightRed&quot;: &quot;#ef2929&quot;,
+        &quot;brightGreen&quot;: &quot;#8ae234&quot;,
+        &quot;brightYellow&quot;: &quot;#fce94f&quot;,
+        &quot;brightBlue&quot;: &quot;#729fcf&quot;,
+        &quot;brightPurple&quot;: &quot;#ad7fa8&quot;,
+        &quot;brightCyan&quot;: &quot;#34e2e2&quot;,
+        &quot;brightWhite&quot;: &quot;#eeeeec&quot;,
+        &quot;background&quot;: &quot;#000000&quot;,
+        &quot;foreground&quot;: &quot;#D3D7CF&quot;
+    }
+],</code></pre>
+<p>配上亚克力透明背景还是很好康的（背景图来自 <a href="https://twitter.com/pix_bun/status/1126230459510169600" target="_blank" rel="noopener">@pix_bun</a>）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-acrylic-background.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-acrylic-background.png" alt="windows-terminal-acrylic-background"></p>
+<h3 id="3-5-修改按键绑定"><a href="#3-5-修改按键绑定" class="headerlink" title="3.5 修改按键绑定"></a>3.5 修改按键绑定</h3><p>默认的一些热键：</p>
+<ul>
+<li>打开新标签页：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd></li>
+<li>使用指定 Profile 打开标签页：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>1...9</kbd></li>
+<li>关闭标签页：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd></li>
+<li>前一个标签页：<kbd>Ctrl</kbd> + <kbd>Tab</kbd></li>
+<li>后一个标签页：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd></li>
+<li>复制：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd></li>
+<li>粘贴：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></li>
+</ul>
+<p>想自定义的话直接参照 <code>defaults.json</code> 修改 <code>keybindings</code> 即可。</p>
+<h3 id="3-6-添加右键菜单"><a href="#3-6-添加右键菜单" class="headerlink" title="3.6 添加右键菜单"></a>3.6 添加右键菜单</h3><p>一个趁手的终端，很重要的一点就是能够随时呼出。目前，有这么几种快速打开 Windows Terminal 的方式：</p>
+<ul>
+<li><code>Win + S</code> 或者 <code>Win + R</code>，输入 <code>wt</code> 按回车；</li>
+<li>资源管理器中按 <code>Ctrl + L</code>，输入 <code>wt -d .</code> 回车在当前目录中打开（如果设置了 <code>&quot;startingDirectory&quot;: &quot;.&quot;</code> 可以直接输入 <code>wt</code>）；</li>
+<li>使用 <a href="https://getquicker.net/Sharedaction?code=4e7abb0c-f213-4ee4-39f5-08d7bfff7792" target="_blank" rel="noopener">Quicker</a> 或者 <a href="https://www.autohotkey.com" target="_blank" rel="noopener">AutoHotkey</a> 等第三方工具。</li>
+</ul>
+<p>不过我还是比较习惯传统的右键菜单「在这里打开终端」的方式。WT 目前还没有内置这一功能，想要手动添加也比较麻烦（下文参考了这个 <a href="https://github.com/microsoft/terminal/issues/1060" target="_blank" rel="noopener">issue</a> 中的方法）。</p>
+<p>以管理员权限打开 PowerShell，运行以下命令：</p>
+<pre><code class="powershell">$basePath = &quot;Registry::HKEY_CLASSES_ROOT\Directory\Background\shell&quot;
+New-Item -Path &quot;$basePath\wt&quot; -Force -Value &quot;Windows Terminal here&quot;
+New-ItemProperty -Path &quot;$basePath\wt&quot; -Force -Name &quot;Icon&quot; -PropertyType ExpandString -Value &quot;X:\path\to\terminal.ico&quot;
+New-Item -Path &quot;$basePath\wt\command&quot; -Force -Type ExpandString -Value &#39;&quot;%LOCALAPPDATA%\Microsoft\WindowsApps\wt.exe&quot; -p Ubuntu -d &quot;%V&quot;&#39;</code></pre>
+<p>如果你足够熟练，也可以自行通过其他方式修改注册表，反正就那么些字段，路径正确就行了。Windows Terminal 的图标可以在 <a href="https://raw.githubusercontent.com/microsoft/terminal/master/res/terminal.ico" target="_blank" rel="noopener">这里</a> 获取 。</p>
+<blockquote>
+<p><strong>2020/03/14 更新</strong>：Windows Terminal 0.9 版本之后添加了 <code>wt.exe</code> 的<a href="https://github.com/microsoft/terminal/blob/master/doc/user-docs/UsingCommandlineArguments.md" target="_blank" rel="noopener">命令行参数</a>，可以直接指定启动目录，不需要再修改 <code>profiles.json</code> 中的 <code>startingDirectory</code> 字段了。</p>
+</blockquote>
+<p>另外 <code>wt.exe</code> 支持通过 <code>-p</code> 参数指定要打开的 Profile，所以除了 WSL，我还添加了一个在当前目录下打开 PowerShell 的菜单项（注册表中添加一个 <code>Extended</code> 项可以让该右键菜单项仅在按住 Shift 右键时才显示）。你甚至可以通过二级菜单的方式实现更多功能，具体可以参考上面给出的 issue 中的讨论。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-context-menu.png" srcset="/images/loading.jpg" data-srcset="https://cdn.jsdelivr.net/gh/printempw/printempw.github.io@source/source/_posts/2019/windows-terminal-setup-guide/windows-terminal-context-menu.png" alt="windows-terminal-context-menu"></p>
+<h2 id="4-后记"><a href="#4-后记" class="headerlink" title="4. 后记"></a>4. 后记</h2><p>到这里，WT 就基本配置完成了，下面是闲聊时间。</p>
+<p>我用过很多终端，Windows Terminal 虽然不错，但也没到要吹上天的地步。</p>
+<p><strong>我认为，真正决定操作系统命令行体验的，不是终端，是 Shell。</strong>诚然，如果终端很漂亮的话，光看着也非常赏心悦目，但如果其中的 Shell 是 <code>cmd.exe</code>，那实际体验可能就令人抓狂了。</p>
+<p>在之前<a href="https://printempw.github.io/wsl-guide/">介绍 WSL 的文章</a>中我也说过，我喜欢 WSL 的原因之一，就是它提供了一种以类 Unix 系统命令行的那一套东西去操作 Windows 的能力（比如 Bash 和各种 GNU 小工具）。PowerShell 是不错，论强大肯定不输给任何命令行 Shell，但我用不惯呀（不过最近我也有在学习）。以前的 Cygwin 等项目虽然也能达成同样的效果，但是因为其底层实现的不同，还是 WSL 来得更舒适一些。</p>
+<p>所以当我得知 WSL2 底层实现换成了虚拟机的时候是很抗拒的。系统调用翻译层的设计不是很惊艳吗？怎么直接就变成个小 VM 了？原本 WSL 最为人称道的（至少我是如此）互操作性要怎么办？距离我接受 WSL2，看来还是需要一定的时间。</p>
+<p>不过有一说一，Windows Terminal 还是很不错的。<del>我又是软软了</del></p>
+<p>Microsoft，干得漂亮！❤️</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/setting-up-manjaro-linux/">Manjaro Linux 踩坑调教记录</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/hexo-posts-in-subfolder/">使用子文件夹管理 Hexo 文章且不改变文章永久链接</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "windows-terminal-setup-guide/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/windows-terminal-setup-guide/".replace('index.html', ''),
+      title: 'Windows Terminal 安装与配置指南',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-WT-好处都有啥？"><span class="toc-text">1. WT 好处都有啥？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-总之先安装"><span class="toc-text">2. 总之先安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-配置"><span class="toc-text">3. 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-配置文件简介"><span class="toc-text">3.1 配置文件简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-全局配置"><span class="toc-text">3.2 全局配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-添加新-Shell"><span class="toc-text">3.3 添加新 Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-调整配色"><span class="toc-text">3.4 调整配色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-修改按键绑定"><span class="toc-text">3.5 修改按键绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-添加右键菜单"><span class="toc-text">3.6 添加右键菜单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-后记"><span class="toc-text">4. 后记</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

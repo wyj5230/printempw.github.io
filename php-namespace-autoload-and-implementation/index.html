@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PHP 命名空间自动加载与实现 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/php-namespace-autoload-and-implementation/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="PHP," />
+
+<meta name="description" content="Blessing Skin Server 也经过蛮长时间的开发了，但是类文件都只是简单的堆放在同一个文件夹中。虽然我知道有命名空间这玩意，但是总共就几个类，也不是很有必要。 然而在上周加入了数据对接之后，includes 文件夹就开始爆满了：  这尼玛还怎么忍？必须命名空间走起啊。 然而我只是知道有这玩意，在框架里也用过，但是并不知道如何实现对其的自动加载。 于是我去网上看了一些自动加载的实例，然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP 命名空间自动加载与实现">
+<meta property="og:url" content="https://printempw.github.io/php-namespace-autoload-and-implementation/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="Blessing Skin Server 也经过蛮长时间的开发了，但是类文件都只是简单的堆放在同一个文件夹中。虽然我知道有命名空间这玩意，但是总共就几个类，也不是很有必要。 然而在上周加入了数据对接之后，includes 文件夹就开始爆满了：  这尼玛还怎么忍？必须命名空间走起啊。 然而我只是知道有这玩意，在框架里也用过，但是并不知道如何实现对其的自动加载。 于是我去网上看了一些自动加载的实例，然">
+<meta property="og:image" content="https://img.prinzeugen.net/image.php?di=3G97">
+<meta property="og:image" content="https://img.prinzeugen.net/image.php?di=7RIP">
+<meta property="og:image" content="https://img.prinzeugen.net/image.php?di=8WUY">
+<meta property="article:published_time" content="2016-03-18T10:22:15.000Z">
+<meta property="article:modified_time" content="2016-04-17T05:44:12.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.prinzeugen.net/image.php?di=3G97">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/php-namespace-autoload-and-implementation/">PHP 命名空间自动加载与实现</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-03-18T10:22:15+00:00">2016-03-18</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2016-04-17T05:44:12.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>Blessing Skin Server 也经过蛮长时间的开发了，但是类文件都只是简单的堆放在同一个文件夹中。虽然我知道有命名空间这玩意，但是总共就几个类，也不是很有必要。</p>
+<p>然而在上周加入了数据对接之后，<code>includes</code> 文件夹就开始爆满了：</p>
+<p><img src="https://img.prinzeugen.net/image.php?di=3G97" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=3G97" alt="includes dir"></p>
+<p>这尼玛还怎么忍？必须命名空间走起啊。</p>
+<p>然而我只是知道有这玩意，在框架里也用过，但是并不知道如何实现对其的自动加载。</p>
+<p>于是我去网上看了一些自动加载的实例，然后自己写了一个自动加载。说实话刚看到的时候还是有点迷的，所以在这里记录一下。由于我的项目是用类名与文件名相同的方式来组织存储的，所以就懒得管 PSR-4 啦（笑）。</p>
+<a id="more"></a>
+
+<script src="https://work.prinzeugen.net/gist/printempw/d1af9fefbcbd89996273.js"></script>
+
+<p><code>__autoload</code> 是 PHP 的魔术方法，具体请查看<a href="http://php.net/manual/zh/function.autoload.php" target="_blank" rel="noopener">官方文档</a>。</p>
+<p>使用了命名空间之后，<code>__autoload</code> 函数得到的 <code>$classname</code> 参数值（即需要被加载的类名）就会类似于这样 <code>Database\AuthmeDatabase</code>，而我们要做的，就是把用 <code>\</code> 组织的带命名空间类名转换为 <strong>目录 + 类名 + 文件后缀</strong>。</p>
+<pre><code>$filename = $include_dir.str_replace(&#39;\\&#39;, DIRECTORY_SEPARATOR, $classname) . &#39;.class.php&#39;;</code></pre><p>这样就可以得到文件的绝对路径了：</p>
+<pre><code>E:\wwwroot\blessing-skin-server\includes\classes\Database\AuthmeDatabase.class.php</code></pre><p>然后 <code>require_once</code> 一下就完成了自动加载。</p>
+<p><img src="https://img.prinzeugen.net/image.php?di=7RIP" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=7RIP" alt="used namespace"></p>
+<p>神清气爽<br><img src="https://img.prinzeugen.net/image.php?di=8WUY" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=8WUY" alt=""></p>
+<hr>
+<p>参考链接：</p>
+<p><a href="http://php.net/manual/zh/language.namespaces.php" target="_blank" rel="noopener">PHP: 命名空间 - Manual</a></p>
+<p><a href="http://yansu.org/2014/01/16/php-namespace-and-autoload.html" target="_blank" rel="noopener">PHP命名空间及自动加载</a></p>
+<p><a href="https://www.zybuluo.com/phper/note/66447" target="_blank" rel="noopener">PHP中的自动加载</a></p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/fixed-setup-wizard-stopped-after-install-gapps-android-6-0/">Android 6.0 刷入 Gapps 后出现 “设置向导” 已停止运行 的解决方法</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/how-to-connect-to-custom-mysql-port-for-eloquent-orm-connection/">Eloquent ORM Connection 无法自定义 MySQL 连接端口的解决办法</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "php-namespace-autoload-and-implementation/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/php-namespace-autoload-and-implementation/".replace('index.html', ''),
+      title: 'PHP 命名空间自动加载与实现',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

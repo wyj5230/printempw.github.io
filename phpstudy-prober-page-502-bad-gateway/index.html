@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>phpStudy 访问探针页面出现 502 Bad Gateway 的解决方法 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/phpstudy-prober-page-502-bad-gateway/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="PHP,记录," />
+
+<meta name="description" content="不要问我为什么要用 phpStudy，我也不想。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="phpStudy 访问探针页面出现 502 Bad Gateway 的解决方法">
+<meta property="og:url" content="https://printempw.github.io/phpstudy-prober-page-502-bad-gateway/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="不要问我为什么要用 phpStudy，我也不想。">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/21/phpstudy-fake-version-7210.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2018/10/21/phpstudy-single-php-cgi-process.png">
+<meta property="article:published_time" content="2018-10-21T12:36:42.000Z">
+<meta property="article:modified_time" content="2018-10-21T12:36:42.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2018/10/21/phpstudy-fake-version-7210.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/phpstudy-prober-page-502-bad-gateway/">phpStudy 访问探针页面出现 502 Bad Gateway 的解决方法</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2018-10-21T12:36:42+00:00">2018-10-21</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2018-10-21T12:36:42.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR-太长不看"><span class="toc-text">TL;DR 太长不看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-问题描述"><span class="toc-text">0x01 问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-问题排查"><span class="toc-text">0x02 问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-问题解决"><span class="toc-text">0x03 问题解决</span></a></li></ol></div>
+    
+
+    <div class="post-content"><p>不要问我为什么要用 phpStudy，我也不想。</p>
+<a id="more"></a>
+
+<h2 id="TL-DR-太长不看"><a href="#TL-DR-太长不看" class="headerlink" title="TL;DR 太长不看"></a>TL;DR 太长不看</h2><p>Windows 环境下的 <strong>PHP 7.2.1 / 7.1.13</strong> 这两个版本有问题，在执行 <code>getenv()</code> 函数且第二个参数为 <code>false</code> 时，会造成 PHP FastCGI 进程 ( <code>php-cgi.exe</code> ) 崩溃。这是一个已知的 <a href="https://bugs.php.net/bug.php?id=75794" target="_blank" rel="noopener">BUG</a>，并且已经在 <strong>2018-02-01</strong> 发布的 <strong>PHP 7.2.2</strong> 与 <strong>PHP 7.1.14</strong> 中 <a href="http://www.php.net/ChangeLog-7.php#7.2.2" target="_blank" rel="noopener">被修复</a> 了。</p>
+<p>然而遗憾的是，你现在（截至发稿日 2018-10-21）能在 phpStudy 官网下载到的最新的集成环境，其中的 PHP 版本依然停留在 7.2.1 与 7.1.13。惊不惊喜，意不意外？</p>
+<p><img src="https://img.blessing.studio/images/2018/10/21/phpstudy-fake-version-7210.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/21/phpstudy-fake-version-7210.png" alt="phpstudy-fake-version-7210"></p>
+<p>最绝的是，phpStudy 明明自带的是 <strong>7.2.1</strong> 版本的 PHP，却在界面上显示成了 <strong>7.2.10</strong>，是我瞎了还是你瞎了？补零也不是你这么补的啊兄弟……</p>
+<p>修复方法也很简单，<strong>升级 PHP 版本即可</strong>。</p>
+<p>下面开始讲废话。</p>
+<h2 id="0x01-问题描述"><a href="#0x01-问题描述" class="headerlink" title="0x01 问题描述"></a>0x01 问题描述</h2><p>因为某些原因，我需要在 Windows 开发机上重新配置 PHP 开发环境（这个原因等下一篇博文再细说）。以前我一直用的是 <a href="http://www.upupw.net/" target="_blank" rel="noopener">UPUPW 一键包</a>，虽然它很好用，不过考虑到它的默认配置更适用于生产环境而非开发环境，而且相比起来 <a href="http://phpstudy.php.cn/" target="_blank" rel="noopener">phpStudy</a> 可以更方便地切换 PHP 版本与 Web 服务器（有时候测试兼容性要用到），所以最后我选择了使用 phpStudy 进行开发环境的配置。</p>
+<p>然后坑就来了。</p>
+<p>安装完 phpStudy 后，按照我个人的习惯先访问 PHP 探针页面，结果就被糊了一脸 <strong>502 Bad Gateway</strong>。懵了一阵子，开始找日志排查原因。先看 Nginx 的错误日志 <code>error.log</code>：</p>
+<pre><code class="text">2018/10/21 11:45:14 [error] 81019#14893: *10 WSARecv() failed (10054: An existing connection was forcibly closed by the remote host) while reading response header from upstream, client: 127.0.0.1, server: localhost, request: &quot;GET /l.php HTTP/1.1&quot;, upstream: &quot;fastcgi://127.0.0.1:9000&quot;, host: &quot;localhost&quot;</code></pre>
+<p>呃……远程主机强迫关闭了一个现有的连接？从日志来看，Nginx 是正常收到了请求，所以应该是 Nginx 通过 CGI 协议将请求交给 PHP 解析器处理时出现问题了，也就是监听在 <code>127.0.0.1:9000</code> 上的 PHP FastCGI 进程出了问题。（看不懂？那你应该去复习一下 <a href="https://segmentfault.com/q/1010000000256516/a-1020000000259560" target="_blank" rel="noopener">Nginx 与 PHP 交互的流程</a> 了。）</p>
+<h2 id="0x02-问题排查"><a href="#0x02-问题排查" class="headerlink" title="0x02 问题排查"></a>0x02 问题排查</h2><p>接着去看一下 PHP 的错误日志。</p>
+<p>phpStudy 中的 <code>php.ini</code> 默认设置了 <code>log_errors = On</code> 但是没有指定 <code>error_log</code> 的值，所以错误信息会被发送至 SAPI 错误记录器（前提是 <code>error_reporting</code> 设置正确）。在此例中，PHP 会将错误信息通过 CGI 发送至 Nginx，Nginx 捕获后会将错误记录至 <code>error.log</code>，就像这样：</p>
+<pre><code class="test">2018/10/21 11:45:14 [error] 81019#14893: *16 FastCGI sent in stderr: &quot;PHP Fatal error:  Uncaught Error: Call to undefined function test() in E:\environment\bundle\php-study\PHPTutorial\WWW\l.php:183
+Stack trace:
+#0 {main}
+  thrown in E:\environment\bundle\php-study\PHPTutorial\WWW\l.php on line 183&quot; while reading response header from upstream, client: 127.0.0.1, server: localhost, request: &quot;GET /l.php HTTP/1.1&quot;, upstream: &quot;fastcgi://127.0.0.1:9000&quot;, host: &quot;localhost&quot;</code></pre>
+<p>然而我并没有在 <code>error.log</code> 中找到任何 PHP 的错误日志，也就是说……我不信邪，将 <code>error_log</code> 设置为文件日志后，却依然没有任何错误信息。草，没有错误日志你让我玩个屁啊！</p>
+<p>好吧，这种情况下就只能靠万能的 Google 大老师了。</p>
+<p>用关键词「Windows PHP 502 Bad Gateway」查了一下，似乎有说是 <code>php-cgi.exe</code> 进程开太少，造成并发阻塞的话会造成 502。我这才想起来，php-fpm 只适用于类 Unix 系统，Windows 版的 PHP 是没有自带 FastCGI 进程管理器的。打开任务管理器看了一下，果然，phpStudy 只开了一个 <code>php-cgi.exe</code>。</p>
+<p><img src="https://img.blessing.studio/images/2018/10/21/phpstudy-single-php-cgi-process.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2018/10/21/phpstudy-single-php-cgi-process.png" alt="phpstudy-single-php-cgi-process"></p>
+<p>看起来挺靠谱啊！难道就是这玩意造成的 502？</p>
+<p>为了验证，我手动开启了几个 <code>php-cgi.exe</code> 进程，并修改 <code>nginx.conf</code> 如下：</p>
+<pre><code class="nginx">upstream php_fastcgi {
+    server 127.0.0.1:9000;
+    server 127.0.0.1:9001;
+    server 127.0.0.1:9002;
+}
+
+server {
+    # ...
+
+    location ~ ^.+\.php {
+        # 原来是 fastcgi_pass 127.0.0.1:9000;
+        fastcgi_pass php_fastcgi;
+
+        # ...
+    }
+}</code></pre>
+<p>重启 Nginx 后尝试访问之前出问题的页面，很遗憾地，依然是 502 Bad Gateway。不过，虽然问题并不是 <code>php-cgi.exe</code> 进程过少造成的，但是这次尝试并没有白费，我在这次测试中发现了一个现象：</p>
+<p><strong>每次访问这个页面，<code>php-cgi.exe</code> 进程就会异常退出。</strong></p>
+<p>因为 phpStudy 自带守护进程，就算 <code>php-cgi.exe</code> 崩溃了也会马上新开一个，所以我之前一直没有注意到。把所有配置还原成默认状态后观察进程，发现每次访问探针页面时，<code>php-cgi.exe</code> 进程都会死掉然后马上变成新的，然后 Nginx 那边就 502 了。至此，问题基本就能确定了：</p>
+<p><strong>该页面中的某些 PHP 代码会造成 <code>php-cgi.exe</code> 进程崩溃。</strong></p>
+<p>找到问题就好办了，用二分法最后定位到了 <a href="http://www.yahei.net/" target="_blank" rel="noopener">探针</a> 中造成问题的代码：</p>
+<pre><code class="php">&lt;?php
+echo getenv(&quot;HTTP_ACCEPT_LANGUAGE&quot;);</code></pre>
+<h2 id="0x03-问题解决"><a href="#0x03-问题解决" class="headerlink" title="0x03 问题解决"></a>0x03 问题解决</h2><p>Google 了一下「php getenv FastCGI crash」，找到不少类似的问题 ( <a href="https://stackoverflow.com/questions/48286208/getenvanystring-is-causing-an-internal-server-error" target="_blank" rel="noopener">#1</a>, <a href="https://segmentfault.com/q/1010000015345101/" target="_blank" rel="noopener">#2</a>, <a href="https://blog.csdn.net/smile12393/article/details/81132040" target="_blank" rel="noopener">#3</a> )，看来并不是个例。就像 TL;DR 中说的一样，这是只有运行在 FastCGI 模式下的 Windows 版 PHP 7.2.1 / 7.1.13 会遇到的一个 <a href="https://bugs.php.net/bug.php?id=75794" target="_blank" rel="noopener">BUG</a>，当 <code>getenv()</code> 的第二参数为 <code>false</code>（默认值）时就会造成 <code>php-cgi.exe</code> 崩溃。Apache 因为基本都是以模块的方式加载 PHP 的，一般不会受此影响，然而 phpStudy 中的 Apache 也是通过 FastCGI 加载 PHP 的，所以一样会中招。</p>
+<p>解决方法也和上面说的一样：<strong>升级 PHP 版本即可</strong>。</p>
+<p>排查这问题前前后后花了我将近一天的时间……因为很不爽所以写了这么一大段来抱怨，还请诸位见谅。另外，我已经受够这些 PHP 集成环境了，所以下一篇博文将是手动配置 WNMP 环境的教程。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/live-stream-recorder-for-vtuber-fans/">一种监测 VTuber 直播并自动录像的方法</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/new-nickname-prin/">新的网络昵称：PRIN 🍮</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "phpstudy-prober-page-502-bad-gateway/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/phpstudy-prober-page-502-bad-gateway/".replace('index.html', ''),
+      title: 'phpStudy 访问探针页面出现 502 Bad Gateway 的解决方法',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR-太长不看"><span class="toc-text">TL;DR 太长不看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-问题描述"><span class="toc-text">0x01 问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-问题排查"><span class="toc-text">0x02 问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-问题解决"><span class="toc-text">0x03 问题解决</span></a></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

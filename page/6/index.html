@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PRIN BLOG - 半吊子全栈开发者的日常</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/page/6/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="printempw, prin, blog, 博客, 独立博客" />
+
+<meta name="description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PRIN BLOG">
+<meta property="og:url" content="https://printempw.github.io/page/6/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="article:author" content="printempw">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/why-do-shadowsocks-deprecate-ota/">为何 shadowsocks 要弃用一次性验证 (OTA)</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-02-09T19:18:00+08:00">2017-02-09</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/shadowsocks/" rel="tag">shadowsocks</a> <a class="tag-link" href="/tag/%E5%88%86%E4%BA%AB/" rel="tag">分享</a> <a class="tag-link" href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" rel="tag">密码学</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>前些天，shadowsocks 提出了 SIP004 草案，旨在使用 <code>AEAD 算法</code> 取代原先的不安全的 <code>流加密 + OTA</code>，并弃用了一次性验证 (OTA)。</p>
+<p>新协议的提出对于 shadowsocks 是一个非常非常重大的改进，因此我写了这篇博文为看不懂洋文的<span title="pong">朋</span>友们科普一下「为什么 OTA 会被这么快被弃用」以及「为什么应该使用新协议」。</p>
+          <p><a class="more-link" href="/why-do-shadowsocks-deprecate-ota/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/year-summary-2016/">我的 2016 年终总结</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2017-01-12T22:53:04+08:00">2017-01-12</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" rel="tag">年度总结</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <blockquote>
+<p>人生天地之间，若白驹之过隙，忽然而已。——《庄子·知北游》</p>
+</blockquote>
+<p>又到了写年终总结的时候了，时间过得真鸡儿快啊。虽然没有 <a href="http://life-is-strange.wikia.com/wiki/Maxine_Caulfield" target="_blank" rel="noopener">Maxine Caulfield</a> 那样操控时间轴的能力，但是回顾一下我在 2016 的大事件的能力还是有的。</p>
+          <p><a class="more-link" href="/year-summary-2016/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/migrate-to-new-domain-blessing-studio/">博客启用新域名 Blessing.Studio</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-12-25T13:54:00+08:00">2016-12-25</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>原来的域名 <code>prinzeugen.net</code> 一直被人吐槽说不好记，但苦于没有什么中意的其他的好记的域名，所以换域名的计划就一直搁置着。</p>
+<p>其实我以前就听说过 <code>.studio</code> 这个顶级域名了，但是当时（15 年中旬）还没有开放注册，所以后来也就忘却了它的存在。然而几天前在机缘巧合下我得知了它早在 2015.10 就已经开放注册了，并且现在一年只要百来块就能搞到，于是……</p>
+          <p><a class="more-link" href="/migrate-to-new-domain-blessing-studio/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/the-best-method-to-use-whoops-in-laravel/">Laravel 使用 whoops 处理错误最优雅的姿势</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-12-22T23:00:45+08:00">2016-12-22</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p><a href="https://github.com/filp/whoops" target="_blank" rel="noopener">filp/whoops</a> 这个错误处理类库有什么好处我这里就不赘述了，谁用谁知道。</p>
+<p>Laravel 在 4.x 时代是有集成了 whoops 的，但是在 5.x 去掉了。不过作为一个 out-of-the-box 的错误处理类库，我们依然可以很方便地将 whoops 带回 Laravel 中。</p>
+<p>网上有很多文章都讲述了 Laravel 使用 whoops 的方法，但总有些小问题（像是代码太丑了啊，代码太丑了啊之类的）。其中我认为最优雅的实现是这篇文章所描述的：<a href="https://mattstauffer.co/blog/bringing-whoops-back-to-laravel-5" target="_blank" rel="noopener">Bringing Whoops Back to Laravel 5</a>，我下面的也是基于他给出的代码修改的。</p>
+          <p><a class="more-link" href="/the-best-method-to-use-whoops-in-laravel/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/modify-root-url-and-schema-manually-in-generated-url-by-laravel-url-function/">手动修改 Laravel url() 函数生成的 URL 中的根地址</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-12-17T21:45:42+08:00">2016-12-17</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>大家都晓得 Larevel 的一票帮助函数中有个 <code>url()</code>，可以通过给予的目录生成完整的 URL，是非常方便的一个函数：</p>
+<pre><code>// return: https://skin.dev/user/profile
+url(&#39;user/profile&#39;)</code></pre><p>但是这玩意生成的 URL 中要补完的部分是框架内部根据 Request 自动判断的，而自动判断出的东西有时候会出错（譬如在套了一层反向代理之类的情况下）。</p>
+<p>文档上并没有提到我们要如何才能自定义它生成的 URL 中的根地址和协议头部分（<code>http(s)</code>），这就非常吃瘪了。那我们要咋办呢？</p>
+          <p><a class="more-link" href="/modify-root-url-and-schema-manually-in-generated-url-by-laravel-url-function/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/solution-for-artisan-call-migrate-not-working-when-app-env-is-production/">Artisan::call('migrate') 在 APP_ENV 为 production 时不工作的解决方法</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-12-13T22:44:11+08:00">2016-12-13</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>最近把版本库里 <code>.env.example</code> 的 <code>APP_ENV</code> 字段值从原来的 <code>local</code> 改为了 <code>production</code>，原意是为了更好的区分开发和生产环境。</p>
+<p>然而今天在主机壳的虚拟主机上测试我的程序的时候（准备把演示站搬过去），却出现了奇怪的问题——数据库 Migration  不管用了。</p>
+<p>我是在控制器里通过调用 <code>Artisan::call(&#39;migrate&#39;)</code> 来执行数据库迁移操作的（毕竟虚拟主机哪来的 shell 访问），但是这次这条命令竟然没有执行任何事务。</p>
+<p>通过 <code>Artisan</code> 执行 <code>Command</code> 的简化流程大概是像这样的：</p>
+<pre><code>Illuminate\Foundation\Console\Kernel
+↓
+Illuminate\Console\Application
+↓
+Illuminate\Console\Command
+↓
+Illuminate\Container\Container
+↓
+// 这个就是执行 Artisan::call(&#39;migrate&#39;) 时调用的类
+Illuminate\Database\Console\Migrations\MigrateCommand
+↓
+……</code></pre><p>经过一段时间的排查，最后锁定了是在 <code>MigrateCommand</code> 这个类停止继续往下执行的，即接下来的脚本都没有被执行到，也就是说问题就出在 <code>MigrateCommand</code> 这里。</p>
+          <p><a class="more-link" href="/solution-for-artisan-call-migrate-not-working-when-app-env-is-production/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/use-certbot-to-renew-lets-encrypt-certificates/">使用 Certbot 更新 Let's Encrypt 证书</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-12-10T17:38:31+08:00">2016-12-10</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Https/" rel="tag">Https</a> <a class="tag-link" href="/tag/Let-s-Encrypt/" rel="tag">Let's Encrypt</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>Let’s Encrypt 证书即将过期时会给你发送邮件，这个还是比较贴心的。这样也就不会陷入证书过期却没发现的尴尬境地（Let’s Encrypt 的证书只有 90 天的有效期）。</p>
+<p><img src="https://img.blessing.studio/images/2017/06/11/2826714bc9645e4b9828433b8e674800.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/11/2826714bc9645e4b9828433b8e674800.png" alt="2826714bc9645e4b9828433b8e674800.png"></p>
+<p>以前我写过使用 Certbot 这个工具<a href="https://prinzeugen.net/use-certbot-to-issue-lets-encrypt-certificates/" target="_blank" rel="noopener">申请证书的文章</a>，而同样使用这个工具更新证书只需要一行命令：</p>
+<pre><code class="shell">certbot renew --post-hook &quot;service nginx reload&quot;</code></pre>
+<p><code>certbot</code> 这个脚本的位置呀名称啥的自己看着改，对于我来说是 <code>./certbot-auto</code>。加了个钩子可以让它在证书更新更新完毕后重载 Nginx 配置来更新证书。</p>
+          <p><a class="more-link" href="/use-certbot-to-renew-lets-encrypt-certificates/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/implement-of-php-remote-downloading-with-progress-bar/">PHP 远程文件下载的进度条实现</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-11-26T18:25:00+08:00">2016-11-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>PHP 实现远程下载文件到服务端并不是什么新鲜玩意，用 <code>cURL</code>、<code>file_get_contents</code>、<code>fopen</code> 等都能够轻易实现。</p>
+<p>但是这几种常规的方法都是在一个线程内下载文件，等文件下载完毕以后才能返回 HTTP 响应。所造成的结果就是用户在页面上点击「下载到服务器」按钮后，会看到空白页和加载的小菊花转啊转，转好久之后才出现「下载成功」的页面。</p>
+<p>当然，我上面所举例的情况是只使用纯粹的表单 POST 发送请求的情况。现在的话就算再不济也一般会使用 <code>ajax</code> 发送请求，然后在前台放个加载动画，等收到下载成功的回应之后再进行下一步操作。</p>
+<p><strong>但是！</strong>即使是去掉了恶心的且需要等待的空白页，这样做还是对用户体验有不好的影响。没有具体的下载进度，只有一个一直转呀转的菊花图，估计挺多用户都无法坐和放宽吧<del>（至少对于我来说是这样的）</del></p>
+<p>而我一个 PHP 项目的一键更新系统正好需要重构，遂研究了如何在 PHP 作为后端时显示远程文件下载进度条，并捣鼓出了个像样的解决方案，在这里分享一下。</p>
+          <p><a class="more-link" href="/implement-of-php-remote-downloading-with-progress-bar/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/tips-for-fixing-audio-jack/">耳机插头修理技巧</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-11-23T19:54:00+08:00">2016-11-23</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E8%80%B3%E6%9C%BA/" rel="tag">耳机</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>群里大佬 pan爷低价出了我一个耳机插头附近断线的 ATH-ES55，这已经是挺久以前的事了。当时我去某宝上买了个耳机插头，刮掉耳机线的漆包草草焊上去就完事了<del>（好歹是挺不错的耳机你就这样对待啊喂）</del>。然而最近耳机插头接触不良了，我就寻思着重新焊下，在这里记录一下需要注意的地方。</p>
+<p>虽然修耳机这种事我在小学的时候就鼓捣过了，但总归当时还是不专业，也没啥像样的工具。而且最近听的好歹也算是 HiFi 耳机，不能再用之前那种乡巴佬方法了（笑）。在网上搜了一些，学到了不少，在此记录一下。</p>
+<p>下面几乎都是盗图，侵删w</p>
+<h3 id="3-5mm-耳机插头接线图"><a href="#3-5mm-耳机插头接线图" class="headerlink" title="3.5mm 耳机插头接线图"></a>3.5mm 耳机插头接线图</h3><p><img src="https://img.blessing.studio/images/2017/06/10/82f3a4e9e890e1d4ab91352def12f33a.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/10/82f3a4e9e890e1d4ab91352def12f33a.png" alt="耳机插头示意"></p>
+          <p><a class="more-link" href="/tips-for-fixing-audio-jack/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/laravel-plugin-system-1/">Laravel 框架下的插件机制实现（一）—— 构建插件系统</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-11-20T15:41:25+08:00">2016-11-20</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>插件，即 Plug-in（又有外挂、Extension、Addon 等叫法），是一类特定的功能模块，通过和应用程序的互动，用来替应用程序增加一些所需要的特定的功能。插件的特点是：</p>
+<ul>
+<li>当你需要它的时候激活它，不需要它的时候禁用/删除它；</li>
+<li>无论是激活还是禁用都不影响系统核心模块的运行。</li>
+</ul>
+<p>也就是说插件是一种非侵入式的模块化设计，实现了核心程序与插件程序的松散耦合。上面的介绍部分摘自 <a href="https://zh.wikipedia.org/wiki/%E6%8F%92%E4%BB%B6" target="_blank" rel="noopener">中文 WikiPedia</a>。</p>
+<p>虽然现在网上有很多 PHP 的插件机制的实现（当然我指的是英文内容，中文关于 PHP 插件机制的搜出来现在还是那么点破文章），譬如 <a href="https://github.com/FoolCode/Plugin" target="_blank" rel="noopener">FoolCode/Plugin</a>，或者 WordPress 的插件实现。</p>
+<p>不过我今天想介绍的是如何使用 Laravel 的服务容器、事件机制等功能来实现一个比较优雅的插件机制。</p>
+<p><em>Greatly inspired by <a href="https://github.com/flarum/core/tree/master/src/Extension" target="_blank" rel="noopener">Flarum</a></em>，在此致谢 ヾ(´ωﾟ｀)</p>
+          <p><a class="more-link" href="/laravel-plugin-system-1/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+
+  <nav class="pagination">
+  <a class="extend prev" rel="prev" href="/page/5/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/">Next</a>
+</nav>
+
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+        
+<section class="widget" id="widget-recent-posts">
+  <h3 class="widget-title">最新文章</h3>
+  <ul class="menu">
+    
+    
+    
+    
+      <li class="menu-item">
+        <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/short-domain-name-for-blog/">博客短域名 printem.pw</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/deal-with-manjaro-19-package-changes/">处理 Manjaro 19.0 升级中的软件包变更</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/nautilus-open-in-guake-terminal/">Nautilus 添加 Open in Guake 右键菜单</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+<section class="widget" id="widget-tagcloud">
+  <h3 class="widget-title">标签云</h3>
+  <a href="/tag/ACGN/" style="font-size: 17.86px;">ACGN</a> <a href="/tag/ACM/" style="font-size: 10px;">ACM</a> <a href="/tag/Android/" style="font-size: 14.29px;">Android</a> <a href="/tag/Apache/" style="font-size: 10px;">Apache</a> <a href="/tag/Arch/" style="font-size: 10px;">Arch</a> <a href="/tag/C-C/" style="font-size: 10.71px;">C/C++</a> <a href="/tag/CLI/" style="font-size: 11.43px;">CLI</a> <a href="/tag/CSS/" style="font-size: 11.43px;">CSS</a> <a href="/tag/Chrome/" style="font-size: 11.43px;">Chrome</a> <a href="/tag/Disqus/" style="font-size: 10px;">Disqus</a> <a href="/tag/Ghost/" style="font-size: 12.86px;">Ghost</a> <a href="/tag/Git/" style="font-size: 10.71px;">Git</a> <a href="/tag/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tag/Google/" style="font-size: 10.71px;">Google</a> <a href="/tag/Hexo/" style="font-size: 13.57px;">Hexo</a> <a href="/tag/Https/" style="font-size: 15px;">Https</a> <a href="/tag/JavaScript/" style="font-size: 16.43px;">JavaScript</a> <a href="/tag/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tag/Laravel/" style="font-size: 17.86px;">Laravel</a> <a href="/tag/Let-s-Encrypt/" style="font-size: 12.14px;">Let's Encrypt</a> <a href="/tag/Linux/" style="font-size: 16.43px;">Linux</a> <a href="/tag/Lumen/" style="font-size: 10px;">Lumen</a> <a href="/tag/Manjaro/" style="font-size: 10.71px;">Manjaro</a> <a href="/tag/Minecraft/" style="font-size: 13.57px;">Minecraft</a> <a href="/tag/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tag/Nginx/" style="font-size: 12.14px;">Nginx</a> <a href="/tag/OpenWRT/" style="font-size: 10.71px;">OpenWRT</a> <a href="/tag/PHP/" style="font-size: 19.29px;">PHP</a> <a href="/tag/PayPal/" style="font-size: 10px;">PayPal</a> <a href="/tag/Python/" style="font-size: 12.14px;">Python</a> <a href="/tag/RSS/" style="font-size: 10.71px;">RSS</a> <a href="/tag/SSH/" style="font-size: 10.71px;">SSH</a> <a href="/tag/Sandboxie/" style="font-size: 10px;">Sandboxie</a> <a href="/tag/Shell/" style="font-size: 13.57px;">Shell</a> <a href="/tag/Sublime/" style="font-size: 11.43px;">Sublime</a> <a href="/tag/Twitter/" style="font-size: 10px;">Twitter</a> <a href="/tag/V2Ray/" style="font-size: 10px;">V2Ray</a> <a href="/tag/VPS/" style="font-size: 17.14px;">VPS</a> <a href="/tag/VS-Code/" style="font-size: 10.71px;">VS Code</a> <a href="/tag/VTuber/" style="font-size: 10px;">VTuber</a> <a href="/tag/WSL/" style="font-size: 10px;">WSL</a> <a href="/tag/Windows/" style="font-size: 14.29px;">Windows</a> <a href="/tag/WordPress/" style="font-size: 17.14px;">WordPress</a> <a href="/tag/shadowsocks/" style="font-size: 15.71px;">shadowsocks</a> <a href="/tag/%E4%B8%80%E8%A8%80/" style="font-size: 10px;">一言</a> <a href="/tag/%E5%88%86%E4%BA%AB/" style="font-size: 17.14px;">分享</a> <a href="/tag/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tag/%E5%8D%9A%E5%AE%A2/" style="font-size: 20px;">博客</a> <a href="/tag/%E5%90%90%E6%A7%BD/" style="font-size: 10.71px;">吐槽</a> <a href="/tag/%E5%AD%97%E4%BD%93/" style="font-size: 10.71px;">字体</a> <a href="/tag/%E5%AE%89%E5%88%A9/" style="font-size: 10px;">安利</a> <a href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 10px;">密码学</a> <a href="/tag/%E5%B0%8F%E7%8E%A9%E6%84%8F%E5%84%BF/" style="font-size: 10px;">小玩意儿</a> <a href="/tag/%E5%B0%8F%E7%B1%B3/" style="font-size: 10px;">小米</a> <a href="/tag/%E5%B7%A5%E5%85%B7/" style="font-size: 12.86px;">工具</a> <a href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 10.71px;">年度总结</a> <a href="/tag/%E6%8A%98%E8%85%BE/" style="font-size: 10px;">折腾</a> <a href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" style="font-size: 10px;">持续集成</a> <a href="/tag/%E6%95%99%E7%A8%8B/" style="font-size: 11.43px;">教程</a> <a href="/tag/%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81/" style="font-size: 10px;">数字货币</a> <a href="/tag/%E6%B0%B4/" style="font-size: 11.43px;">水</a> <a href="/tag/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" style="font-size: 10px;">皮肤站</a> <a href="/tag/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a> <a href="/tag/%E7%BB%88%E7%AB%AF/" style="font-size: 10.71px;">终端</a> <a href="/tag/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" style="font-size: 10.71px;">网络技术</a> <a href="/tag/%E8%80%B3%E6%9C%BA/" style="font-size: 12.14px;">耳机</a> <a href="/tag/%E8%AE%B0%E5%BD%95/" style="font-size: 18.57px;">记录</a> <a href="/tag/%E8%AE%BE%E8%AE%A1/" style="font-size: 10.71px;">设计</a> <a href="/tag/%E8%AF%84%E6%B5%8B/" style="font-size: 10.71px;">评测</a> <a href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a> <a href="/tag/%E8%BD%AC%E8%BD%BD/" style="font-size: 10px;">转载</a> <a href="/tag/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tag/%E8%BF%90%E7%BB%B4/" style="font-size: 13.57px;">运维</a> <a href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" style="font-size: 10px;">近况报告</a> <a href="/tag/%E9%94%90%E9%80%9F/" style="font-size: 10.71px;">锐速</a> <a href="/tag/%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">音乐</a> <a href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">音视频处理</a>
+</section>
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

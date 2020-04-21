@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>使用子文件夹管理 Hexo 文章且不改变文章永久链接 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/hexo-posts-in-subfolder/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="博客,Hexo," />
+
+<meta name="description" content="2020-01-15 更新：如果你只是想实现「文章源码放在子目录、永久链接保持不变」的效果，可以直接修改 _config.yml 中的配置： permalink: :name&#x2F; new_post_name: :year&#x2F;:title.md 感谢 @SukkaW 在评论区提供的建议！  在 Hexo 中，我们可以通过站点配置中的 permalink 配置项来指定文章的永久链接的格式。比如说默认值是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用子文件夹管理 Hexo 文章且不改变文章永久链接">
+<meta property="og:url" content="https://printempw.github.io/hexo-posts-in-subfolder/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="2020-01-15 更新：如果你只是想实现「文章源码放在子目录、永久链接保持不变」的效果，可以直接修改 _config.yml 中的配置： permalink: :name&#x2F; new_post_name: :year&#x2F;:title.md 感谢 @SukkaW 在评论区提供的建议！  在 Hexo 中，我们可以通过站点配置中的 permalink 配置项来指定文章的永久链接的格式。比如说默认值是">
+<meta property="og:image" content="https://img.blessing.studio/images/2019/10/13/too-many-files-in-posts-chaos.png">
+<meta property="article:published_time" content="2019-10-12T19:38:00.000Z">
+<meta property="article:modified_time" content="2020-01-15T11:45:00.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2019/10/13/too-many-files-in-posts-chaos.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/hexo-posts-in-subfolder/">使用子文件夹管理 Hexo 文章且不改变文章永久链接</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2019-10-12T19:38:00+00:00">2019-10-13</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Hexo/" rel="tag">Hexo</a> <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2020-01-15T11:45:00.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><blockquote>
+<p><strong>2020-01-15 更新</strong>：如果你只是想实现「文章源码放在子目录、永久链接保持不变」的效果，可以直接修改 <code>_config.yml</code> 中的配置：</p>
+<pre><code class="yaml">permalink: :name/
+new_post_name: :year/:title.md</code></pre>
+<p>感谢 <a href="https://skk.moe/" target="_blank" rel="noopener">@SukkaW</a> 在评论区提供的建议！</p>
+</blockquote>
+<p>在 Hexo 中，我们可以通过站点配置中的 <code>permalink</code> 配置项来指定文章的永久链接的格式。比如说默认值是 <code>:year/:month/:day/:title/</code>，那么一篇 slug 为 <code>hello-world</code> 的文章，最终生成的链接就是 <code>2019/10/13/hello-world/</code>。</p>
+<p>如果你不想分得这么细，也可以根据自己的喜好 <a href="https://hexo.io/zh-cn/docs/permalinks" target="_blank" rel="noopener">自定义这个配置项</a>。本博客就将其设置为了 <code>:title/</code>，即仅使用文章的 slug 作为永久链接，更清爽一些。</p>
+<p>但是这样一来，文章源文件的管理就有点难办了。Hexo 中所有的文章（Post layout）都存放在 <code>source/_posts</code> 目录中，如果仅使用 slug 作为文件名的话，文章一多就会出现乱成一坨的惨状 —— 只能通过文件名查找，根本无法通过日期定位文章！</p>
+<a id="more"></a>
+
+<p><img src="https://img.blessing.studio/images/2019/10/13/too-many-files-in-posts-chaos.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2019/10/13/too-many-files-in-posts-chaos.png" alt="too-many-files-in-posts-chaos"></p>
+<p>但如果你在 <code>_posts</code> 目录下新建子文件夹来存放文章，比如 <code>_posts/2019/hello-world.md</code>，你就会发现，最终生成的文章链接中也会带上这个子文件夹的名称：<code>https://hexo.example/2019/hello-world/</code>。</p>
+<p>这可咋整？难道就不能在不改变文章永久链接的情况下，把文章源文件放到子文件夹里去吗？</p>
+<p>当然可以！Hexo 可是以灵活<del>随便</del>著称的 JavaScript 写的博客程序，那还不是想怎么魔改就怎么魔改？这里我抛砖引玉，介绍一种使用 filter 对文章永久链接进行操作的方法。其他应该也有不少方法能实现同样的效果，欢迎各位在评论区分享交流。</p>
+<p>先贴代码（直接放到站点根目录的 <a href="https://github.com/printempw/printempw.github.io/tree/source/scripts" target="_blank" rel="noopener"><code>scripts</code></a> 文件夹中就可以了）：</p>
+<pre><code class="js">// posts-subfolder
+const { join } = require(&#39;path&#39;);
+const { readdirSync } = require(&#39;fs&#39;);
+const moment = require(&#39;moment&#39;);
+
+// 使用子文件夹管理文章且不改变文章永久链接
+// e.g. &quot;source/_posts/2019/slug.md&quot; =&gt; &quot;https://hexo.example/slug/&quot;
+hexo.extend.filter.register(&#39;post_permalink&#39;, function (permalink) {
+  // 想保留在文章永久链接中的子文件夹
+  const excludes = [];
+
+  const postDir = join(this.source_dir, &#39;_posts&#39;);
+  const folders = readdirSync(postDir, { withFileTypes: true })
+    .filter(dirent =&gt; dirent.isDirectory())
+    .map(dirent =&gt; dirent.name)
+    .filter(dir =&gt; !excludes.includes(dir));
+
+  for (const name of folders) {
+    if (permalink.startsWith(`${name}/`)) {
+      // 删除链接中的子文件夹名称
+      return permalink.replace(`${name}/`, &#39;&#39;);
+    }
+  }
+});
+
+// 使 `hexo new` 生成的文件保存至相应的年份子文件夹中
+// @see hexo/lib/plugins/filter/new_post_path.js
+hexo.extend.filter.register(&#39;new_post_path&#39;, data =&gt; {
+  const year = moment(data.date || Date.now()).format(&#39;YYYY&#39;);
+  data.path = join(year, data.slug);
+  return data;
+}, 1); // 设置为高优先级</code></pre>
+<p>其中 <code>post_permalink</code> 和 <code>new_post_path</code> 都是 Hexo 预留的钩子，所以基本不用费什么力气（不得不说，Hexo 的插件系统设计还是很不错的，非常灵活，也埋了足够多的 filter 和 event，基本覆盖了整个生命周期）。</p>
+<p>修改 <code>post_permalink</code> filter 传进来的值就可以直接修改最终生成的文章永久链接，所以我们直接把自定义的子文件夹从 <code>permalink</code> 中删掉，这样文章链接中就不会出现子文件夹的名称啦，非常简单粗暴。</p>
+<pre><code class="plain">&gt; _posts $ tree
+.
+├── ...
+├── 2018
+│   ├── ...
+│   ├── the-difference-between-cli-terminal-shell-tty.md
+│   └── wsl-guide.md
+└── 2019
+    ├── disqus-migration-tools-url-mapper.md
+    ├── first-post-of-2019.md
+    └── hexo-posts-in-subfolder.md</code></pre>
+<p>我使用了年份来组织文件，基本上就足够了<del>（反正我一年也写不了几篇）</del>。</p>
+<p>另外附送个我批量整理源文件时用的命令：</p>
+<pre><code class="bash"># 记得配合自己实际的 front-matter 格式修改一下哦
+grep -r &quot;date: &#39;2015-&quot; *.md -l | xargs mv -v -t 2015/</code></pre>
+<p>Happy hacking.</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/windows-terminal-setup-guide/">Windows Terminal 安装与配置指南</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/disqus-migration-tools-url-mapper/">使用 URL Mapper 迁移整理 Disqus 评论</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "hexo-posts-in-subfolder/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/hexo-posts-in-subfolder/".replace('index.html', ''),
+      title: '使用子文件夹管理 Hexo 文章且不改变文章永久链接',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

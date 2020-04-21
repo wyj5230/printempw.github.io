@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>Blessing Skin Server 0.1 —— 开源 PHP Minecraft 皮肤站 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/blessing-skin-server-0-1/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="Minecraft,皮肤站,PHP," />
+
+<meta name="description" content="很久以前就有想写一个皮肤站的想法了，但是苦于没有时间且 PHP、前端的 coding 都不熟练，所以一直搁置着，当作一个目标。 恰逢前几周稍微有点时间（其实是克服了懒癌），就写了一个皮肤站的原型。PHP + MySQL，表单 POST 数据，基本的登录&#x2F;注册&#x2F;上传 功能还是实现了的。但是前端完全没有写，全是 webkit 的默认样式。 不过盼星星盼月亮终于等到了元旦假期（连上周末三天），于是把整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blessing Skin Server 0.1 —— 开源 PHP Minecraft 皮肤站">
+<meta property="og:url" content="https://printempw.github.io/blessing-skin-server-0-1/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="很久以前就有想写一个皮肤站的想法了，但是苦于没有时间且 PHP、前端的 coding 都不熟练，所以一直搁置着，当作一个目标。 恰逢前几周稍微有点时间（其实是克服了懒癌），就写了一个皮肤站的原型。PHP + MySQL，表单 POST 数据，基本的登录&#x2F;注册&#x2F;上传 功能还是实现了的。但是前端完全没有写，全是 webkit 的默认样式。 不过盼星星盼月亮终于等到了元旦假期（连上周末三天），于是把整">
+<meta property="og:image" content="https://img.blessing.studio/images/2016/01/2016-01-03_05-22-44.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/10/2015-10-24_09-56-11.jpg">
+<meta property="article:published_time" content="2016-01-03T14:24:46.000Z">
+<meta property="article:modified_time" content="2016-01-03T14:26:33.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="Minecraft">
+<meta property="article:tag" content="皮肤站">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2016/01/2016-01-03_05-22-44.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/blessing-skin-server-0-1/">Blessing Skin Server 0.1 —— 开源 PHP Minecraft 皮肤站</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-01-03T14:24:46+00:00">2016-01-03</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Minecraft/" rel="tag">Minecraft</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" rel="tag">皮肤站</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2016-01-03T14:26:33.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p><img src="https://img.blessing.studio/images/2016/01/2016-01-03_05-22-44.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2016/01/2016-01-03_05-22-44.png" alt="bss upload"></p>
+<p>很久以前就有想写一个皮肤站的想法了，但是苦于没有时间且 PHP、前端的 coding 都不熟练，所以一直搁置着，当作一个目标。</p>
+<p>恰逢前几周稍微有点时间（其实是克服了懒癌），就写了一个皮肤站的原型。PHP + MySQL，表单 POST 数据，基本的登录/注册/上传 功能还是实现了的。但是前端完全没有写，全是 webkit 的默认样式。</p>
+<p>不过盼星星盼月亮终于等到了元旦假期（连上周末三天），于是把整个项目重构了一下，并且用鞋拔子写了个稍微能看的页面。</p>
+<p>前端页面引用的资源/库均位于根目录下的 <code>/assets</code> 和 <code>/libs</code>，这是不知道从哪里学来的，总之觉得这样挺好的就这样放了（笑）</p>
+<p>然后是实现了全站 Ajax，登录/注册 均 POST 请求 <code>check.php</code> 返回 json，加入了 SQL 注入防护（虽然还没有 sqlmap 测试过），加入了基于 IP 的注册数量限制，支持保存 cookie，token 验证自动登录。token 就是使用普通的用于验证的不可逆算法得到（用户名 + MD5 密码 + 盐，MD5 二次加密）。</p>
+<p>Ajax 文件上传带 token POST 请求 <code>upload.php</code>，同样返回 json，上次后的文件位于 <code>/uploads</code>。（其实窝觉着这俩可以放一个文件里的）</p>
+<p><code>user.php</code> 为用户页面，本来是想用 php 路由到 <code>/user</code> 和 <code>/admin</code> 等子目录的，但是想想还是算了。因为窝对路由之类的理解并不多，边查边写的话窝也没有那么多时间了。准备放在下一个版本里。</p>
+<p><code>user.php</code> 中使用了 djazz 的 <a href="http://djazz.se/apps/MinecraftSkin/" target="_blank" rel="noopener">Minecraft Skin Previewer</a> 实现 3D 皮肤预览（就是 skinme 使用的那个），窝将其封装了一下放入了 three.msp.js 中，可以使用类似 <code>MSP.getStatus()</code>、<code>MSP.changeSkin()</code> 的接口来访问。</p>
+<p>后端就没啥出彩的地方了（话说前端也没有吧），所有使用了数据库连接的操作均封装为函数放在 <code>connect.php</code> 里面。不过感觉这个放根目录不合适就是了。</p>
+<p><code>config.php</code> 中定义了数据库连接信息，站点名称等常量以供调用。这是从 WordPress 那学来的（笑</p>
+<p>遗憾的是由于没有时间，后台管理页面还没写，目前只能通过自己管理数据库和文件的方式来管理用户。而且现在的数据表结构也不支持后台管理 qwq</p>
+<p>而且前端的 JS 和 CSS 都写得乱糟糟的，CSS 选择器一半是 id 一般是 class，文件关系也没处理好，没有响应式设计，有些地方还用了绝对定位 <img src="https://img.blessing.studio/images/2015/10/2015-10-24_09-56-11.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/10/2015-10-24_09-56-11.jpg" alt="emotion1"> </p>
+<p>不过由于时间所限，这些都放到下一个版本吧~</p>
+<hr>
+<p>项目开源在 <a href="https://github.com/printempw/blessing-skin-server" target="_blank" rel="noopener">GitHub</a> 上，欢迎 Pull Request~ 在线演示：<a href="https://skin.prinzeugen.net/" target="_blank" rel="noopener">https://skin.prinzeugen.net/</a></p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/shoshin-wasuru-bekarazu/">不忘初心，方得始终</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/happy-newyear/">新年快乐～</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "blessing-skin-server-0-1/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/blessing-skin-server-0-1/".replace('index.html', ''),
+      title: 'Blessing Skin Server 0.1 —— 开源 PHP Minecraft 皮肤站',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

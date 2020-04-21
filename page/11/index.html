@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PRIN BLOG - 半吊子全栈开发者的日常</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/page/11/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="printempw, prin, blog, 博客, 独立博客" />
+
+<meta name="description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PRIN BLOG">
+<meta property="og:url" content="https://printempw.github.io/page/11/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="article:author" content="printempw">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/do-you-like-me-mysqli-version/">使用 MySQLi 重写 Do you like me</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-01-23T07:55:56+08:00">2016-01-23</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>这次升级 PHP7，一切顺利，到了恢复站点数据的时候，发现<a href="https://prinzeugen.net/do-you-like-me/" target="_blank" rel="noopener">上次搞的</a> “Do you like me?” 不工作了。看了日志发现是 <code>mysql_connect()</code> 这个函数的问题。</p>
+<p>看了下文档，原来在 PHP7 中全面移除了 <code>mysql_</code> 系列函数，转而使用 <code>mysqli</code> 或者 PDO。。fuck 劳资皮肤站里都是 mysql_ 系列函数啊啊</p>
+<p>上次偷懒用的 LWL12 写的，看来他也没想到这种情况呢。遂使用 mysqli 重写之。</p>
+<p>mysqli 改为以面向对象的方式操作数据库，而不是 <code>mysql_</code> 系列函数的面向过程，这点倒是挺好的。</p>
+<p>不知道为何原来 LWL12 写的版本单独使用了一个表来存投票数，可能是怕效率问题。不过 <code>SELECT COUNT(*)</code> 在没有指定 WHICH 的时候效率还是蛮高的，参见：<a href="https://www.zhihu.com/question/19641756" target="_blank" rel="noopener">知乎：mysql select count(*) 与 select count(id) 两个执行效率怎样？</a></p>
+<p>其实也没改多少，另外把建表的 SQL 也顺便封装在文件里了，托管在 <a href="https://gist.github.com/printempw/48920748b328bacead1b" target="_blank" rel="noopener">Gist</a> 上。</p>
+<script src="https://gist.github.com/printempw/48920748b328bacead1b.js"></script>
+
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/shoshin-wasuru-bekarazu/">不忘初心，方得始终</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-01-11T00:15:50+08:00">2016-01-11</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" rel="tag">年度总结</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>如白驹过隙，2015 年已经悄悄离去，新年的钟声已经敲响。</p>
+<p>虽然早就过了发年终总结的日子，但本着宁缺毋滥的原则，一直捂着草稿没发，我博客第一次的年度总结，总要搞得有逼格一点。</p>
+<h2 id="回首-2015"><a href="#回首-2015" class="headerlink" title="回首 2015"></a>回首 2015</h2><p>2015，毫不夸张的说是我收获最大的一年。去年的 3 月 28 日，不知道哪里来的兴趣，开始折腾起了独立博客。</p>
+<p>我从来不是一个喜欢写文学性文字的人，以前不是，将来也应该不会是。开始搭建博客的理由已经不可考，但是我仍然庆幸当初选择了这条道路。</p>
+<p>2015 年，我高中一年级。真的只是一个平凡的，刚上完一般的高一课程，终于开始习惯了高中生活的死小孩。</p>
+<p>稍微和其他孩子不一样的，也就是我对计算机的兴趣了。嘛，讲的这么高大上，其实就是比起用电脑玩游戏，更喜欢折腾一些乱七八糟的东西。</p>
+<p>我绝对不算早接触计算机的那一批人，我的父母也没有那么高瞻远瞩，不过在 2008 年，我还是碰到了人生中第一台电脑。</p>
+<p>我至今记得她刚刚被父亲抬回家的样子。</p>
+<p>清华同方 真爱 G2000 品牌机，棱角分明，散发出一股冷峻气息的黑色机箱，漂亮的镜面设计的前面板，这么一个酷爆了的铁疙瘩，给那个卧室客厅合一的蜗居和我以后的人生，涂上了浓密重彩的一笔。</p>
+<p>她刚刚被请回家时，我凭借着不知道哪里学来的技能将其正确的与那台 14 吋液晶彩电连在一起并且成功点亮了，不过看到的是一个黑黑的屏幕，上面闪烁着光标与一个字符。我在键盘上乱按一通，它也会显示对应的字母。</p>
+<p>这和我在别人家里玩的不一样啊，我哭着喊着要父亲拿回店里修。知道那是 DOS，已经是几年后的事情了。</p>
+<p>同其他同龄的孩子一样，打 CF 到废寝忘食在我身上也发生过。然而不知道什么时候，甚至连我也没注意到，当我已经把管理 Windows 的文件系统，浏览 system32，折腾美化，优化系统作为一种乐趣的时候，我已经走上了一条不归路。</p>
+<p>初中二年级，照理来说应该是在本子上写写画画人物设定，写写右臂封印着黑炎龙的世界第一勇者流落民间扮猪吃老虎一路装逼如风抱得美人归的小说的年纪，但窝不知道从哪里知道了编程这个词汇，并且发现了吴涛大哥的中文编程语言后，我又在这条不归路上前进了一步。</p>
+<p>易语言，中文编程从入门到精通，海洋出版社出版。这就是当初我书架上最大部头的一本书了。感谢这本书，虽然现在的我再去看，可能会嗤之以鼻，但是这本书给予了我一个起点，给予了我对编程的兴趣，给予了我完成一个作品的满足感。</p>
+<p>感谢这门语言，没有它，就不会有今天的我。愿它可以吸引更多的希望学习编程的中国人初学者踏上这条道路。</p>
+          <p><a class="more-link" href="/shoshin-wasuru-bekarazu/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/blessing-skin-server-0-1/">Blessing Skin Server 0.1 —— 开源 PHP Minecraft 皮肤站</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-01-03T22:24:46+08:00">2016-01-03</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Minecraft/" rel="tag">Minecraft</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" rel="tag">皮肤站</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p><img src="https://img.blessing.studio/images/2016/01/2016-01-03_05-22-44.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2016/01/2016-01-03_05-22-44.png" alt="bss upload"></p>
+<p>很久以前就有想写一个皮肤站的想法了，但是苦于没有时间且 PHP、前端的 coding 都不熟练，所以一直搁置着，当作一个目标。</p>
+<p>恰逢前几周稍微有点时间（其实是克服了懒癌），就写了一个皮肤站的原型。PHP + MySQL，表单 POST 数据，基本的登录/注册/上传 功能还是实现了的。但是前端完全没有写，全是 webkit 的默认样式。</p>
+<p>不过盼星星盼月亮终于等到了元旦假期（连上周末三天），于是把整个项目重构了一下，并且用鞋拔子写了个稍微能看的页面。</p>
+<p>前端页面引用的资源/库均位于根目录下的 <code>/assets</code> 和 <code>/libs</code>，这是不知道从哪里学来的，总之觉得这样挺好的就这样放了（笑）</p>
+<p>然后是实现了全站 Ajax，登录/注册 均 POST 请求 <code>check.php</code> 返回 json，加入了 SQL 注入防护（虽然还没有 sqlmap 测试过），加入了基于 IP 的注册数量限制，支持保存 cookie，token 验证自动登录。token 就是使用普通的用于验证的不可逆算法得到（用户名 + MD5 密码 + 盐，MD5 二次加密）。</p>
+<p>Ajax 文件上传带 token POST 请求 <code>upload.php</code>，同样返回 json，上次后的文件位于 <code>/uploads</code>。（其实窝觉着这俩可以放一个文件里的）</p>
+<p><code>user.php</code> 为用户页面，本来是想用 php 路由到 <code>/user</code> 和 <code>/admin</code> 等子目录的，但是想想还是算了。因为窝对路由之类的理解并不多，边查边写的话窝也没有那么多时间了。准备放在下一个版本里。</p>
+<p><code>user.php</code> 中使用了 djazz 的 <a href="http://djazz.se/apps/MinecraftSkin/" target="_blank" rel="noopener">Minecraft Skin Previewer</a> 实现 3D 皮肤预览（就是 skinme 使用的那个），窝将其封装了一下放入了 three.msp.js 中，可以使用类似 <code>MSP.getStatus()</code>、<code>MSP.changeSkin()</code> 的接口来访问。</p>
+<p>后端就没啥出彩的地方了（话说前端也没有吧），所有使用了数据库连接的操作均封装为函数放在 <code>connect.php</code> 里面。不过感觉这个放根目录不合适就是了。</p>
+<p><code>config.php</code> 中定义了数据库连接信息，站点名称等常量以供调用。这是从 WordPress 那学来的（笑</p>
+<p>遗憾的是由于没有时间，后台管理页面还没写，目前只能通过自己管理数据库和文件的方式来管理用户。而且现在的数据表结构也不支持后台管理 qwq</p>
+<p>而且前端的 JS 和 CSS 都写得乱糟糟的，CSS 选择器一半是 id 一般是 class，文件关系也没处理好，没有响应式设计，有些地方还用了绝对定位 <img src="https://img.blessing.studio/images/2015/10/2015-10-24_09-56-11.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/10/2015-10-24_09-56-11.jpg" alt="emotion1"> </p>
+<p>不过由于时间所限，这些都放到下一个版本吧~</p>
+<hr>
+<p>项目开源在 <a href="https://github.com/printempw/blessing-skin-server" target="_blank" rel="noopener">GitHub</a> 上，欢迎 Pull Request~ 在线演示：<a href="https://skin.prinzeugen.net/" target="_blank" rel="noopener">https://skin.prinzeugen.net/</a></p>
+
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/happy-newyear/">新年快乐～</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-01-01T08:00:20+08:00">2016-01-01</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    无标签
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p><a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=24052290" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2016/01/2016-01-01_04-16-14.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2016/01/2016-01-01_04-16-14.jpg" alt="id=24052290"></a></p>
+
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/hello-world/">Hello World !</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2015-03-28T13:25:14+08:00">2015-03-28</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>欢迎使用 WordPress。这是您的第一篇文章。编辑或删除它，然后开始写作吧！</p>
+<hr>
+<p>说实话我开始写博客后真正的「第一篇文章」早就不知道啥时候被我不小心删掉了，这篇文章只是在我后来回想起大概的日期，去 WordPress 源码里找出默认「Hello World」文章的内容后拼造出的文章而已。</p>
+<p>不过不管怎么说这也是本博客的第一篇文章（虽然是假的），值得庆贺。鼓掌！</p>
+<hr>
+<p>小提示：2016 年<ruby>以前的文章<rp>(</rp><rt>黑历史</rt><rp>)</rp></ruby>请在「归档」页面中查看。</p>
+
+        
+      </div>
+    </article>
+  
+
+  <nav class="pagination">
+  <a class="extend prev" rel="prev" href="/page/10/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span>
+</nav>
+
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+        
+<section class="widget" id="widget-recent-posts">
+  <h3 class="widget-title">最新文章</h3>
+  <ul class="menu">
+    
+    
+    
+    
+      <li class="menu-item">
+        <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/short-domain-name-for-blog/">博客短域名 printem.pw</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/deal-with-manjaro-19-package-changes/">处理 Manjaro 19.0 升级中的软件包变更</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/nautilus-open-in-guake-terminal/">Nautilus 添加 Open in Guake 右键菜单</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+<section class="widget" id="widget-tagcloud">
+  <h3 class="widget-title">标签云</h3>
+  <a href="/tag/ACGN/" style="font-size: 17.86px;">ACGN</a> <a href="/tag/ACM/" style="font-size: 10px;">ACM</a> <a href="/tag/Android/" style="font-size: 14.29px;">Android</a> <a href="/tag/Apache/" style="font-size: 10px;">Apache</a> <a href="/tag/Arch/" style="font-size: 10px;">Arch</a> <a href="/tag/C-C/" style="font-size: 10.71px;">C/C++</a> <a href="/tag/CLI/" style="font-size: 11.43px;">CLI</a> <a href="/tag/CSS/" style="font-size: 11.43px;">CSS</a> <a href="/tag/Chrome/" style="font-size: 11.43px;">Chrome</a> <a href="/tag/Disqus/" style="font-size: 10px;">Disqus</a> <a href="/tag/Ghost/" style="font-size: 12.86px;">Ghost</a> <a href="/tag/Git/" style="font-size: 10.71px;">Git</a> <a href="/tag/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tag/Google/" style="font-size: 10.71px;">Google</a> <a href="/tag/Hexo/" style="font-size: 13.57px;">Hexo</a> <a href="/tag/Https/" style="font-size: 15px;">Https</a> <a href="/tag/JavaScript/" style="font-size: 16.43px;">JavaScript</a> <a href="/tag/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tag/Laravel/" style="font-size: 17.86px;">Laravel</a> <a href="/tag/Let-s-Encrypt/" style="font-size: 12.14px;">Let's Encrypt</a> <a href="/tag/Linux/" style="font-size: 16.43px;">Linux</a> <a href="/tag/Lumen/" style="font-size: 10px;">Lumen</a> <a href="/tag/Manjaro/" style="font-size: 10.71px;">Manjaro</a> <a href="/tag/Minecraft/" style="font-size: 13.57px;">Minecraft</a> <a href="/tag/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tag/Nginx/" style="font-size: 12.14px;">Nginx</a> <a href="/tag/OpenWRT/" style="font-size: 10.71px;">OpenWRT</a> <a href="/tag/PHP/" style="font-size: 19.29px;">PHP</a> <a href="/tag/PayPal/" style="font-size: 10px;">PayPal</a> <a href="/tag/Python/" style="font-size: 12.14px;">Python</a> <a href="/tag/RSS/" style="font-size: 10.71px;">RSS</a> <a href="/tag/SSH/" style="font-size: 10.71px;">SSH</a> <a href="/tag/Sandboxie/" style="font-size: 10px;">Sandboxie</a> <a href="/tag/Shell/" style="font-size: 13.57px;">Shell</a> <a href="/tag/Sublime/" style="font-size: 11.43px;">Sublime</a> <a href="/tag/Twitter/" style="font-size: 10px;">Twitter</a> <a href="/tag/V2Ray/" style="font-size: 10px;">V2Ray</a> <a href="/tag/VPS/" style="font-size: 17.14px;">VPS</a> <a href="/tag/VS-Code/" style="font-size: 10.71px;">VS Code</a> <a href="/tag/VTuber/" style="font-size: 10px;">VTuber</a> <a href="/tag/WSL/" style="font-size: 10px;">WSL</a> <a href="/tag/Windows/" style="font-size: 14.29px;">Windows</a> <a href="/tag/WordPress/" style="font-size: 17.14px;">WordPress</a> <a href="/tag/shadowsocks/" style="font-size: 15.71px;">shadowsocks</a> <a href="/tag/%E4%B8%80%E8%A8%80/" style="font-size: 10px;">一言</a> <a href="/tag/%E5%88%86%E4%BA%AB/" style="font-size: 17.14px;">分享</a> <a href="/tag/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tag/%E5%8D%9A%E5%AE%A2/" style="font-size: 20px;">博客</a> <a href="/tag/%E5%90%90%E6%A7%BD/" style="font-size: 10.71px;">吐槽</a> <a href="/tag/%E5%AD%97%E4%BD%93/" style="font-size: 10.71px;">字体</a> <a href="/tag/%E5%AE%89%E5%88%A9/" style="font-size: 10px;">安利</a> <a href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 10px;">密码学</a> <a href="/tag/%E5%B0%8F%E7%8E%A9%E6%84%8F%E5%84%BF/" style="font-size: 10px;">小玩意儿</a> <a href="/tag/%E5%B0%8F%E7%B1%B3/" style="font-size: 10px;">小米</a> <a href="/tag/%E5%B7%A5%E5%85%B7/" style="font-size: 12.86px;">工具</a> <a href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 10.71px;">年度总结</a> <a href="/tag/%E6%8A%98%E8%85%BE/" style="font-size: 10px;">折腾</a> <a href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" style="font-size: 10px;">持续集成</a> <a href="/tag/%E6%95%99%E7%A8%8B/" style="font-size: 11.43px;">教程</a> <a href="/tag/%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81/" style="font-size: 10px;">数字货币</a> <a href="/tag/%E6%B0%B4/" style="font-size: 11.43px;">水</a> <a href="/tag/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" style="font-size: 10px;">皮肤站</a> <a href="/tag/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a> <a href="/tag/%E7%BB%88%E7%AB%AF/" style="font-size: 10.71px;">终端</a> <a href="/tag/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" style="font-size: 10.71px;">网络技术</a> <a href="/tag/%E8%80%B3%E6%9C%BA/" style="font-size: 12.14px;">耳机</a> <a href="/tag/%E8%AE%B0%E5%BD%95/" style="font-size: 18.57px;">记录</a> <a href="/tag/%E8%AE%BE%E8%AE%A1/" style="font-size: 10.71px;">设计</a> <a href="/tag/%E8%AF%84%E6%B5%8B/" style="font-size: 10.71px;">评测</a> <a href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a> <a href="/tag/%E8%BD%AC%E8%BD%BD/" style="font-size: 10px;">转载</a> <a href="/tag/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tag/%E8%BF%90%E7%BB%B4/" style="font-size: 13.57px;">运维</a> <a href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" style="font-size: 10px;">近况报告</a> <a href="/tag/%E9%94%90%E9%80%9F/" style="font-size: 10.71px;">锐速</a> <a href="/tag/%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">音乐</a> <a href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">音视频处理</a>
+</section>
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

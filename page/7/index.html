@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>PRIN BLOG - 半吊子全栈开发者的日常</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/page/7/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="printempw, prin, blog, 博客, 独立博客" />
+
+<meta name="description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PRIN BLOG">
+<meta property="og:url" content="https://printempw.github.io/page/7/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="这里是 printempw 的个人博客，基本上啥都写：开发心得分享，日常吐槽吹水，偶尔也会写点正经文字。">
+<meta property="article:author" content="printempw">
+<meta name="twitter:card" content="summary">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/how-to-load-gist-dynamically-via-clicking-button/">实现点击按钮加载 Gist 代码块</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-11-01T16:38:38+08:00">2016-11-01</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/JavaScript/" rel="tag">JavaScript</a> <a class="tag-link" href="/tag/%E5%88%86%E4%BA%AB/" rel="tag">分享</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>GitHub Gist 应该也是很多人都在用的功能了，我也喜欢把一些大段的代码块贴上去而不是直接写在博文里。</p>
+<p>但是 Gist 的 embed js 是在页面加载的时候就直接开始加载了的，所以或多或少还是对网页的性能有所影响。受上次搞的「点击加载 Disqus」启发，我也准备写一个点击加载 Gist。</p>
+<p>最开始我尝试了传统方法，即动态创建一个 <code>&lt;script&gt;</code> 标签并添加到文档流中。然而却得到了一个这个错误：</p>
+<pre><code>Failed to execute &#39;write&#39; on &#39;Document&#39;: It isn&#39;t possible to write into a document from an asynchronously-loaded external script unless it is explicitly opened.</code></pre><p>看来动态加载的 js 文件中是不允许写文档流的。而不巧的是 Gist 提供的 embed js 正是使用 <code>document.write</code> 来实现的。</p>
+<p>在网上找了一下，虽然也有些利用 <code>iframe</code> 的解决方法，譬如：<a href="https://gist.github.com/jeremiahlee/1748966" target="_blank" rel="noopener">Dynamic Gist Embedding</a>，但都感觉不咋好<del>（嫌麻烦）</del></p>
+<p>后来，我在 SegmentFault 的动态预览 Gist 的功能上发现了，Gist 竟然能够提供 JSONP 式的回调！</p>
+<p>调用方法只要把 Gist 给你的 embed js 的地址最后的 <code>.js</code> 改为 <code>.json?callback=xxx</code> 即可（完全没查到 (((　ﾟдﾟ)))</p>
+<hr>
+<p>下面贴一下核心代码（同时也是点击预览的 DEMO）：</p>
+<script src="https://gist.github.com/printempw/a12f8fe71c2e3d7a2c0fcedbc6d625d2.js"></script>
+
+<p>至于「短代码自动替换」呀、「识别 Gist 链接并 append 预览按钮」（SegmentFault 的做法）之类的，朱军可以继续研究~</p>
+<p>以上。</p>
+
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/use-adb-shell-to-flash-recovery/">使用 ADB Shell 刷入 Recovery</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-10-27T22:07:10+08:00">2016-10-27</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Android/" rel="tag">Android</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>众所周知 MTK（联发科）的大部分机器都是没有 <code>fastboot</code> 模式的，也就意味着不能进行普通的依赖于 <code>fastboot</code> 系列命令的线刷模式。普通来讲这也没啥特别大的影响，毕竟刷 <code>recovery</code> 可以直接系统里拿到 root 后用工具刷，救砖有 MTK 专用的线刷工具<del>（这玩意的驱动坑的不行）</del>。</p>
+<p>但是，在一些<strong>神秘</strong>的状况下，我<del>们</del>有可能会被没有 <code>fastboot</code> 的情况下坑到。</p>
+<p>这次我想刷的是「朵唯 iSuper S1」，用的是 MTK6589 芯片组。按照惯例刷机之前首先要把 <code>Recovery</code> 换掉以刷入第三方 ROM 包。照理来说这块是没有问题的，但是不知道为什么，市面上的 Root 工具能够让手机拿到 Root 权限，但是在手机上安装权限管理应用时均告失败，也是迷的不行。</p>
+<p>明明 Root 权限都已经拿到了却刷不了 Rec，这也太吃瘪了吧！然而没有 MTK 机子也不能用 fastboot 刷 rec，专门的线刷工具又太难用。。就在这时，我突然想到了一个命令 —— <code>dd</code>。</p>
+          <p><a class="more-link" href="/use-adb-shell-to-flash-recovery/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/light-novel-recommend-gamers/">轻小说推荐 —— 「GAMERS 电玩咖！」</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-10-12T17:43:00+08:00">2016-10-12</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/ACGN/" rel="tag">ACGN</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>这次想要推荐的轻小说是「碧阳学园学生会议事录」的作者 —— 葵せきな 的最新作，「ゲーマーズ!」（台译 电玩咖）。说是推荐其实我也没什么好文笔写长文，所以还是贴点链接吧。</p>
+<p><img src="https://moepic.org/images/2016/10/17/b79812bd576d2dcfae343b562b9cf75e.jpg" srcset="/images/loading.jpg" data-srcset="https://moepic.org/images/2016/10/17/b79812bd576d2dcfae343b562b9cf75e.jpg" alt="cover"></p>
+          <p><a class="more-link" href="/light-novel-recommend-gamers/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/use-nginx-proxy-to-cache-dynamic-content/">使用 Nginx 反代并缓存动态内容</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-10-04T10:15:00+08:00">2016-10-04</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Nginx/" rel="tag">Nginx</a> <a class="tag-link" href="/tag/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>因为着实没想到一个皮肤站竟然会有这么大的并发（好吧其实也不大，QPS 大概 50 左右），所以我之前 开发/部署 Blessing Skin Server 的时候是完全没考虑到缓存优化的。直到后来出现了 <a href="https://prinzeugen.net/have-been-ddos-and-cc-attacked/" target="_blank" rel="noopener">神秘的高并发</a>（QPS 上 200）导致皮肤站宕机我才意识到缓存的重要性。</p>
+<p>我到现在也还是搞不懂那到底是正常流量还是 CC 攻击。。难道正常用户会每秒请求 20+ 次 Json Profile 吗？又不是天天退/进游戏玩 <img src="https://moepic.org/images/2016/10/02/c066215f622f0bf2fe7ee9625955e343.jpg" srcset="/images/loading.jpg" data-srcset="https://moepic.org/images/2016/10/02/c066215f622f0bf2fe7ee9625955e343.jpg" alt="emotion"></p>
+<p>虽然当时我就花了一点时间给 Json Profile 和皮肤预览之类的地方 <a href="https://prinzeugen.net/use-observer-pattern-of-laravel-to-implement-loosely-coupled-cache/" target="_blank" rel="noopener">加上了缓存</a>，但是由于这些缓存方案都是在 Laravel 层之上的，所以框架的性能依旧是硬伤。试了下 <a href="https://github.com/StoneGroup/stone" target="_blank" rel="noopener">Stone</a><br>之类的优化措施也没什么卵效果，再加上我学业也忙了起来，这个问题就被搁置了。</p>
+<p>正好最近国庆放假（虽然只有四天），我就抽了点时间出来研究了一下如何给我的皮肤站套一层缓存 ( ・_ゝ・)</p>
+          <p><a class="more-link" href="/use-nginx-proxy-to-cache-dynamic-content/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/awesome-minecraft-shader/">劳资也是开得起 Minecraft 光影的男人辣！</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-10-02T21:52:50+08:00">2016-10-02</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/diary/">日常</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Minecraft/" rel="tag">Minecraft</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>这次国庆去电脑城摸了块 GTX750（原先的 9800GT 实在是烂得不行了）和一块新硬盘回来，克隆完硬盘后就迫不及待地给 MC 打上了 <code>GLSL Shader Mod</code>。玩了一会后我的表情是这样的：<img src="https://img.blessing.studio/images/2017/06/10/c066215f622f0bf2fe7ee9625955e343.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/10/c066215f622f0bf2fe7ee9625955e343.jpg" alt="表情1"></p>
+<p>不得不说上了光影之后的 MC <strong>根本不是一个游戏啊</strong>！</p>
+<p><img src="https://img.blessing.studio/images/2017/06/10/95e7cf170b0d4f5fbe87e97360faacb9.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/06/10/95e7cf170b0d4f5fbe87e97360faacb9.png" alt="Screenshot1"></p>
+          <p><a class="more-link" href="/awesome-minecraft-shader/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/browser-compatibility-of-string-prototype-endswith/">String.prototype.endsWith() 的浏览器兼容性问题</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-09-26T22:28:29+08:00">2016-09-26</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/JavaScript/" rel="tag">JavaScript</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p><code>String.prototype.endsWith()</code> 这个方法是 ECMA6 新加入的，而我当初随手 Google 了一下，也没怎么看就直接用上去了，直到我今天在一台破手机上测试的时候发现有个用到这个方法的值神秘地变成了 <code>undefined</code> ( ´_ゝ`)</p>
+<p>我记得上次好像也是这样随手搜索导致使用了不兼容的函数 ( -д-) <del>论面向搜索引擎编程的坏处</del></p>
+<p>不过我们还是可以通过扩展 <code>String</code> 的原型来实现在不支持的浏览器上使用这个方法：</p>
+<pre><code>/**
+ * 代码来自 MDN
+ * 
+ * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
+ */
+
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function(searchString, position) {
+      var subjectString = this.toString();
+      if (typeof position !== &#39;number&#39; || !isFinite(position) || Math.floor(position) !== position || position &gt; subjectString.length) {
+        position = subjectString.length;
+      }
+      position -= searchString.length;
+      var lastIndex = subjectString.lastIndexOf(searchString, position);
+      return lastIndex !== -1 &amp;&amp; lastIndex === position;
+  };
+}</code></pre>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/use-laravel-redirector-to-redirect-to-any-url/">使用 Laravel 的 RedirectResponse 重定向至任意 URL</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-09-24T23:32:18+08:00">2016-09-24</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Laravel/" rel="tag">Laravel</a> <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>Laravel 允许我们在控制器中返回一个 <code>Illuminate\Http\RedirectResponse</code> 的实例来执行重定向。根据文档，我们可以通过 <code>redirect()</code> 帮助函数或者 <code>Redirect</code> Facade 来生成实例，并且可以方便得重定向至命名路由、控制器行为等。</p>
+<blockquote>
+<p>但如果我们想要重定向至自定义 URL 呢？</p>
+</blockquote>
+<p>对于这样的需求，Laravel 官方的文档是<strong>完全</strong>没有提及的（至少到目前 5.3 是这样），所以估计很多人都是自己实现了一个使用 <code>header()</code> 或者 <code>&lt;meta http-equiv=&#39;Refresh&#39; content=&#39;&#39;&gt;</code> 的重定向函数（包括以前的我）。</p>
+          <p><a class="more-link" href="/use-laravel-redirector-to-redirect-to-any-url/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/use-certbot-to-issue-lets-encrypt-certificates/">使用 Certbot 自动签发 Let's Encrypt 证书</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-09-19T22:59:17+08:00">2016-09-19</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Https/" rel="tag">Https</a> <a class="tag-link" href="/tag/Let-s-Encrypt/" rel="tag">Let's Encrypt</a> <a class="tag-link" href="/tag/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>今晚一回来就看到 Google Search Console 给我发了封邮件说我站点上的 SSL 证书过期了。我上去一看还真是，这张我从 Andy 手里买来的通配符证书已经在昨天失效了。</p>
+<p>唉，时间也是过得忒快啊，转眼间一年就过去了，我也成为了苦逼的高三党，真是惨得不行 ( ・_ゝ・)</p>
+<p>不过正好，我从 <a href="https://prinzeugen.net/lets-encrypt-now-we-are-trusted/" target="_blank" rel="noopener">之前就一直在关注</a> Let’s Encrypt 这个项目了，这次正好试试看它好不好用。</p>
+          <p><a class="more-link" href="/use-certbot-to-issue-lets-encrypt-certificates/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/boxy-the-most-hackable-theme-fot-st3/">Sublime Text 3 主题推荐 —— Boxy</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-09-15T15:49:52+08:00">2016-09-15</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/essay/">随笔</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Sublime/" rel="tag">Sublime</a> <a class="tag-link" href="/tag/%E5%88%86%E4%BA%AB/" rel="tag">分享</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p><img src="https://packagecontrol.io/readmes/img/e6c0cad6561d9317c095a0ab52e6fd890eebd842.gif" srcset="/images/loading.jpg" data-srcset="https://packagecontrol.io/readmes/img/e6c0cad6561d9317c095a0ab52e6fd890eebd842.gif" alt="BOXY"></p>
+<p>用了好久的 Predawn，打算换个 Theme 和 Color Scheme 试试。在网上逛了一段时间后，我找到了一个很不错的 ST3 主题，这里分享一下：</p>
+<blockquote>
+<p>Boxy Theme</p>
+<p>The most hackable theme for Sublime Text 3</p>
+</blockquote>
+<p>这个主题在 Package Control 上的页面在<a href="https://packagecontrol.io/packages/Boxy%20Theme" target="_blank" rel="noopener">这里</a>，这是一个非常强大的主题，你可以去看看它的介绍视频。</p>
+<p>Boxy 提供了很多自定义选项，因此你甚至可以把 Sublime 打扮成 Atom、VS Code，甚至是同为 ST 主题的 Predawn/Material 的样式，简直碉堡了好吗：</p>
+<p><img src="https://img.prinzeugen.net/image.php?di=VFYA" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=VFYA" alt="Screenshot"></p>
+          <p><a class="more-link" href="/boxy-the-most-hackable-theme-fot-st3/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <h2 class="post-title">
+        <a href="/yet-another-solution-for-javascript-i18n/">又是一种用于 JavaScript 的前端国际化方案</a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-meta-item post-meta-date">
+  <time datetime="2016-09-15T12:04:31+08:00">2016-09-15</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/JavaScript/" rel="tag">JavaScript</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+      </div>
+      <div class="post-content">
+        
+          <p>现在 Blessing Skin Server 的 HTML 模板是使用 Laravel 自带的本地化来实现多语言支持的，并且使用了 <a href="https://github.com/Devitek/laravel-yaml-translation" target="_blank" rel="noopener">devitek/yaml-translation</a> 这个包把 Laravel 语言文件从默认的 PHP 数组形式改为 YAML 格式的文件。</p>
+<p>不得不说数组形式的语言文件简直反人类好吗，一大堆 <code>=&gt;</code> 看的眼晕。。YAML 大法好！(ゝ∀･)</p>
+<p>回到正题。虽然 HTML 模板里的国际化是解决了，但是整个应用中需要国际化的地方可不止 HTML 模板，同时还有 JavaScript。但是静态的脚本文件中总不能内嵌 PHP 吧，所以我们得搞个单独的解决方案。</p>
+<p>虽然说网上现成的 JS 国际化的库很多，但我总觉得有些看不上眼（可能是我没找到好的），就准备自己实现一下。</p>
+          <p><a class="more-link" href="/yet-another-solution-for-javascript-i18n/#more">&gt; READ MORE...</a></p>
+        
+      </div>
+    </article>
+  
+
+  <nav class="pagination">
+  <a class="extend prev" rel="prev" href="/page/6/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/8/">Next</a>
+</nav>
+
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+        
+<section class="widget" id="widget-recent-posts">
+  <h3 class="widget-title">最新文章</h3>
+  <ul class="menu">
+    
+    
+    
+    
+      <li class="menu-item">
+        <a href="/google-analytics-api-page-views-counter/">使用 Google Analytics API 实现博客阅读量统计</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/reverse-proxy-for-126-mail-pop-server/">反向代理解决 Gmail 代收 126 邮箱出现 Connection timed out 的问题</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/short-domain-name-for-blog/">博客短域名 printem.pw</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/deal-with-manjaro-19-package-changes/">处理 Manjaro 19.0 升级中的软件包变更</a>
+      </li>
+    
+      <li class="menu-item">
+        <a href="/nautilus-open-in-guake-terminal/">Nautilus 添加 Open in Guake 右键菜单</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+<section class="widget" id="widget-tagcloud">
+  <h3 class="widget-title">标签云</h3>
+  <a href="/tag/ACGN/" style="font-size: 17.86px;">ACGN</a> <a href="/tag/ACM/" style="font-size: 10px;">ACM</a> <a href="/tag/Android/" style="font-size: 14.29px;">Android</a> <a href="/tag/Apache/" style="font-size: 10px;">Apache</a> <a href="/tag/Arch/" style="font-size: 10px;">Arch</a> <a href="/tag/C-C/" style="font-size: 10.71px;">C/C++</a> <a href="/tag/CLI/" style="font-size: 11.43px;">CLI</a> <a href="/tag/CSS/" style="font-size: 11.43px;">CSS</a> <a href="/tag/Chrome/" style="font-size: 11.43px;">Chrome</a> <a href="/tag/Disqus/" style="font-size: 10px;">Disqus</a> <a href="/tag/Ghost/" style="font-size: 12.86px;">Ghost</a> <a href="/tag/Git/" style="font-size: 10.71px;">Git</a> <a href="/tag/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tag/Google/" style="font-size: 10.71px;">Google</a> <a href="/tag/Hexo/" style="font-size: 13.57px;">Hexo</a> <a href="/tag/Https/" style="font-size: 15px;">Https</a> <a href="/tag/JavaScript/" style="font-size: 16.43px;">JavaScript</a> <a href="/tag/Kindle/" style="font-size: 10px;">Kindle</a> <a href="/tag/Laravel/" style="font-size: 17.86px;">Laravel</a> <a href="/tag/Let-s-Encrypt/" style="font-size: 12.14px;">Let's Encrypt</a> <a href="/tag/Linux/" style="font-size: 16.43px;">Linux</a> <a href="/tag/Lumen/" style="font-size: 10px;">Lumen</a> <a href="/tag/Manjaro/" style="font-size: 10.71px;">Manjaro</a> <a href="/tag/Minecraft/" style="font-size: 13.57px;">Minecraft</a> <a href="/tag/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tag/Nginx/" style="font-size: 12.14px;">Nginx</a> <a href="/tag/OpenWRT/" style="font-size: 10.71px;">OpenWRT</a> <a href="/tag/PHP/" style="font-size: 19.29px;">PHP</a> <a href="/tag/PayPal/" style="font-size: 10px;">PayPal</a> <a href="/tag/Python/" style="font-size: 12.14px;">Python</a> <a href="/tag/RSS/" style="font-size: 10.71px;">RSS</a> <a href="/tag/SSH/" style="font-size: 10.71px;">SSH</a> <a href="/tag/Sandboxie/" style="font-size: 10px;">Sandboxie</a> <a href="/tag/Shell/" style="font-size: 13.57px;">Shell</a> <a href="/tag/Sublime/" style="font-size: 11.43px;">Sublime</a> <a href="/tag/Twitter/" style="font-size: 10px;">Twitter</a> <a href="/tag/V2Ray/" style="font-size: 10px;">V2Ray</a> <a href="/tag/VPS/" style="font-size: 17.14px;">VPS</a> <a href="/tag/VS-Code/" style="font-size: 10.71px;">VS Code</a> <a href="/tag/VTuber/" style="font-size: 10px;">VTuber</a> <a href="/tag/WSL/" style="font-size: 10px;">WSL</a> <a href="/tag/Windows/" style="font-size: 14.29px;">Windows</a> <a href="/tag/WordPress/" style="font-size: 17.14px;">WordPress</a> <a href="/tag/shadowsocks/" style="font-size: 15.71px;">shadowsocks</a> <a href="/tag/%E4%B8%80%E8%A8%80/" style="font-size: 10px;">一言</a> <a href="/tag/%E5%88%86%E4%BA%AB/" style="font-size: 17.14px;">分享</a> <a href="/tag/%E5%89%8D%E7%AB%AF/" style="font-size: 11.43px;">前端</a> <a href="/tag/%E5%8D%9A%E5%AE%A2/" style="font-size: 20px;">博客</a> <a href="/tag/%E5%90%90%E6%A7%BD/" style="font-size: 10.71px;">吐槽</a> <a href="/tag/%E5%AD%97%E4%BD%93/" style="font-size: 10.71px;">字体</a> <a href="/tag/%E5%AE%89%E5%88%A9/" style="font-size: 10px;">安利</a> <a href="/tag/%E5%AF%86%E7%A0%81%E5%AD%A6/" style="font-size: 10px;">密码学</a> <a href="/tag/%E5%B0%8F%E7%8E%A9%E6%84%8F%E5%84%BF/" style="font-size: 10px;">小玩意儿</a> <a href="/tag/%E5%B0%8F%E7%B1%B3/" style="font-size: 10px;">小米</a> <a href="/tag/%E5%B7%A5%E5%85%B7/" style="font-size: 12.86px;">工具</a> <a href="/tag/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 10.71px;">年度总结</a> <a href="/tag/%E6%8A%98%E8%85%BE/" style="font-size: 10px;">折腾</a> <a href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" style="font-size: 10px;">持续集成</a> <a href="/tag/%E6%95%99%E7%A8%8B/" style="font-size: 11.43px;">教程</a> <a href="/tag/%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81/" style="font-size: 10px;">数字货币</a> <a href="/tag/%E6%B0%B4/" style="font-size: 11.43px;">水</a> <a href="/tag/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a> <a href="/tag/%E7%9A%AE%E8%82%A4%E7%AB%99/" style="font-size: 10px;">皮肤站</a> <a href="/tag/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a> <a href="/tag/%E7%BB%88%E7%AB%AF/" style="font-size: 10.71px;">终端</a> <a href="/tag/%E7%BC%96%E7%A8%8B/" style="font-size: 10px;">编程</a> <a href="/tag/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/" style="font-size: 10.71px;">网络技术</a> <a href="/tag/%E8%80%B3%E6%9C%BA/" style="font-size: 12.14px;">耳机</a> <a href="/tag/%E8%AE%B0%E5%BD%95/" style="font-size: 18.57px;">记录</a> <a href="/tag/%E8%AE%BE%E8%AE%A1/" style="font-size: 10.71px;">设计</a> <a href="/tag/%E8%AF%84%E6%B5%8B/" style="font-size: 10.71px;">评测</a> <a href="/tag/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">读书笔记</a> <a href="/tag/%E8%BD%AC%E8%BD%BD/" style="font-size: 10px;">转载</a> <a href="/tag/%E8%BD%AF%E4%BB%B6/" style="font-size: 10px;">软件</a> <a href="/tag/%E8%BF%90%E7%BB%B4/" style="font-size: 13.57px;">运维</a> <a href="/tag/%E8%BF%91%E5%86%B5%E6%8A%A5%E5%91%8A/" style="font-size: 10px;">近况报告</a> <a href="/tag/%E9%94%90%E9%80%9F/" style="font-size: 10.71px;">锐速</a> <a href="/tag/%E9%9F%B3%E4%B9%90/" style="font-size: 10px;">音乐</a> <a href="/tag/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">音视频处理</a>
+</section>
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

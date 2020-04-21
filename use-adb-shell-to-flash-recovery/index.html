@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>使用 ADB Shell 刷入 Recovery - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/use-adb-shell-to-flash-recovery/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="Android," />
+
+<meta name="description" content="众所周知 MTK（联发科）的大部分机器都是没有 fastboot 模式的，也就意味着不能进行普通的依赖于 fastboot 系列命令的线刷模式。普通来讲这也没啥特别大的影响，毕竟刷 recovery 可以直接系统里拿到 root 后用工具刷，救砖有 MTK 专用的线刷工具（这玩意的驱动坑的不行）。 但是，在一些神秘的状况下，我们有可能会被没有 fastboot 的情况下坑到。 这次我想刷的是「朵唯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 ADB Shell 刷入 Recovery">
+<meta property="og:url" content="https://printempw.github.io/use-adb-shell-to-flash-recovery/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="众所周知 MTK（联发科）的大部分机器都是没有 fastboot 模式的，也就意味着不能进行普通的依赖于 fastboot 系列命令的线刷模式。普通来讲这也没啥特别大的影响，毕竟刷 recovery 可以直接系统里拿到 root 后用工具刷，救砖有 MTK 专用的线刷工具（这玩意的驱动坑的不行）。 但是，在一些神秘的状况下，我们有可能会被没有 fastboot 的情况下坑到。 这次我想刷的是「朵唯">
+<meta property="og:image" content="https://img.prinzeugen.net/image.php?di=15FA">
+<meta property="article:published_time" content="2016-10-27T14:07:10.000Z">
+<meta property="article:modified_time" content="2016-10-27T14:07:10.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.prinzeugen.net/image.php?di=15FA">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/use-adb-shell-to-flash-recovery/">使用 ADB Shell 刷入 Recovery</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2016-10-27T14:07:10+00:00">2016-10-27</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Android/" rel="tag">Android</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2016-10-27T14:07:10.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+
+    <div class="post-content"><p>众所周知 MTK（联发科）的大部分机器都是没有 <code>fastboot</code> 模式的，也就意味着不能进行普通的依赖于 <code>fastboot</code> 系列命令的线刷模式。普通来讲这也没啥特别大的影响，毕竟刷 <code>recovery</code> 可以直接系统里拿到 root 后用工具刷，救砖有 MTK 专用的线刷工具<del>（这玩意的驱动坑的不行）</del>。</p>
+<p>但是，在一些<strong>神秘</strong>的状况下，我<del>们</del>有可能会被没有 <code>fastboot</code> 的情况下坑到。</p>
+<p>这次我想刷的是「朵唯 iSuper S1」，用的是 MTK6589 芯片组。按照惯例刷机之前首先要把 <code>Recovery</code> 换掉以刷入第三方 ROM 包。照理来说这块是没有问题的，但是不知道为什么，市面上的 Root 工具能够让手机拿到 Root 权限，但是在手机上安装权限管理应用时均告失败，也是迷的不行。</p>
+<p>明明 Root 权限都已经拿到了却刷不了 Rec，这也太吃瘪了吧！然而没有 MTK 机子也不能用 fastboot 刷 rec，专门的线刷工具又太难用。。就在这时，我突然想到了一个命令 —— <code>dd</code>。</p>
+<a id="more"></a>
+
+<blockquote>
+<p>dd 是一个 Unix 和类 Unix 系统上的命令，主要功能为转换和复制文件。</p>
+<p>在Unix上，硬件的设备驱动（如硬盘）就像普通文件一样，出现在文件系统中；只要在各自的驱动程序中实现了对应的功能，dd 也可以读取自和/或写入到这些文件。这样，dd 也可以用在备份硬件的引导扇区、获取一定数量的随机数据等任务中。</p>
+</blockquote>
+<p>以上摘自中文 <a href="https://zh.wikipedia.org/wiki/Dd_(Unix)" target="_blank" rel="noopener">WikiPedia</a>。</p>
+<p>虽然我无法在手机上拿到 root 权限（没有权限管理应用），但是我能在 <code>ADB Shell</code> 里拿到呀：</p>
+<pre><code class="shell">printempw@prinzeugen ~ $ adb shell
+shell@android:/ $ su
+su # 切换到 root 用户
+shell@android:/ # </code></pre>
+<p>那么既然拿到了 <code>root</code> 的 shell 访问权，为什么不能用 <code>dd</code> 命令覆写 <code>recovery</code> 呢？当然真正运行之前我还是查了一下这种方法的，不过似乎大部分都是使用 <code>dd</code> 从手机里把 <code>recovery</code> 备份出来的。。至于国内论坛上那些所谓「通过 ADB 命令刷入 recovery.img 的方法」，都是瞎 TM 扯淡，整篇文章里 adb 起到的作用就是：</p>
+<pre><code>adb reboot bootloader # 重启至 fastboot 模式</code></pre><p>嘛，要说他文不对题也不至于，毕竟人家的标题是「使用 ADB <strong>命令</strong>」嘛（笑），所以我在本文标题上清楚的写上了使用 <code>ADB Shell</code> 进行操作。</p>
+<p>闲话休提。于是我抱着作死的心态运行了：</p>
+<pre><code>shell@android:/mnt/sdcard2 # dd if=/mnt/sdcard2/recovery.img of=/dev/recovery
+dd if=/mnt/sdcard2/recovery.img of=/dev/recovery
+11916+0 records in
+11916+0 records out
+6100992 bytes transferred in 1.626 secs (3752147 bytes/sec)</code></pre><p>其中 <code>if</code> 参数是要刷入的 recovery 文件所在的位置，<code>of</code> 参数是 recovery 所在的分区，对于 MTK 来说是在 <code>/dev/recovery</code> 下，其他平台可能不是这个所以要注意哦（其他平台也用不到这种憋屈的方法吧）。</p>
+<p>从上面的回显可以看到 <code>dd</code> 命令已经成功把 recovery 覆写掉了，那么下面就是见证奇迹的时刻辣！</p>
+<pre><code>printempw@prinzeugen ~ $ adb reboot recovery</code></pre><p><img src="https://img.prinzeugen.net/image.php?di=15FA" srcset="/images/loading.jpg" data-srcset="https://img.prinzeugen.net/image.php?di=15FA" alt=""> 大成功！</p>
+<hr>
+<p>嘛，虽然没有贴图感觉没有说服力就是啦。不过我写这篇文章的目的也就是想要告诉后来遇到这种尴尬情况的人（如果有的话）还有这种方法可以用于刷入 recovery。</p>
+<p>以上。</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/how-to-load-gist-dynamically-via-clicking-button/">实现点击按钮加载 Gist 代码块</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/light-novel-recommend-gamers/">轻小说推荐 —— 「GAMERS 电玩咖！」</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "use-adb-shell-to-flash-recovery/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/use-adb-shell-to-flash-recovery/".replace('index.html', ''),
+      title: '使用 ADB Shell 刷入 Recovery',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

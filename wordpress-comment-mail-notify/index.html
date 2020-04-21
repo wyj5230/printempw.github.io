@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>开启 Wordpress 评论回复邮件通知 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/wordpress-comment-mail-notify/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="WordPress,PHP," />
+
+<meta name="description" content="以前就注意到 wp 有这个功能了，可以在评论被回复时发邮件通知评论者，是个增强用户粘性的好方法。然而窝这犄角旮旯的能来几个人就不错了，哪有人闲得蛋疼来评论呢，所以咱也就没在意。 然而就在昨天，窝的博客迎来了激动人心的历史上的跨越： 有窝不认识的人发表了评论！woc 窝当时心里真激动啊，这是评论者的一小步是人博客的一大步啊 窝当时就抄起键盘准备回复，突然一想没有邮件通知玩个卵啊 遂搜索了一大堆方法，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开启 Wordpress 评论回复邮件通知">
+<meta property="og:url" content="https://printempw.github.io/wordpress-comment-mail-notify/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="以前就注意到 wp 有这个功能了，可以在评论被回复时发邮件通知评论者，是个增强用户粘性的好方法。然而窝这犄角旮旯的能来几个人就不错了，哪有人闲得蛋疼来评论呢，所以咱也就没在意。 然而就在昨天，窝的博客迎来了激动人心的历史上的跨越： 有窝不认识的人发表了评论！woc 窝当时心里真激动啊，这是评论者的一小步是人博客的一大步啊 窝当时就抄起键盘准备回复，突然一想没有邮件通知玩个卵啊 遂搜索了一大堆方法，">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/07/2015-07-15_14-49-46.jpg">
+<meta property="og:image" content="https://img.blessing.studio/images/2015/07/2015-07-17_03-28-41.jpg">
+<meta property="article:published_time" content="2015-07-26T17:52:47.000Z">
+<meta property="article:modified_time" content="2015-08-28T16:35:44.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="WordPress">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2015/07/2015-07-15_14-49-46.jpg">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/wordpress-comment-mail-notify/">开启 Wordpress 评论回复邮件通知</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2015-07-26T17:52:47+00:00">2015-07-27</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/PHP/" rel="tag">PHP</a> <a class="tag-link" href="/tag/WordPress/" rel="tag">WordPress</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2015-08-28T16:35:44.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#有窝不认识的人发表了评论！"><span class="toc-text">有窝不认识的人发表了评论！</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">&gt; 您在 ‘ . get_option(‘blogname’) . ‘ 博客上的留言有回复啦！</span></a></div>
+    
+
+    <div class="post-content"><p>以前就注意到 wp 有这个功能了，可以在评论被回复时发邮件通知评论者，是个增强用户粘性的好方法。然而窝这犄角旮旯的能来几个人就不错了，哪有人闲得蛋疼来评论呢，所以咱也就没在意。</p>
+<p>然而就在昨天，窝的博客迎来了激动人心的历史上的跨越：</p>
+<h3 id="有窝不认识的人发表了评论！"><a href="#有窝不认识的人发表了评论！" class="headerlink" title="有窝不认识的人发表了评论！"></a>有窝不认识的人发表了评论！</h3><p>woc 窝当时心里真激动啊，这是评论者的一小步是人博客的一大步啊<a href="https://img.blessing.studio/images/2015/07/2015-07-15_14-49-46.jpg" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/07/2015-07-15_14-49-46.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/07/2015-07-15_14-49-46.jpg" alt="20150715224933"></a></p>
+<p>窝当时就抄起键盘准备回复，突然一想没有邮件通知玩个卵啊</p>
+<p>遂搜索了一大堆方法，其中也踩了不少坑，在这里记录一下。</p>
+<p>原生 wp 的邮件发送是使用 php 的 mail() 函数，这点在后台登陆页的忘记密码处可以得知。你可以在 <a href="http://www.yahei.net/" target="_blank" rel="noopener">探针</a> 里查看你的 mail() 函数是否启用。使用 mail() 函数的方法请自行搜索。</p>
+<p>首先去找一个启用 SMTP 的插件，这里推荐 Easy WP SMTP。配置不多说，请自行搞到能收到测试邮件。</p>
+<p>如果你的主题自带回复提醒的话现在就可以测试一下了 // <a href="#1">坑1</a></p>
+<p>对于没有这个功能主题，打开开主题的 function.php ，在合适位置加入如下代码：</p>
+<p>//评论回复邮件 function comment_mail_notify($comment_id) { $comment = get_comment($comment_id); $parent_id = $comment-&gt;comment_parent ? $comment-&gt;comment_parent : ‘’; $spam_confirmed = $comment-&gt;comment_approved; if (($parent_id != ‘’) &amp;&amp; ($spam_confirmed != ‘spam’)) { $wp_email = ‘reply@’ . preg_replace(‘#^www.#’, ‘’, strtolower($_SERVER[‘SERVER_NAME’])); //发件人邮件地址 $to = trim(get_comment($parent_id)-&gt;comment_author_email); $subject = ‘有人回复你在 ‘ . get_option(“blogname”) . ‘ 上的评论辣’; //酌情更改 $message = ‘<table style="width: 99.8%;height:99.8% "><tbody><tr><td style="background:#FAFAFA url(https://files.prinzeugen.net/Resources/pics/mail_background.png)"><div style="background-color:white;border-top:2px solid #12ADDB;box-shadow:0 1px 3px #AAAAAA;line-height:180%;padding:0 15px 12px;width:500px;margin:50px auto;color:#555555;font-family:Century Gothic,Trebuchet MS,Hiragino Sans GB,微软雅黑,Microsoft Yahei,Tahoma,Helvetica,Arial,SimSun,sans-serif;font-size:12px;"> <h2 style="border-bottom:1px solid #DDD;font-size:14px;font-weight:normal;padding:13px 0 10px 8px;"><span style="color: #12ADDB;font-weight: bold;">&gt; </span>您在<a style="text-decoration:none;color: #12ADDB;" href="' . get_option('home') . '"> ‘ . get_option(‘blogname’) . ‘ </a>博客上的留言有回复啦！</h2> <div style="padding:0 12px 0 12px;margin-top:18px"><p>‘ . trim(get_comment($parent_id)-&gt;comment_author) . ‘ ，您曾在文章《’ . get_the_title($comment-&gt;comment_post_ID) . ‘》上发表评论:</p> <p style="background-color: #f5f5f5;border: 0px solid #DDD;padding: 10px 15px;margin:18px 0">‘ . nl2br(get_comment($parent_id)-&gt;comment_content) . ‘</p> <p>‘ . trim($comment-&gt;comment_author) . ‘ 给您的回复如下:</p> <p style="background-color: #f5f5f5;border: 0px solid #DDD;padding: 10px 15px;margin:18px 0">‘ . nl2br($comment-&gt;comment_content) . ‘</p> <p>您可以点击 <a style="text-decoration:none; color:#12addb" href="' . htmlspecialchars(get_comment_link($parent_id)) . '">查看回复的完整內容 </a>。欢迎再次光临 <a style="text-decoration:none; color:#12addb" href="' . get_option('home') . '">‘ . get_option(‘blogname’) . ‘ </a>。</p> <p>此邮件由系统自动发出，就算你回复了窝也不会回复你哟 ﾟ∀ﾟ)σ</p> </div></div></td></tr></tbody></table>‘; $from = “From: &quot;“ . get_option(‘blogname’) . “&quot; &lt;$wp_email&gt;”; $headers = “$from\nContent-Type: text/html; charset=” . get_option(‘blog_charset’) . “\n”; wp_mail( $to, $subject, $message, $headers ); //echo ‘mail to ‘, $to, ‘<br/> ‘ , $subject, $message; // for testing } } add_action(‘comment_post’, ‘comment_mail_notify’); //窝还以为设置完 SMTP 后还要一些别的设置，没想到这里用了 wp 钩子就已经解决了（扶额</p>
+<p>代码的意思看看函数名变量名之类的就可以懂了吧~</p>
+<p>初次使用请将代码底部的 echo 反注释，方便调试</p>
+<p>成功后发送的邮件大概是这样的：</p>
+<table style="width: 99.8%; height: 99.8%;"><tbody><tr><td style="background: #FAFAFA url('https://files.prinzeugen.net/Resources/pics/mail_background.png');"><div style="background-color: white; border-top: 2px solid #12ADDB; box-shadow: 0 1px 3px #AAAAAA; line-height: 180%; padding: 0 15px 12px; width: 500px; margin: 50px auto; color: #555555; font-family: Century Gothic,Trebuchet MS,Hiragino Sans GB,微软雅黑,Microsoft Yahei,Tahoma,Helvetica,Arial,SimSun,sans-serif; font-size: 12px;">
+## <span style="color: #12addb; font-weight: bold;">> </span>您在[ (ゝω·)~☆ kira ](https://prinzeugen.net)博客上的留言有回复啦！
+
+<div style="padding: 0 12px 0 12px; margin-top: 18px;">printempw ，您曾在文章《关于》上发表评论:
+
+<p>TEST FOR MAIL</p>
+<p>printempw 给您的回复如下:</p>
+<p>FXCK U MAN</p>
+<p>您可以点击 <a href="https://prinzeugen.net/about/#comment-88" target="_blank" rel="noopener">查看回复的完整內容 </a>。欢迎再次光临 <a href="https://prinzeugen.net" target="_blank" rel="noopener">(ゝω·)~☆ kira </a>。</p>
+<p>此邮件由系统自动发出，就算你回复了窝也不会回复你哟 ﾟ∀ﾟ)σ</p>
+</div></div></td></tr></tbody></table>想要更改邮件样式请自行更改 **$message** 内的内容，窝也贴一段别的样式
+
+<p>$message = ‘<div style="border-right:#666666 1px solid;border-radius:8px;color:#111;font-size:12px;width:702px;border-bottom:#666666 1px solid;font-family:微软雅黑,arial;margin:10px auto 0px;border-top:#666666 1px solid;border-left:#666666 1px solid"><div class="adM"> </div><div style="width:100%;background:#666666;min-height:60px;color:white;border-radius:6px 6px 0 0"><span style="line-height:60px;min-height:60px;margin-left:30px;font-size:12px">您在 <a style="color:#00bbff;font-weight:600;text-decoration:none" href="' . get_option('home') . '" target="_blank">‘ . get_option(‘blogname’) . ‘</a> 上的留言有回复啦！</span> </div> <div style="margin:0px auto;width:90%"> <p>‘ . trim(get_comment($parent_id)-&gt;comment_author) . ‘, 您好!</p> <p>您于’ . trim(get_comment($parent_id)-&gt;comment_date) . ‘ 在文章《’ . get_the_title($comment-&gt;comment_post_ID) . ‘》上发表评论: </p> <p style="border-bottom:#ddd 1px solid;border-left:#ddd 1px solid;padding-bottom:20px;background-color:#eee;margin:15px 0px;padding-left:20px;padding-right:20px;border-top:#ddd 1px solid;border-right:#ddd 1px solid;padding-top:20px">‘ . nl2br(get_comment($parent_id)-&gt;comment_content) . ‘</p> <p>‘ . trim($comment-&gt;comment_author) . ‘ 于’ . trim($comment-&gt;comment_date) . ‘ 给您的回复如下: </p> <p style="border-bottom:#ddd 1px solid;border-left:#ddd 1px solid;padding-bottom:20px;background-color:#eee;margin:15px 0px;padding-left:20px;padding-right:20px;border-top:#ddd 1px solid;border-right:#ddd 1px solid;padding-top:20px">‘ . nl2br($comment-&gt;comment_content) . ‘</p> <p>您可以点击 <a style="color:#00bbff;text-decoration:none" href="' . htmlspecialchars(get_comment_link($parent_id)) . '" target="_blank">查看回复的完整內容</a></p> <p>感谢你对 <a style="color:#00bbff;text-decoration:none" href="' . get_option('home') . '" target="_blank">‘ . get_option(‘blogname’) . ‘</a> 的关注，欢迎再次光临~(｀･ω･)</p><p>（此邮件由系统自动发出，就算你回复了窝也不会回复你哟 ﾟ∀ﾟ)σ）</p></div></div>‘;</p>
+<p>这是预览：</p>
+<div style="border-radius: 8px; color: #111; font-size: 12px; width: 702px; font-family: 微软雅黑,arial; margin: 10px auto 0px; border: #666666 1px solid;"><div style="width: 100%; background: #666666; min-height: 60px; color: white; border-radius: 6px 6px 0 0;"><span style="line-height: 60px; min-height: 60px; margin-left: 30px; font-size: 12px;">您在 [(ゝω·)~☆ kira](https://prinzeugen.net) 上的留言有回复啦！</span></div><div style="margin: 0px auto; width: 90%;">H, 您好!
+
+<p>您于2015-07-26 14:29:42 在文章《关于》上发表评论:</p>
+<p>AAA I WANT A MAIL</p>
+<p>printempw 于2015-07-26 15:10:35 给您的回复如下:</p>
+<p>蛤</p>
+<p>您可以点击 <a href="https://prinzeugen.net/about/#comment-81" target="_blank" rel="noopener">查看回复的完整內容</a></p>
+<p>感谢你对 <a href="https://prinzeugen.net" target="_blank" rel="noopener">(ゝω·)~☆ kira</a> 的关注，欢迎再次光临~(｀･ω･)</p>
+<p>此邮件由系统自动发出，就算你回复了窝也不会回复你哟 ﾟ∀ﾟ)σ</p>
+</div></div> 
+
+<p>//关于坑1</p>
+<p>应该是窝主题里的函数哪里出了问题害的窝 SMTP 不行 mail() 也不行折腾了一下午（扶额</p>
+<p>如果你明明 SMTP 可以发件但是收不到回复邮件的话，可以在这个函数顶上写个 wp_mail() （参数自己看）来调试</p>
+<p>上面的是在别处扒来的，不过这样的话那个评论复选框就没用了呢 <a href="https://img.blessing.studio/images/2015/07/2015-07-17_03-28-41.jpg" target="_blank" rel="noopener"><img src="https://img.blessing.studio/images/2015/07/2015-07-17_03-28-41.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2015/07/2015-07-17_03-28-41.jpg" alt="20150717112829"></a> 等有时间窝在把判断逻辑也写进去</p>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/way-to-change-icon-of-w3-total-cache-in-admin-menu-sidebar/">替换 W3 Total Cache 在 Wordpress 后台侧边栏图标的方法</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/nginx-rewrite/">使用 nginx rewrite 实现域名自动跳转</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "wordpress-comment-mail-notify/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/wordpress-comment-mail-notify/".replace('index.html', ''),
+      title: '开启 Wordpress 评论回复邮件通知',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#有窝不认识的人发表了评论！"><span class="toc-text">有窝不认识的人发表了评论！</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">&gt; 您在 ‘ . get_option(‘blogname’) . ‘ 博客上的留言有回复啦！</span></a>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>

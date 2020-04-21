@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <title>使用 Travis CI 自动部署 Hexo 博客 - PRIN BLOG</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="generator" content="Hexo" />
+<link rel="icon" href="/images/favicon.png" />
+  <link rel="canonical" href="https://printempw.github.io/deploy-hexo-blog-automatically-with-travis-ci/"/>
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="PRIN BLOG">
+  <meta name="keywords" content="博客,Hexo,持续集成," />
+
+<meta name="description" content="之前（六月份高考完后）我把博客引擎由 Ghost 换成了静态博客生成器 Hexo，并且只使用了自带的 Git Deployment 来手动部署生成好的静态博客文件到服务器上。虽然不像动态博客程序那样可以随时随地更新博客，但是想到马上就要上大学了，之后手头都会有电脑，所以更新博客也不算那么麻烦。 但是实在是人算不如天算，浙江这一届新高考改革是结结实实地把我坑了一把。二段线以上一段线未满这样中途半端的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Travis CI 自动部署 Hexo 博客">
+<meta property="og:url" content="https://printempw.github.io/deploy-hexo-blog-automatically-with-travis-ci/index.html">
+<meta property="og:site_name" content="PRIN BLOG">
+<meta property="og:description" content="之前（六月份高考完后）我把博客引擎由 Ghost 换成了静态博客生成器 Hexo，并且只使用了自带的 Git Deployment 来手动部署生成好的静态博客文件到服务器上。虽然不像动态博客程序那样可以随时随地更新博客，但是想到马上就要上大学了，之后手头都会有电脑，所以更新博客也不算那么麻烦。 但是实在是人算不如天算，浙江这一届新高考改革是结结实实地把我坑了一把。二段线以上一段线未满这样中途半端的">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_201448.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_201526.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_204633.png">
+<meta property="og:image" content="https://i.loli.net/2017/10/04/59d4dac7a6381.png">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/10/04/QQ20171004210320.jpg">
+<meta property="og:image" content="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_212745.png">
+<meta property="article:published_time" content="2017-10-04T02:50:41.000Z">
+<meta property="article:modified_time" content="2017-10-04T02:50:41.000Z">
+<meta property="article:author" content="printempw">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="持续集成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_201448.png">
+  <meta name="google-site-verification" content="GRFMvqszPSgldR5B46PfCl67MehNVagYoA9AtJpd8BA" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.css">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Fira+Mono|Roboto+Slab:400,600|Noto+Serif+SC:600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/atom-one-light.min.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="site-name">
+      <a class="logo" href="/">PRIN BLOG</a>
+      <span class="description">半吊子全栈开发者的日常</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <section class="content col-md-8 col-12">
+        
+  <article>
+    <h1 class="post-title">
+      <a href="/deploy-hexo-blog-automatically-with-travis-ci/">使用 Travis CI 自动部署 Hexo 博客</a>
+    </h1>
+    <div class="post-meta">
+      <span class="post-meta-item post-meta-date">
+  <time datetime="2017-10-04T02:50:41+00:00">2017-10-04</time>
+</span>
+
+<span class="post-meta-item post-meta-categories">
+  <span class="post-meta-item-indicator">Category:</span>
+  
+    <a class="category-link" href="/categories/tech/">技术</a>
+  
+</span>
+
+<span class="post-meta-item post-meta-tags">
+  
+    <a class="tag-link" href="/tag/Hexo/" rel="tag">Hexo</a> <a class="tag-link" href="/tag/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a> <a class="tag-link" href="/tag/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" rel="tag">持续集成</a>
+  
+</span>
+
+
+<span class="post-meta-item post-meta-views">
+  <span class="pv-counter">loading</span> views
+</span>
+
+
+    </div>
+
+    
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.17/dayjs.min.js"></script>
+<script>
+  var post_updated = dayjs("2017-10-04T02:50:41.000Z");
+  var days_diff_now = dayjs().diff(post_updated, 'days');
+
+  if (days_diff_now > 365) {
+    document.write(
+      '<div class="post-warning">'+
+        '本文最后修订于 '+days_diff_now+' 天前（'+post_updated.format('YYYY-MM-DD')+'），'+
+        '其中的信息可能已经有所发展或者不再适用于现阶段。'+
+      '</div>'
+    );
+  }
+</script>
+
+    
+
+    
+      <div class="post-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-需求分析"><span class="toc-text">0x01 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-配置-GitHub-仓库"><span class="toc-text">0x02 配置 GitHub 仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-配置-Travis-CI"><span class="toc-text">0x03 配置 Travis CI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x31-配置部署秘钥"><span class="toc-text">0x31 配置部署秘钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x32-编写-travis-yml"><span class="toc-text">0x32 编写 .travis.yml</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-后记"><span class="toc-text">0x04 后记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x41-参考链接"><span class="toc-text">0x41 参考链接</span></a></li></ol></li></ol></div>
+    
+
+    <div class="post-content"><p>之前（六月份高考完后）我把博客引擎由 Ghost <a href="https://blessing.studio/migrated-to-hexo/" target="_blank" rel="noopener">换成了静态博客生成器 Hexo</a>，并且只使用了自带的 Git Deployment 来手动部署生成好的静态博客文件到服务器上。虽然不像动态博客程序那样可以随时随地更新博客，但是想到马上就要上大学了，之后手头都会有电脑，所以更新博客也不算那么麻烦。</p>
+<p>但是实在是人算不如天算，浙江这一届新高考改革是结结实实地把我坑了一把。二段线以上一段线未满这样中途半端的分数让人在填志愿时着实是犯难 —— 这次浙江几乎普遍出现「一段考生抢以往的二本中好学校，二段考生抢三本学校」这样神秘的情况。思来想去最后把心一横，决定去再读一年高四。后来全省高考录取情况出来后，也证实了我当时复读的决定也不是不合理的（譬如当时上了新浪微博热门话题的「浙江滑档大学」等）。</p>
+<p>关于复读的话题就先放一放吧，毕竟现在的时间确实是有些紧，可能得等到寒假时才能好好地写一篇近况报告以及关于高四生活的事情了，非常遗憾。</p>
+<p>回到正题，因为我输得透彻滚去读高四了，所以自然不可能每次都有配置完好的操作环境让我手动发博文 + 部署（虽然我也不见得有时间写什么博文）。在这样的前提条件下，一个 Hexo 博客的自动部署（持续集成）系统就显得非常有必要了。</p>
+<a id="more"></a>
+
+<h2 id="0x01-需求分析"><a href="#0x01-需求分析" class="headerlink" title="0x01 需求分析"></a>0x01 需求分析</h2><p>首先我们需要了解的是，我们到底希望实现一个怎样的系统？以下是我的设想：</p>
+<ol>
+<li>更新博客文章内容后 commit 到 GitHub repo（也可以直接在 GitHub 网页上 commit）；</li>
+<li>Travis CI 自动编译生成出新的静态博客文件；</li>
+<li>自动部署至 GitHub Pages 和我自己的服务器。</li>
+</ol>
+<p>虽然互联网上关于自动部署 Hexo 博客的文章已经有很多了，但是我这里还是有些需求是和他们不一样的：</p>
+<ol>
+<li>我所使用的 Seventeen 主题源码存放在 <a href="https://gitee.com/" target="_blank" rel="noopener">Gitee</a> （就是原来的 Git@OSC）上的私有仓库中（毕竟这主题只是我移植到 Hexo 上来的，主题版权依然属于<a href="https://qaq.cat/" target="_blank" rel="noopener">原作者</a>）；</li>
+<li>需要同时部署至 GitHub Pages 和我自己的 VPS 上。</li>
+</ol>
+<p>折腾期间也是踩到了一些坑，也在这里记录一下。</p>
+<h2 id="0x02-配置-GitHub-仓库"><a href="#0x02-配置-GitHub-仓库" class="headerlink" title="0x02 配置 GitHub 仓库"></a>0x02 配置 GitHub 仓库</h2><p>说实话我之前都没用过 GitHub Pages，也没打算直接用它来存放我的博客（<a href="https://blessing.studio/" target="_blank" rel="noopener">blessing.studio</a> 依然部署在我的 VPS 上）。不过想想之后我也没有搞运维的时间了，多来几个博客的存档备份也是好的（反正也是免费的，笑）。</p>
+<p>怎样启用 GitHub Pages 我就不多说了，智力正常的人应该都能完成这些操作。因为域名是以用户名开头的 User Pages 默认只能显示 master 分支里的内容（我也懒得去弄 Custom domain 啥的），所以我用了不同的分支来存放不同的内容：</p>
+<ul>
+<li><strong>master</strong> 存放 Hexo 生成好的静态文件，所有 commit 信息格式均为 <code>Site updated: %Y-%m-%d %H:%M:%S</code>；</li>
+<li><strong>source</strong> 存放 scaffolds（脚手架）、source（文章 Markdown 源码）、_config.yml（Hexo 配置）等文件，commit 信息前都加上对应的 emoji（确实蛮好玩的，参见 <a href="https://gitmoji.carloscuesta.me/" target="_blank" rel="noopener">gitmoji</a>），并设置为 repo 的默认分支。</li>
+</ul>
+<p>分支操作大概像这样：</p>
+<pre><code class="shell">git init
+git remote add origin git@github.com:printempw/printempw.github.io.git
+# 新建 source 分支
+git checkout --orphan source
+git add .
+git commit -m &quot;:tada: Initial commit&quot;
+git push origin source:source</code></pre>
+<p>最后这个 repo 的画风是这样的：</p>
+<p><img src="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_201448.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_201448.png" alt="snipaste_20171004_201448.png"></p>
+<p><img src="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_201526.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_201526.png" alt="snipaste_20171004_201526.png"></p>
+<p>我是觉得挺不错的，你说呢？</p>
+<h2 id="0x03-配置-Travis-CI"><a href="#0x03-配置-Travis-CI" class="headerlink" title="0x03 配置 Travis CI"></a>0x03 配置 Travis CI</h2><p>怎么登录 Travis CI 并关联 GitHub 项目我也一样不多说，只要智力正常以下略。</p>
+<p>下面主要讲一下如何编写 <code>.travis.yml</code> 配置文件。</p>
+<h3 id="0x31-配置部署秘钥"><a href="#0x31-配置部署秘钥" class="headerlink" title="0x31 配置部署秘钥"></a>0x31 配置部署秘钥</h3><p>我博客的部署过程中需要用到 ssh 密钥认证的地方大概有这几处：</p>
+<ul>
+<li>从 Gitee 私有仓库 clone 主题；</li>
+<li>将编译好的文件 push 到 GitHub Pages 和 VPS。</li>
+</ul>
+<p>一般网上的文章只有一个自动 push 到 GitHub Pages 的需求，所以直接申请一个 GitHub 的 Personal access tokens，配合 Travis 的环境变量配置就可以拿到 push 权限了。不过我这里情况复杂一些，所以不如直接搞个部署秘钥来得方便（而且那个 token 是可以操作所有 repo 的，更不安全）。</p>
+<p>首先，新生成一个 ssh 密钥对（不要嫌麻烦直接把你机器上的秘钥拿去用了，太危险）：</p>
+<pre><code class="shell"># 随便生成在哪都行，文件名也随意
+$ ssh-keygen -f travis.key</code></pre>
+<p>然后把生成的公钥文件（e.g. <code>travis.key.pub</code>）分别添加到 GitHub Deploy Keys（在哪你自己找呀）、Gitee 部署秘钥、VPS 上的 <code>~/.ssh/authorized_keys</code> 中，这样 Travis CI 的机器就可以直接访问这些服务器了。</p>
+<p>那我们要怎么在 Travis CI 自动部署过程中使用这个私钥呢？直接放在 repo 里提交上去肯定是不行的；而且那么长一串的私钥，总不能设置成环境变量吧（摊手）。</p>
+<p>不过好在 Travis CI 提供了文件加密工具，这样我们就可以直接把加密后的私钥提交到 git repo 中，然后在 Travis CI 自动部署过程中解密出原秘钥并使用了（网上还有其他神秘的加密方法，但是没几个有 openssl aes-256-cbc 加密这样靠谱）。</p>
+<p>首先，我们需要安装 Travis 的命令行工具：</p>
+<pre><code class="shell"># 是的，你没看错，Travis 的命令行工具是用 Ruby 写的
+# 所以，想要用它你还得去安装 Ruby 环境……去吧，我的朋友
+$ sudo gem install travis</code></pre>
+<p>然后通过命令行登录 Travis 并加密文件：</p>
+<pre><code class="shell"># 交互式操作，使用 GitHub 账号密码登录
+# 如果是私有项目要加个 --pro 参数
+$ travis login --auto
+# 加密完成后会在当前目录下生成一个 travis.key.enc 文件
+# 还会在你的 .travis.yml 文件里自动加上用于解密的 shell 语句
+# 还 tmd 会自动格式化你的 .travis.yml 文件，去他妈的
+$ travis encrypt-file travis.key -add</code></pre>
+<p>需要注意的是，这些文件加密步骤<strong>不能</strong>在 Windows 系统下完成，不然在自动部署时会出现神秘的错误（wrong final block length）。这个问题已经被很多人<a href="https://github.com/travis-ci/travis-ci/issues/4746" target="_blank" rel="noopener">报告过了</a>（实际上我也踩上去了），并且<a href="https://docs.travis-ci.com/user/encrypting-files/" target="_blank" rel="noopener">官方文档</a>里也加上了这样一段话：</p>
+<p><img src="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_204633.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_204633.png" alt="Caveat"></p>
+<p>总之就是「辣鸡 Windows 太菜了不行，给我用 WSL 或者类 Unix 系统吧哈哈哈」的意思（迫真）经过我的测试，Windows10 下的 babun、Git Bash 均告失败，WSL（Windows Subsystem for Linux）和我 VPS 上的 Ubuntu 14.04 所生成的加密文件均可通过自动部署，屁事儿没有。</p>
+<p>以上步骤完成后你会得到一个 <code>travis.key.enc</code>，然后你把这玩意放到 repo 的哪里去都成，随你喜欢，只要能访问得到就可以（比如说我放到了 <code>.travis</code> 目录里）。然后在 <code>.travis.yml</code> 可以使用如下命令解密出原本的 ssh 私钥：</p>
+<pre><code># 环境变量 $encrypted_1fc90f464345_key 中的那一串字符是随机的，每个人都不一样，自己机灵点儿改成你自己的。这个环境变量名也可以在 Travis CI 的项目后台环境变量设置中查看
+openssl aes-256-cbc -K $encrypted_1fc90f464345_key -iv $encrypted_1fc90f464345_iv -in .travis/travis.key.enc -out ~/.ssh/id_rsa -d</code></pre><p>搞定了密钥认证后，我们还需要修改一下机器的 SSH 配置。为啥呢？</p>
+<p><img src="https://i.loli.net/2017/10/04/59d4dac7a6381.png" srcset="/images/loading.jpg" data-srcset="https://i.loli.net/2017/10/04/59d4dac7a6381.png" alt="snipaste_20171004_205715.png"></p>
+<p>相信大家对于上面的提示并不陌生 —— 每次我们使用 ssh 尝试连接到一个我们之前没有连接过的服务器时都会出现这样的提示。但是在 Travis CI 的自动部署过程中是不接受任何命令行输入的（好像可以，但是很麻烦），所以我们必须想办法把这个确认过程给干掉，否则自动部署就会被卡在这里直到超时了。</p>
+<p>网上搜一搜就能知道管这玩意的是 <code>./ssh/config</code> 里的 <code>StrictHostKeyChecking</code> 配置项，所以我们可以在项目里写一个自己的 ssh 配置文件，然后在自动部署过程中替换掉 Travis CI 机器的 ssh 配置：</p>
+<pre><code># 文件 [.travis/ssh_config]
+Host github.com
+    User git
+    StrictHostKeyChecking no
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+
+Host gitee.com
+    User git
+    StrictHostKeyChecking no
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+
+Host prinzeugen.net
+    User git
+    StrictHostKeyChecking no
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
+
+# 文件 [.travis.yml]
+mv -fv .travis/ssh-config ~/.ssh/config</code></pre><p>也有另外一种方法是通过在 <code>.travis.yml</code> 中添加 <code>ssh_known_hosts</code> 来实现的（具体可以看 Travis CI 的 <a href="https://docs.travis-ci.com/user/ssh-known-hosts/" target="_blank" rel="noopener">官方文档</a>），不过上面的方法灵活性更高（是的，我是写到这里才发现还有这种方法……上面的我也懒得删了，就放在那吧，括弧笑）。</p>
+<pre><code class="yml">addons:
+  ssh_known_hosts:
+  - github.com
+  - gitee.com
+  - prinzeugen.net</code></pre>
+<p>这样一来，就没有什么能阻挡我们的自动部署过程啦 <img src="https://img.blessing.studio/images/2017/10/04/QQ20171004210320.jpg" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/10/04/QQ20171004210320.jpg" alt="表情"></p>
+<h3 id="0x32-编写-travis-yml"><a href="#0x32-编写-travis-yml" class="headerlink" title="0x32 编写 .travis.yml"></a>0x32 编写 .travis.yml</h3><p>我就直接贴我自己的配置了（放在 <a href="https://gist.github.com/printempw/42e8781ed3adadbcc6ecac01904a32f6" target="_blank" rel="noopener">Gist</a> 上，加载不出来的自己想办法），诸位看着修改：</p>
+<script src="https://work.prinzeugen.net/gist/printempw/42e8781ed3adadbcc6ecac01904a32f6.js"></script>
+
+<p>大部分语句都加了注释，我也就不再多说明了。</p>
+<p>如果不出意外，每次 push 新 commit 到 source 分支后，Travis CI 就会自动帮你构建最新的静态博客，并部署至 Github Pages 和你自己的 VPS 上了。</p>
+<p><img src="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_212745.png" srcset="/images/loading.jpg" data-srcset="https://img.blessing.studio/images/2017/10/04/snipaste_20171004_212745.png" alt="Travis CI Build Status"></p>
+<h2 id="0x04-后记"><a href="#0x04-后记" class="headerlink" title="0x04 后记"></a>0x04 后记</h2><p>打开博客一看，上一篇博文已经是两个月之前的事情了。复读开学之后这段时间确实是挺忙的，每天晚上回寝室后屌累屌困，最多也就记记账，看看邮件，看看 RSS，闲的话刷刷 Twitter，确实是没有什么时间像这样坐下来写一篇文章了。</p>
+<p>估计以后博文更新频率也会越来越低吧，唉。</p>
+<h3 id="0x41-参考链接"><a href="#0x41-参考链接" class="headerlink" title="0x41 参考链接"></a>0x41 参考链接</h3><ul>
+<li><a href="https://changkun.us/archives/2017/06/232/" target="_blank" rel="noopener">Hexo + GitHub + Travis CI + VPS 自动部署</a></li>
+<li><a href="http://www.itfanr.cc/2017/08/09/using-travis-ci-automatic-deploy-hexo-blogs/" target="_blank" rel="noopener">使用 Travis CI 自动部署 Hexo 博客</a></li>
+<li><a href="https://segmentfault.com/a/1190000009054888" target="_blank" rel="noopener">使用 Travis 自动部署 Hexo 到 Github 与 自己的服务器</a></li>
+<li><a href="https://zespia.tw/blog/2015/01/21/continuous-deployment-to-github-with-travis/" target="_blank" rel="noopener">用 Travis CI 自動部署網站到 GitHub</a></li>
+</ul>
+</div>
+    <div class="post-copyright"><p>除另有声明外，本博客文章均采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">知识共享(Creative Commons) 署名 4.0 国际许可协议</a> 进行许可。转载请注明原作者与文章出处。</p></div>
+  </article>
+
+  
+    <nav class="post-nav">
+      
+      <div class="post-nav-item post-nav-prev">上一篇：
+        <a href="/fix-windows-update-error-0x800703ed/">Windows Update 出现错误 0x800703ed 可能的解决方法</a>
+      </div>
+      
+      
+      <div class="post-nav-item post-nav-next">下一篇：
+        <a href="/minecraft-yggdrasil-api-third-party-implementation/">又是一种 Minecraft 外置登录解决方案：自行实现 Yggdrasil API</a>
+      </div>
+      
+    </nav>
+  
+
+  
+    
+
+<div class="comments" id="disqus_thread"></div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqusjs.css">
+<script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2.6/dist/disqus.js"></script>
+<script>
+  // Load comments with DisqusJS
+  function loadComments() {
+    window.dsqjs = new DisqusJS({
+      shortname: 'blessing-studio',
+      siteName: 'PRIN BLOG',
+      identifier: "deploy-hexo-blog-automatically-with-travis-ci/".replace('index.html', '').replace(/\/$/, ''),
+      url: "https://printempw.github.io/deploy-hexo-blog-automatically-with-travis-ci/".replace('index.html', ''),
+      title: '使用 Travis CI 自动部署 Hexo 博客',
+      api: 'https://disqus.printempw.workers.dev/api/',
+      apikey: '5O1HIIFsAWX3lBOQveU8qWPPAd2aLyf1fklehBAfcQ7S9Jo8y4acIrmyO2uxMD35',
+      admin: 'printempw',
+      adminLabel: '博主'
+    });
+  }
+
+  // Lazy load 
+  (function () {
+    var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+    if (offsetTop <= 0) {
+      // Load directly when there's no scrollbar
+      window.addEventListener('load', loadComments, false);
+    } else {
+      var disqusScroll = function () {
+        // offsetTop may changes because of manually resizing browser window or lazy loading images
+        var offsetTop = document.getElementById('disqus_thread').offsetTop - window.innerHeight;
+        var scrollTop = window.scrollY;
+
+        // Pre-load comments a bit? (margin or anything else)
+        if (offsetTop - scrollTop < 60) {
+          window.removeEventListener('scroll', disqusScroll);
+          loadComments();
+        }
+      };
+      window.addEventListener('scroll', disqusScroll);
+    }
+  })();
+
+  // Scroll to comments automatically if #comment-xxx anchor specified
+  window.addEventListener('load', function () {
+    // I don't know why, it just works.
+    window.setTimeout(function () {
+      if (location.hash.indexOf('#comment-') !== -1) {
+        document.getElementById('disqus_thread').scrollIntoView(true);
+      }
+    }, 100);
+  }, false);
+</script>
+
+
+
+  
+
+      </section>
+      <aside class="sidebar col-md-3 offset-md-1 col-12">
+        
+  
+  <section class="widget widget-toc">
+    <h3 class="widget-title">文章目录</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-需求分析"><span class="toc-text">0x01 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-配置-GitHub-仓库"><span class="toc-text">0x02 配置 GitHub 仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-配置-Travis-CI"><span class="toc-text">0x03 配置 Travis CI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x31-配置部署秘钥"><span class="toc-text">0x31 配置部署秘钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x32-编写-travis-yml"><span class="toc-text">0x32 编写 .travis.yml</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-后记"><span class="toc-text">0x04 后记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x41-参考链接"><span class="toc-text">0x41 参考链接</span></a></li></ol></li></ol>
+  </section>
+  
+
+        
+
+<section class="widget" id="widget-pages">
+  <h3 class="widget-title">页面</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives/" title="">归档</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about/" title="">关于我</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-friends">
+        <a href="/friends/" title="">朋友们</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="widget" id="widget-categories">
+  <h3 class="widget-title">分类</h3>
+  
+  
+    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tech/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/diary/">日常</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">随笔</a></li></ul>
+  
+</section>
+
+
+
+<section class="widget" id="widget-links">
+  <h3 class="widget-title">其他</h3>
+  <ul class="menu">
+    
+      
+      <li class="menu-item menu-item-github">
+        <a href="https://github.com/printempw" title="" target="_blank">GitHub</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-rss">
+        <a href="/atom.xml" title="" target="_blank">RSS Feed</a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-twitter">
+        <a href="https://twitter.com/printempw" title="" target="_blank">Twitter</a>
+      </li>
+    
+  </ul>
+</section>
+
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  
+  <div class="container">
+    <p>
+      &copy; 2020 <a href="https://printempw.github.io">PRIN BLOG</a>. Proudly published with
+      <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/printempw/hexo-theme-murasaki/" target="_blank">Murasaki</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/han-css@3.3.0/dist/han.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.4.0/dist/lazyload.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+  Han(document.querySelector('section.content')).setRoutine([
+    'initCond', 'renderElem', 'renderJiya', 'correctBasicBD', 'substCombLigaWithPUA'
+    // 'renderHanging', 'renderHWS'
+  ]).render();
+  new LazyLoad({
+    elements_selector: '.post-content img',
+    callback_loaded: function (el) {
+      el.parentNode.nodeName.toLowerCase() === 'a' || mediumZoom(el, { margin: 24 });
+    }
+  });
+</script>
+    <script>
+      window.ga_tid = 'UA-65656002-1';
+      window.ga_api = 'https://ga.printempw.workers.dev/';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cfga@1.0.1/cfga.min.js"></script>
+  
+  <script>
+    window.post_views_api = 'https://work.prinzeugen.net/api/pageviews';
+  </script>
+  <script src="/js/post-views.js"></script>
+
+</body>
+</html>
